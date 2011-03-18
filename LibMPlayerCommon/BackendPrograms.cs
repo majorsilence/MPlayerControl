@@ -28,6 +28,30 @@ namespace LibMPlayerCommon
     public class BackendPrograms
     {
 
+        private string _mplayerPath;
+        private string _mencoderPath;
+
+        public BackendPrograms() 
+        {
+            _mplayerPath = "";
+            _mencoderPath = "";
+        }
+
+        public BackendPrograms(string mplayerPath)
+        {
+
+            _mplayerPath = mplayerPath;
+            _mencoderPath = "";
+        }
+
+        public BackendPrograms(string mplayerPath, string mencoderPath)
+        {
+
+            _mplayerPath = mplayerPath;
+            _mencoderPath = mencoderPath;
+        }
+
+
         private static string OSPlatform()
         {
             if (System.Environment.OSVersion.Platform == System.PlatformID.Unix || System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
@@ -49,33 +73,53 @@ namespace LibMPlayerCommon
 
         }
 
-        public static string MPlayer
+        public string MPlayer
         {
             get
             {
                 if (OSPlatform() == "windows")
                 {
+                    if (_mplayerPath != "")
+                    {
+                        return _mplayerPath;
+                    }
                     string t = System.IO.Path.Combine(CurrentAssemblyDirectory(), "backend");
                     return System.IO.Path.Combine(t, "mplayer.exe");
                 }
                 else
                 {
+                    if (_mplayerPath != "")
+                    {
+                        return _mplayerPath;
+                    }
+
                     return "mplayer";
                 }
             }
         }
 
-        public static string MEncoder
+        public string MEncoder
         {
             get
             {
                 if (OSPlatform() == "windows")
                 {
+
+                    if (_mencoderPath != "")
+                    {
+                        return _mencoderPath;
+                    }
+
                     string t = System.IO.Path.Combine(CurrentAssemblyDirectory(), "backend");
                     return System.IO.Path.Combine(t, "mencoder.exe");
                 }
                 else
                 {
+                    if (_mencoderPath != "")
+                    {
+                        return _mencoderPath;
+                    }
+
                     return "mencoder";
                 }
             }

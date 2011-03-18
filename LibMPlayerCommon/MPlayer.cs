@@ -82,25 +82,40 @@ namespace LibMPlayerCommon
     {
         private int _wid;
         private bool _fullscreen;
-        private int mplayerProcessID=-1;
+        private int _mplayerProcessID=-1;
         private MplayerBackends _mplayerBackend;
         private int _currentPosition = 0; // Current position in seconds in stream.
         private int _totalTime = 0; // The total length that the video is in seconds.
         private string currentFilePath;
-
+        private string _mplayerPath="";
+        private BackendPrograms _backendProgram;
 
         public event MplayerEventHandler VideoExited;
 
 
 
         private MPlayer(){}
-        public MPlayer(int wid, MplayerBackends backend)
+        public MPlayer(int wid, MplayerBackends backend) : this(wid, backend, ""){}
+
+        /// <summary>
+        /// Create a new instance of mplayer class.
+        /// </summary>
+        /// <param name="wid">Window ID that mplayer should attach itself</param>
+        /// <param name="backend">The video output backend that mplayer will use.</param>
+        /// <param name="mplayerPath">The full filepath to mplayer.exe.  If mplayerPath is left empty it will search for mplayer.exe in 
+        /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath)
         {
             this._wid = wid;
             this._fullscreen = false;
             this.MplayerRunning = false;
             this._mplayerBackend = backend;
+            this._mplayerPath = mplayerPath;
+
+            this._backendProgram = new BackendPrograms(mplayerPath);
+
             MediaPlayer = new System.Diagnostics.Process();
+
 
         }
 
@@ -111,11 +126,11 @@ namespace LibMPlayerCommon
         {
             // Cleanup
 
-            if (this.mplayerProcessID != -1)
+            if (this._mplayerProcessID != -1)
             {
                 try
                 {
-                    System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(this.mplayerProcessID);
+                    System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(this._mplayerProcessID);
                     if (p.HasExited == false)
                     {
                         p.Kill();
@@ -270,14 +285,14 @@ namespace LibMPlayerCommon
             string backend = MplayerBackend();
 
             MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -vo {0} -wid {1} \"{2}\"", backend, this._wid, filePath);
-            MediaPlayer.StartInfo.FileName = BackendPrograms.MPlayer;
+            MediaPlayer.StartInfo.FileName = this._backendProgram.MPlayer;
 
             MediaPlayer.Start();
 
             this.CurrentStatus = MediaStatus.Playing;
 
             this.MplayerRunning = true;
-            this.mplayerProcessID = MediaPlayer.Id;
+            this._mplayerProcessID = MediaPlayer.Id;
 
             //System.IO.StreamWriter mw = MediaPlayer.StandardInput;
             //mw.AutoFlush = true;

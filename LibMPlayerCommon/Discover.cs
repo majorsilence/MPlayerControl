@@ -166,7 +166,15 @@ namespace LibMPlayerCommon
         }
 
 
-        public Discover(string filePath)
+        public Discover(string filePath) : this(filePath, "") { }
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="mplayerPath">If mplayerPath is left empty it will search for mplayer.exe in 
+        /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
+        public Discover(string filePath, string mplayerPath)
         {
 
             /*
@@ -178,6 +186,8 @@ namespace LibMPlayerCommon
 		 	
              Returns (True,0) if the file is a right video file 
              */
+
+            BackendPrograms mplayerLocation = new BackendPrograms(mplayerPath);
 
             int audio = 0;
             int video = 0;
@@ -199,7 +209,7 @@ namespace LibMPlayerCommon
             handle.StartInfo.RedirectStandardOutput = true;
             handle.StartInfo.RedirectStandardError = true;
 
-            handle.StartInfo.FileName = BackendPrograms.MPlayer;
+            handle.StartInfo.FileName = mplayerLocation.MPlayer;
             handle.StartInfo.Arguments = string.Format("-loop 1 -identify -ao null -vo null -frames 0 {0} \"{1}\"", nframes.ToString(), filePath);
             handle.Start();
             string line = "";
