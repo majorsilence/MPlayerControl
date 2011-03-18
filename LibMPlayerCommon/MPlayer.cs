@@ -433,7 +433,7 @@ namespace LibMPlayerCommon
         private void LoadCurrentPlayingFileLength()
         {
             // This works even with streaming.
-            Discover file = new Discover(this.currentFilePath);
+            Discover file = new Discover(this.currentFilePath, this._backendProgram.MPlayer);
             this._totalTime = file.Length;
         }
 
