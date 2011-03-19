@@ -55,15 +55,15 @@ namespace MPlayerControlExample
             this.lblVideoLength = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblVideoPosition = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnPlayerProperties = new System.Windows.Forms.Button();
             this.btnRewind = new System.Windows.Forms.Button();
             this.btnFastforward = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnLoadFile = new System.Windows.Forms.Button();
+            this.lblVideoPosition = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -130,22 +130,6 @@ namespace MPlayerControlExample
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(779, 55);
             this.panel1.TabIndex = 2;
-            // 
-            // lblVideoPosition
-            // 
-            this.lblVideoPosition.AutoSize = true;
-            this.lblVideoPosition.BackColor = System.Drawing.Color.Transparent;
-            this.lblVideoPosition.ForeColor = System.Drawing.Color.White;
-            this.lblVideoPosition.Location = new System.Drawing.Point(27, 11);
-            this.lblVideoPosition.Name = "lblVideoPosition";
-            this.lblVideoPosition.Size = new System.Drawing.Size(35, 13);
-            this.lblVideoPosition.TabIndex = 2;
-            this.lblVideoPosition.Text = "label1";
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // btnPlayerProperties
             // 
@@ -217,6 +201,17 @@ namespace MPlayerControlExample
             this.btnLoadFile.UseVisualStyleBackColor = false;
             this.btnLoadFile.Click += new System.EventHandler(this.btnLoadFile_Click);
             // 
+            // lblVideoPosition
+            // 
+            this.lblVideoPosition.AutoSize = true;
+            this.lblVideoPosition.BackColor = System.Drawing.Color.Transparent;
+            this.lblVideoPosition.ForeColor = System.Drawing.Color.White;
+            this.lblVideoPosition.Location = new System.Drawing.Point(27, 11);
+            this.lblVideoPosition.Name = "lblVideoPosition";
+            this.lblVideoPosition.Size = new System.Drawing.Size(35, 13);
+            this.lblVideoPosition.TabIndex = 2;
+            this.lblVideoPosition.Text = "label1";
+            // 
             // btnStop
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -245,8 +240,14 @@ namespace MPlayerControlExample
             this.btnPlay.UseVisualStyleBackColor = false;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
@@ -258,6 +259,9 @@ namespace MPlayerControlExample
             this.Name = "MainForm";
             this.Text = "MPlayerControlExample";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
+            this.DragOver += new System.Windows.Forms.DragEventHandler(this.MainForm_DragOver);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.panel1.ResumeLayout(false);

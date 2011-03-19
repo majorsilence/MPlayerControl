@@ -341,6 +341,29 @@ namespace MPlayerControlExample
             dlg.ShowDialog();
         }
 
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            
+            string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            if (s.Length > 0)
+            {
+                this.filePath = s[0];
+                btnPlay_Click(sender, e);
+            }
+
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void MainForm_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
 
 
     }
