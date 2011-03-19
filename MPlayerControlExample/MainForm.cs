@@ -39,6 +39,8 @@ namespace MPlayerControlExample
         private string filePath;
         private bool trackBarMousePushedDown = false;
         private int currentTime = 0;
+        private bool _fullscreen=false;
+        private bool _playNow = false;
 
 		private MainForm() {}
 
@@ -49,7 +51,26 @@ namespace MPlayerControlExample
             //
             InitializeComponent();
 
+            _fullscreen = fullScreen;
+            _playNow = playNow;
+
             this.filePath = url.Trim();
+
+
+        }
+		
+        
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+            LibMPlayerCommon.BackendPrograms b = new LibMPlayerCommon.BackendPrograms();
+            if (System.IO.File.Exists(MPlayerControlExample.Properties.Settings.Default.MPlayerPath) == false
+                && System.IO.File.Exists(b.MPlayer) == false)
+            {
+                MessageBox.Show("Cannot find mplayer.  Loading properties form to select.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnPlayerProperties_Click(sender, e);
+            }
+
 
             MplayerBackends backend;
             System.PlatformID runningPlatform = System.Environment.OSVersion.Platform;
@@ -67,28 +88,20 @@ namespace MPlayerControlExample
             }
 
 
-
-            this.play = new MPlayer(panelVideo.Handle.ToInt32(), backend);
+            this.play = new MPlayer(panelVideo.Handle.ToInt32(), backend, MPlayerControlExample.Properties.Settings.Default.MPlayerPath);
             this.play.VideoExited += new MplayerEventHandler(play_VideoExited);
 
             // Set fullscreen
-            if (fullScreen == true && (this.WindowState != FormWindowState.Maximized))
+            if (_fullscreen == true && (this.WindowState != FormWindowState.Maximized))
             {
                 this.ToggleFormFullScreen();
             }
 
             // start playing mmediately
-            if (playNow == true && this.filePath != "")
+            if (_playNow == true && this.filePath != "")
             {
                 btnPlay_Click(new object(), new EventArgs());
             }
-
-        }
-		
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
 
         }
 
@@ -120,12 +133,9 @@ namespace MPlayerControlExample
                 }
             }
 
-            _videoSettings = new Discover(this.filePath);
-
+            _videoSettings = new Discover(this.filePath, MPlayerControlExample.Properties.Settings.Default.MPlayerPath);
             this.play.Play(this.filePath);
-
-            Discover file = new Discover(this.filePath);
-            lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(file.Length);
+            lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(_videoSettings.Length);
 
             this.currentTime = play.CurrentPosition();
 
@@ -323,6 +333,12 @@ namespace MPlayerControlExample
             }
 
             return false;
+        }
+
+        private void btnPlayerProperties_Click(object sender, EventArgs e)
+        {
+            PlayerProperties dlg = new PlayerProperties();
+            dlg.ShowDialog();
         }
 
 

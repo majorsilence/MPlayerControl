@@ -284,7 +284,7 @@ namespace LibMPlayerCommon
 			
             string backend = MplayerBackend();
 
-            MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -vo {0} -wid {1} \"{2}\"", backend, this._wid, filePath);
+            MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -ontop -vo {0} -wid {1} \"{2}\"", backend, this._wid, filePath);
             MediaPlayer.StartInfo.FileName = this._backendProgram.MPlayer;
 
             MediaPlayer.Start();

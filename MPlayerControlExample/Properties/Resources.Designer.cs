@@ -74,6 +74,13 @@ namespace MPlayerControlExample.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap config {
+            get {
+                object obj = ResourceManager.GetObject("config", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap document_open {
             get {
                 object obj = ResourceManager.GetObject("document_open", resourceCulture);
