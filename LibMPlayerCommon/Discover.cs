@@ -61,7 +61,7 @@ namespace LibMPlayerCommon
         /// <summary>
         /// Is the files audio rate.  What is the difference between this and AudioBitrate.
         /// </summary>
-        public int AudioRate
+        public int AudioSampleRate
         {
             get
             {

@@ -1,29 +1,48 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibMPlayerCommon", "LibMPlayerCommon\LibMPlayerCommon.csproj", "{5D3616D0-160D-4601-AB67-E1ED9111C676}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPlayerControlExample", "MPlayerControlExample\MPlayerControlExample.csproj", "{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MplayerUnitTests", "MplayerUnitTests\MplayerUnitTests.csproj", "{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|x86.Build.0 = Release|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Debug|x86.Build.0 = Debug|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Release|x86.ActiveCfg = Release|Any CPU
 		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MPlayerControlExample\MPlayerControlExample.csproj
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Debug|x86.Build.0 = Debug|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MPlayerControlExample\MPlayerControlExample.csproj
 	EndGlobalSection
 EndGlobal
