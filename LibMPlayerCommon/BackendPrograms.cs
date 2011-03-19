@@ -83,8 +83,7 @@ namespace LibMPlayerCommon
                     {
                         return _mplayerPath;
                     }
-                    string t = System.IO.Path.Combine(CurrentAssemblyDirectory(), "backend");
-                    return System.IO.Path.Combine(t, "mplayer.exe");
+                    return  System.IO.Path.Combine(CurrentAssemblyDirectory(), "mplayer.exe");
                 }
                 else
                 {
