@@ -119,6 +119,34 @@ namespace MPlayerControlExample
         private void btnPlay_Click(object sender, EventArgs e)
         {
 
+            if (this.play.CurrentStatus != MediaStatus.Stopped)
+            {
+                if (this.play.CurrentStatus == MediaStatus.Paused)
+                {
+                    // Is currently paused so start playing file and set the image to the pause image.
+                    btnPlay.Image = MPlayerControlExample.Properties.Resources.pause;
+                }
+                if (this.play.CurrentStatus == MediaStatus.Playing)
+                {
+                    // Is currently playing a file so pause it and set the image to the play image.
+                    btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
+                }
+
+                this.play.Pause();
+
+                if (timer1.Enabled)
+                {
+                    timer1.Stop();
+                }
+                else
+                {
+                    timer1.Start();
+                }
+
+                return;
+                
+            }
+
             if (this.filePath == String.Empty || this.filePath == null)
             {
 
@@ -141,26 +169,20 @@ namespace MPlayerControlExample
 
             timer1.Start();
 
+            btnPlay.Image = MPlayerControlExample.Properties.Resources.pause;
+
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (this.play != null)
             {
+
                 this.play.Stop();
 
                 this.ResetTime();
                 timer1.Stop();
 
-            }
-        }
-
-
-        private void btnLoadFile_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                this.filePath = openFileDialog1.FileName;
             }
         }
 
@@ -211,21 +233,6 @@ namespace MPlayerControlExample
                 lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this.currentTime);
                 trackBar1.Value = 0;
             });
-        }
-
-        private void btnPause_Click(object sender, EventArgs e)
-        {
-            this.play.Pause();
-
-            if (timer1.Enabled)
-            {
-                timer1.Stop();
-            }
-            else
-            {
-                timer1.Start();
-            }
-
         }
 
         private void btnFastforward_Click(object sender, EventArgs e)
@@ -341,6 +348,18 @@ namespace MPlayerControlExample
             dlg.ShowDialog();
         }
 
+
+
+        private void btnLoadFile_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                btnStop_Click(sender, e);
+                btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
+                this.filePath = openFileDialog1.FileName;
+            }
+        }
+
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             
@@ -348,6 +367,8 @@ namespace MPlayerControlExample
 
             if (s.Length > 0)
             {
+                // Stop current playing and start new file.
+                btnStop_Click(sender, e);
                 this.filePath = s[0];
                 btnPlay_Click(sender, e);
             }
@@ -364,7 +385,58 @@ namespace MPlayerControlExample
             e.Effect = DragDropEffects.Move;
         }
 
+        #region Button Style Changes
+        private void btnLoadFile_MouseHover(object sender, EventArgs e)
+        {
+            btnLoadFile.FlatStyle = FlatStyle.Popup;
+        }
 
+        private void btnLoadFile_MouseLeave(object sender, EventArgs e)
+        {
+            btnLoadFile.FlatStyle = FlatStyle.Flat;
+        }
+
+        private void btnRewind_MouseHover(object sender, EventArgs e)
+        {
+            btnRewind.FlatStyle = FlatStyle.Popup;
+        }
+
+        private void btnRewind_MouseLeave(object sender, EventArgs e)
+        {
+            btnRewind.FlatStyle = FlatStyle.Flat;
+        }
+
+        private void btnFastforward_MouseHover(object sender, EventArgs e)
+        {
+            btnFastforward.FlatStyle = FlatStyle.Popup;
+        }
+
+        private void btnFastforward_MouseLeave(object sender, EventArgs e)
+        {
+            btnFastforward.FlatStyle = FlatStyle.Flat;
+        }
+
+        private void btnStop_MouseHover(object sender, EventArgs e)
+        {
+            btnStop.FlatStyle = FlatStyle.Popup;
+        }
+
+        private void btnStop_MouseLeave(object sender, EventArgs e)
+        {
+            btnStop.FlatStyle = FlatStyle.Flat;
+        }
+
+        private void btnPlay_MouseHover(object sender, EventArgs e)
+        {
+            btnPlay.FlatStyle = FlatStyle.Popup;
+        }
+
+        private void btnPlay_MouseLeave(object sender, EventArgs e)
+        {
+            btnPlay.FlatStyle = FlatStyle.Flat;
+        }
+
+        #endregion Button Style Change
 
     }
 }

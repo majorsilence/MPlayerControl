@@ -58,7 +58,6 @@ namespace MPlayerControlExample
             this.btnPlayerProperties = new System.Windows.Forms.Button();
             this.btnRewind = new System.Windows.Forms.Button();
             this.btnFastforward = new System.Windows.Forms.Button();
-            this.btnPause = new System.Windows.Forms.Button();
             this.btnLoadFile = new System.Windows.Forms.Button();
             this.lblVideoPosition = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
@@ -119,7 +118,6 @@ namespace MPlayerControlExample
             this.panel1.Controls.Add(this.btnPlayerProperties);
             this.panel1.Controls.Add(this.btnRewind);
             this.panel1.Controls.Add(this.btnFastforward);
-            this.panel1.Controls.Add(this.btnPause);
             this.panel1.Controls.Add(this.lblVideoLength);
             this.panel1.Controls.Add(this.btnLoadFile);
             this.panel1.Controls.Add(this.trackBar1);
@@ -150,56 +148,54 @@ namespace MPlayerControlExample
             this.btnRewind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRewind.BackColor = System.Drawing.Color.Transparent;
             this.btnRewind.FlatAppearance.BorderSize = 0;
+            this.btnRewind.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnRewind.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnRewind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRewind.Image = global::MPlayerControlExample.Properties.Resources.rewind;
-            this.btnRewind.Location = new System.Drawing.Point(528, -1);
+            this.btnRewind.Location = new System.Drawing.Point(582, 3);
             this.btnRewind.Name = "btnRewind";
-            this.btnRewind.Size = new System.Drawing.Size(56, 49);
+            this.btnRewind.Size = new System.Drawing.Size(45, 44);
             this.btnRewind.TabIndex = 9;
             this.btnRewind.UseVisualStyleBackColor = false;
             this.btnRewind.Click += new System.EventHandler(this.btnRewind_Click);
+            this.btnRewind.MouseLeave += new System.EventHandler(this.btnRewind_MouseLeave);
+            this.btnRewind.MouseHover += new System.EventHandler(this.btnRewind_MouseHover);
             // 
             // btnFastforward
             // 
             this.btnFastforward.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFastforward.BackColor = System.Drawing.Color.Transparent;
             this.btnFastforward.FlatAppearance.BorderSize = 0;
+            this.btnFastforward.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnFastforward.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnFastforward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFastforward.Image = global::MPlayerControlExample.Properties.Resources.fastforward;
-            this.btnFastforward.Location = new System.Drawing.Point(580, -1);
+            this.btnFastforward.Location = new System.Drawing.Point(631, 3);
             this.btnFastforward.Name = "btnFastforward";
-            this.btnFastforward.Size = new System.Drawing.Size(56, 49);
+            this.btnFastforward.Size = new System.Drawing.Size(45, 44);
             this.btnFastforward.TabIndex = 8;
             this.btnFastforward.UseVisualStyleBackColor = false;
             this.btnFastforward.Click += new System.EventHandler(this.btnFastforward_Click);
-            // 
-            // btnPause
-            // 
-            this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPause.BackColor = System.Drawing.Color.Transparent;
-            this.btnPause.FlatAppearance.BorderSize = 0;
-            this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPause.Image = global::MPlayerControlExample.Properties.Resources.pause;
-            this.btnPause.Location = new System.Drawing.Point(674, 0);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(56, 49);
-            this.btnPause.TabIndex = 7;
-            this.btnPause.UseVisualStyleBackColor = false;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            this.btnFastforward.MouseLeave += new System.EventHandler(this.btnFastforward_MouseLeave);
+            this.btnFastforward.MouseHover += new System.EventHandler(this.btnFastforward_MouseHover);
             // 
             // btnLoadFile
             // 
             this.btnLoadFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadFile.BackColor = System.Drawing.Color.Transparent;
             this.btnLoadFile.FlatAppearance.BorderSize = 0;
+            this.btnLoadFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnLoadFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnLoadFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoadFile.Image = global::MPlayerControlExample.Properties.Resources.document_open;
-            this.btnLoadFile.Location = new System.Drawing.Point(432, 6);
+            this.btnLoadFile.Location = new System.Drawing.Point(446, 6);
             this.btnLoadFile.Name = "btnLoadFile";
             this.btnLoadFile.Size = new System.Drawing.Size(75, 42);
             this.btnLoadFile.TabIndex = 5;
             this.btnLoadFile.UseVisualStyleBackColor = false;
             this.btnLoadFile.Click += new System.EventHandler(this.btnLoadFile_Click);
+            this.btnLoadFile.MouseLeave += new System.EventHandler(this.btnLoadFile_MouseLeave);
+            this.btnLoadFile.MouseHover += new System.EventHandler(this.btnLoadFile_MouseHover);
             // 
             // lblVideoPosition
             // 
@@ -217,28 +213,36 @@ namespace MPlayerControlExample
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStop.BackColor = System.Drawing.Color.Transparent;
             this.btnStop.FlatAppearance.BorderSize = 0;
+            this.btnStop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Image = global::MPlayerControlExample.Properties.Resources.stop;
-            this.btnStop.Location = new System.Drawing.Point(627, 0);
+            this.btnStop.Location = new System.Drawing.Point(682, 3);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(56, 49);
+            this.btnStop.Size = new System.Drawing.Size(45, 44);
             this.btnStop.TabIndex = 1;
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStop.MouseLeave += new System.EventHandler(this.btnStop_MouseLeave);
+            this.btnStop.MouseHover += new System.EventHandler(this.btnStop_MouseHover);
             // 
             // btnPlay
             // 
             this.btnPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPlay.BackColor = System.Drawing.Color.Transparent;
             this.btnPlay.FlatAppearance.BorderSize = 0;
+            this.btnPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlay.Image = global::MPlayerControlExample.Properties.Resources.play;
-            this.btnPlay.Location = new System.Drawing.Point(719, 0);
+            this.btnPlay.Location = new System.Drawing.Point(731, 3);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(57, 48);
+            this.btnPlay.Size = new System.Drawing.Size(45, 44);
             this.btnPlay.TabIndex = 0;
             this.btnPlay.UseVisualStyleBackColor = false;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
+            this.btnPlay.MouseHover += new System.EventHandler(this.btnPlay_MouseHover);
             // 
             // timer1
             // 
@@ -271,7 +275,6 @@ namespace MPlayerControlExample
         }
 
         private System.Windows.Forms.Button btnRewind;
-        private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnFastforward;
         private System.Windows.Forms.Panel panelVideo;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;

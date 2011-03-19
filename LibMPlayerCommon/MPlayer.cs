@@ -111,6 +111,7 @@ namespace LibMPlayerCommon
             this.MplayerRunning = false;
             this._mplayerBackend = backend;
             this._mplayerPath = mplayerPath;
+            this.CurrentStatus = MediaStatus.Stopped;
 
             this._backendProgram = new BackendPrograms(mplayerPath);
 
@@ -400,9 +401,12 @@ namespace LibMPlayerCommon
         /// </summary>
         public void Stop()
         {
-            MediaPlayer.StandardInput.WriteLine("stop");
-            MediaPlayer.StandardInput.Flush();
-            this.CurrentStatus = MediaStatus.Stopped;
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("stop");
+                MediaPlayer.StandardInput.Flush();
+                this.CurrentStatus = MediaStatus.Stopped;
+            }
         }
 
         /// <summary>
