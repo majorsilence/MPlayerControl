@@ -49,7 +49,6 @@ namespace MPlayerControlExample
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panelVideo = new System.Windows.Forms.Panel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.lblVideoLength = new System.Windows.Forms.Label();
@@ -62,7 +61,6 @@ namespace MPlayerControlExample
             this.lblVideoPosition = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -204,9 +202,9 @@ namespace MPlayerControlExample
             this.lblVideoPosition.ForeColor = System.Drawing.Color.White;
             this.lblVideoPosition.Location = new System.Drawing.Point(27, 11);
             this.lblVideoPosition.Name = "lblVideoPosition";
-            this.lblVideoPosition.Size = new System.Drawing.Size(35, 13);
+            this.lblVideoPosition.Size = new System.Drawing.Size(49, 13);
             this.lblVideoPosition.TabIndex = 2;
-            this.lblVideoPosition.Text = "label1";
+            this.lblVideoPosition.Text = "00:00:00";
             // 
             // btnStop
             // 
@@ -244,11 +242,6 @@ namespace MPlayerControlExample
             this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             this.btnPlay.MouseHover += new System.EventHandler(this.btnPlay_MouseHover);
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -285,7 +278,6 @@ namespace MPlayerControlExample
         private System.Windows.Forms.Label lblVideoPosition;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnPlay;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnPlayerProperties;
     }
 }

@@ -35,10 +35,10 @@ namespace MPlayerControlExample
     {
 
         private Discover _videoSettings;
-        private MPlayer play;
-        private string filePath;
-        private bool trackBarMousePushedDown = false;
-        private int currentTime = 0;
+        private MPlayer _play;
+        private string _filePath;
+        private bool _trackBarMousePushedDown = false;
+        private int _currentTime = 0;
         private bool _fullscreen=false;
         private bool _playNow = false;
 
@@ -54,7 +54,7 @@ namespace MPlayerControlExample
             _fullscreen = fullScreen;
             _playNow = playNow;
 
-            this.filePath = url.Trim();
+            this._filePath = url.Trim();
 
 
         }
@@ -88,8 +88,10 @@ namespace MPlayerControlExample
             }
 
 
-            this.play = new MPlayer(panelVideo.Handle.ToInt32(), backend, MPlayerControlExample.Properties.Settings.Default.MPlayerPath);
-            this.play.VideoExited += new MplayerEventHandler(play_VideoExited);
+            this._play = new MPlayer(panelVideo.Handle.ToInt32(), backend, MPlayerControlExample.Properties.Settings.Default.MPlayerPath);
+            this._play.VideoExited += new MplayerEventHandler(play_VideoExited);
+            this._play.CurrentPosition += new MplayerEventHandler(_play_CurrentPosition);
+
 
             // Set fullscreen
             if (_fullscreen == true && (this.WindowState != FormWindowState.Maximized))
@@ -98,7 +100,7 @@ namespace MPlayerControlExample
             }
 
             // start playing mmediately
-            if (_playNow == true && this.filePath != "")
+            if (_playNow == true && this._filePath != "")
             {
                 btnPlay_Click(new object(), new EventArgs());
             }
@@ -106,12 +108,39 @@ namespace MPlayerControlExample
         }
 
 
-
-
         private void play_VideoExited(object sender, MplayerEvent e)
         {
-            timer1.Stop();
+            btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
             this.ResetTime();
+        }
+
+        private void _play_CurrentPosition(object sender, MplayerEvent e)
+        {
+            // handle current postion event.  Display the current postion and update trackbar.
+
+            SetExactTime(e.Value);
+
+            float videoLength = (float)this._play.CurrentPlayingFileLength();
+            if (videoLength == 0f)
+            {
+                return;
+            }
+
+            int percent = (int)(((float)this._currentTime / videoLength) * 100);
+
+            if (percent >= 100)
+            {
+                percent = 100;
+            }
+
+            if (this._trackBarMousePushedDown == false)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    trackBar1.Value = percent;
+                });
+            }
+
         }
 
 
@@ -119,40 +148,31 @@ namespace MPlayerControlExample
         private void btnPlay_Click(object sender, EventArgs e)
         {
 
-            if (this.play.CurrentStatus != MediaStatus.Stopped)
+            if (this._play.CurrentStatus != MediaStatus.Stopped)
             {
-                if (this.play.CurrentStatus == MediaStatus.Paused)
+                if (this._play.CurrentStatus == MediaStatus.Paused)
                 {
                     // Is currently paused so start playing file and set the image to the pause image.
                     btnPlay.Image = MPlayerControlExample.Properties.Resources.pause;
                 }
-                if (this.play.CurrentStatus == MediaStatus.Playing)
+                if (this._play.CurrentStatus == MediaStatus.Playing)
                 {
                     // Is currently playing a file so pause it and set the image to the play image.
                     btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
                 }
 
-                this.play.Pause();
-
-                if (timer1.Enabled)
-                {
-                    timer1.Stop();
-                }
-                else
-                {
-                    timer1.Start();
-                }
+                this._play.Pause();
 
                 return;
                 
             }
 
-            if (this.filePath == String.Empty || this.filePath == null)
+            if (this._filePath == String.Empty || this._filePath == null)
             {
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    this.filePath = openFileDialog1.FileName;
+                    this._filePath = openFileDialog1.FileName;
                 }
                 else
                 {
@@ -161,13 +181,9 @@ namespace MPlayerControlExample
                 }
             }
 
-            _videoSettings = new Discover(this.filePath, MPlayerControlExample.Properties.Settings.Default.MPlayerPath);
-            this.play.Play(this.filePath);
+            _videoSettings = new Discover(this._filePath, MPlayerControlExample.Properties.Settings.Default.MPlayerPath);
+            this._play.Play(this._filePath);
             lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(_videoSettings.Length);
-
-            this.currentTime = play.CurrentPosition();
-
-            timer1.Start();
 
             btnPlay.Image = MPlayerControlExample.Properties.Resources.pause;
 
@@ -175,51 +191,35 @@ namespace MPlayerControlExample
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            if (this.play != null)
+            if (this._play != null)
             {
+                btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
 
-                this.play.Stop();
+                this._play.Stop();
 
                 this.ResetTime();
-                timer1.Stop();
 
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+
+        private void SetExactTime(int newTime)
         {
-
-            this.SetTime(1);
-
-
-            float videoLength = (float)this.play.CurrentPlayingFileLength();
-            if (videoLength == 0f)
+            this.Invoke((MethodInvoker)delegate
             {
-                return;
-            }
+                this._currentTime = newTime;
+                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+            });
 
-            int percent = (int)(((float)this.currentTime / videoLength) * 100);
-
-            if (percent >= 100)
-            {
-                percent = 100;
-                timer1.Stop();
-            }
-
-            if (this.trackBarMousePushedDown == false)
-            {
-                trackBar1.Value = percent;
-            }
 
         }
-
 
         private void SetTime(int timeInSecondsAdded)
         {
             this.Invoke((MethodInvoker)delegate
             {
-                this.currentTime += timeInSecondsAdded;
-                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this.currentTime);
+                this._currentTime += timeInSecondsAdded;
+                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
             });
 
             
@@ -229,21 +229,21 @@ namespace MPlayerControlExample
         {
             this.Invoke((MethodInvoker)delegate
             {
-                this.currentTime = 0;
-                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this.currentTime);
+                this._currentTime = 0;
+                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
                 trackBar1.Value = 0;
             });
         }
 
         private void btnFastforward_Click(object sender, EventArgs e)
         {
-            this.play.Seek(60, Seek.Relative);
+            this._play.Seek(60, Seek.Relative);
             this.SetTime(60);                
         }
 
         private void btnRewind_Click(object sender, EventArgs e)
         {
-            this.play.Seek(-60, Seek.Relative);
+            this._play.Seek(-60, Seek.Relative);
             this.SetTime(-60);
         }
 
@@ -254,13 +254,14 @@ namespace MPlayerControlExample
 
         private void trackBar1_MouseDown(object sender, MouseEventArgs e)
         {
-            trackBarMousePushedDown = true;
+            _trackBarMousePushedDown = true;
         }
 
         private void trackBar1_MouseUp(object sender, MouseEventArgs e)
         {
+            // Move the video to the new selected postion.
 
-            int length = this.play.CurrentPlayingFileLength();
+            int length = this._play.CurrentPlayingFileLength();
             if (length == 0)
             {
                 return;
@@ -268,12 +269,12 @@ namespace MPlayerControlExample
 
             int percentNew = trackBar1.Value;
             int newPositionInSeconds = (int)(((float)percentNew / 100.0f) * (float)length);
-            int changeInSeconds = newPositionInSeconds - this.currentTime;
+            int changeInSeconds = newPositionInSeconds - this._currentTime;
 
-            this.play.Seek(changeInSeconds, Seek.Relative);
+            this._play.Seek(changeInSeconds, Seek.Relative);
             this.SetTime(changeInSeconds);
-            
-            trackBarMousePushedDown = false;
+
+            _trackBarMousePushedDown = false;
         }
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
@@ -282,7 +283,6 @@ namespace MPlayerControlExample
             if ((e.KeyChar.ToString().ToLower() == Keys.F.ToString().ToLower()) || (e.KeyChar == (char)Keys.F11))
             {
                 this.ToggleFormFullScreen();
-                //this.play.ToggleFullScreen(); // it is already toggled to fullscreen on the control it is attached to.  
             }
         }
 
@@ -321,20 +321,20 @@ namespace MPlayerControlExample
             {
                 // TODO: Fix so move commands are sent to correct carousel
                 case (int)Keys.Right:
-                    
-                    this.play.Seek(10, Seek.Relative);
+
+                    this._play.Seek(10, Seek.Relative);
                     this.SetTime(10);
                     break;
                 case (int)Keys.Left:
-                    this.play.Seek(-10, Seek.Relative);
+                    this._play.Seek(-10, Seek.Relative);
                     this.SetTime(-10);
                     break;
                 case (int)Keys.Up:
-                    this.play.Seek(60, Seek.Relative);
+                    this._play.Seek(60, Seek.Relative);
                     this.SetTime(60);
                     break;
                 case (int)Keys.Down:
-                    this.play.Seek(-60, Seek.Relative);
+                    this._play.Seek(-60, Seek.Relative);
                     this.SetTime(-60);
                     break;
             }
@@ -356,7 +356,7 @@ namespace MPlayerControlExample
             {
                 btnStop_Click(sender, e);
                 btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
-                this.filePath = openFileDialog1.FileName;
+                this._filePath = openFileDialog1.FileName;
             }
         }
 
@@ -369,7 +369,7 @@ namespace MPlayerControlExample
             {
                 // Stop current playing and start new file.
                 btnStop_Click(sender, e);
-                this.filePath = s[0];
+                this._filePath = s[0];
                 btnPlay_Click(sender, e);
             }
 

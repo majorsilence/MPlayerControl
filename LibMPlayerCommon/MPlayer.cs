@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Timers;
 
 
 using System.Diagnostics;
@@ -91,7 +92,14 @@ namespace LibMPlayerCommon
         private BackendPrograms _backendProgram;
 
         public event MplayerEventHandler VideoExited;
+        /// <summary>
+        /// This event is the most accurate way to get the current position of the current playing file.
+        /// Whenever the postion changes this event will notify that the positon has changed with the value
+        /// being the new position (seconds into the file).
+        /// </summary>
+        public event MplayerEventHandler CurrentPosition;
 
+        private System.Timers.Timer _currentPostionTimer;
 
 
         private MPlayer(){}
@@ -117,6 +125,11 @@ namespace LibMPlayerCommon
 
             MediaPlayer = new System.Diagnostics.Process();
 
+            // This timer will send an event every second with the current video postion when video
+            // is in play mode.
+            this._currentPostionTimer = new System.Timers.Timer(1000);
+            this._currentPostionTimer.Elapsed += new ElapsedEventHandler(_currentPostionTimer_Elapsed);
+            this._currentPostionTimer.Enabled = true;
 
         }
 
@@ -235,6 +248,9 @@ namespace LibMPlayerCommon
         {
             this.currentFilePath = filePath;
 
+            
+            
+
             if (this.MplayerRunning)
             {
                 LoadFile(filePath);
@@ -242,6 +258,7 @@ namespace LibMPlayerCommon
                 return;
             }
 
+            this._currentPostionTimer.Start();
 
             MediaPlayer.StartInfo.CreateNoWindow = true;
             MediaPlayer.StartInfo.UseShellExecute = false;
@@ -442,15 +459,32 @@ namespace LibMPlayerCommon
         }
 
 
-        public int CurrentPosition()
+        private void _currentPostionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            if (this.CurrentStatus == MediaStatus.Playing)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_time_pos");
+                MediaPlayer.StandardInput.Flush();
+            }
+        }
 
-            MediaPlayer.StandardInput.WriteLine("get_time_pos");
-            MediaPlayer.StandardInput.Flush();
+        /// <summary>
+        /// Get the current postion in the file being played.
+        /// </summary>
+        /// <remarks>It is highly recommended to use the CurrentPostion event instead.</remarks>
+        /// <returns></returns>
+        public int GetCurrentPosition()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_time_pos");
+                MediaPlayer.StandardInput.Flush();
 
-            // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
-            System.Threading.Thread.Sleep(100);
-            return this._currentPosition;
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._currentPosition;
+            }
+            return -1;
         }
 
         /// <summary>
@@ -518,6 +552,9 @@ namespace LibMPlayerCommon
                 if (line.StartsWith("ANS_TIME_POSITION="))
                 {
                     this._currentPosition =(int) float.Parse(line.Substring("ANS_TIME_POSITION=".Length));
+
+                    this.CurrentPosition(this, new MplayerEvent(this._currentPosition));
+
                 }
                 else if (line.StartsWith("ANS_length="))
                 {
@@ -531,7 +568,7 @@ namespace LibMPlayerCommon
                     }
                 }
 
-                System.Console.WriteLine(line);
+                //System.Console.WriteLine(line);
             }
         }
 
