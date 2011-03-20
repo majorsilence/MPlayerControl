@@ -109,8 +109,7 @@ namespace LibMPlayerCommon
                         return _mencoderPath;
                     }
 
-                    string t = System.IO.Path.Combine(CurrentAssemblyDirectory(), "backend");
-                    return System.IO.Path.Combine(t, "mencoder.exe");
+                    return System.IO.Path.Combine(CurrentAssemblyDirectory(), "mencoder.exe");
                 }
                 else
                 {

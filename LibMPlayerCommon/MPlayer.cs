@@ -172,10 +172,9 @@ namespace LibMPlayerCommon
 
 
         /// <summary>
-        /// The process that is running mplayer.  Generally you should not need to interact with it directly.  But it is left open so
-        /// it is possible to send commands that are not covered by this library and read output etc....
+        /// The process that is running mplayer.
         /// </summary>
-        public System.Diagnostics.Process MediaPlayer { get; set; }
+        private System.Diagnostics.Process MediaPlayer { get; set; }
 
 		private string MplayerBackend()
 		{

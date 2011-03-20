@@ -75,6 +75,7 @@
     <Compile Include="Discover.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="Mencoder.cs" />
     <Compile Include="MPlayer.cs" />
     <Compile Include="MplayerEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,7 +103,5 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="backend\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

@@ -29,5 +29,20 @@ namespace MplayerUnitTests
             get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\TestVideo2.flv"; }
         }
 
+        public static string Video8Path
+        {
+            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\TestVideo8.flv"; }
+        }
+
+        public static string OutputVideoWebM
+        {
+            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoWebM.webm"; }
+        }
+
+        public static string OutputVideoX264
+        {
+            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoX264.mp4"; }
+        }
+
     }
 }
