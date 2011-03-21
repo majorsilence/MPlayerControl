@@ -107,6 +107,7 @@ namespace LibMPlayerCommon
             cmd.Append(" ");
 
             bool lavcVideoSelected = false;
+            bool lavcAudioSelected = false;
 
             if (vidType == VideoType.x264)
             {
@@ -125,8 +126,18 @@ namespace LibMPlayerCommon
 
             cmd.Append("-oac"); // audio codec for encoding 
             cmd.Append(" ");
-            cmd.Append("lavc"); // use one of libavcodec's audio codecs
+
+            if (audType == AudioType.mp3)
+            {
+                cmd.Append("mp3lame"); 
+            }
+            else
+            {
+                lavcAudioSelected = true;
+                cmd.Append("lavc"); // use one of libavcodec's audio codecs
+            }
             cmd.Append(" ");
+           
 
             cmd.Append('"' + videoToConvertFilePath + '"');
             cmd.Append(" ");
@@ -140,8 +151,11 @@ namespace LibMPlayerCommon
             }
 
 
-            cmd.Append("-lavcopts");
-            cmd.Append(" ");
+            if (lavcAudioSelected == true || lavcVideoSelected == true)
+            {
+                cmd.Append("-lavcopts");
+                cmd.Append(" ");
+            }
 
             if (lavcVideoSelected)
             { // Using builtin codes from lavc
@@ -166,36 +180,35 @@ namespace LibMPlayerCommon
                 cmd.Append(" ");
             }
 
-            // setup the selected audio format
-            if (audType == AudioType.vorbis)
+            if (lavcAudioSelected)
             {
-                cmd.Append("acodec=libvorbis");
+                // setup the selected audio format
+                if (audType == AudioType.vorbis)
+                {
+                    cmd.Append("acodec=libvorbis");
+                }
+                else if (audType == AudioType.ac3)
+                {
+                    cmd.Append("acodec=ac3");
+                }
+                else if (audType == AudioType.flac)
+                {
+                    cmd.Append("acodec=flac");
+                }
+                else if (audType == AudioType.mp2)
+                {
+                    cmd.Append("acodec=mp2");
+                }
+                else if (audType == AudioType.wmav1)
+                {
+                    cmd.Append("acodec=wmav1");
+                }
+                else if (audType == AudioType.wmav2)
+                {
+                    cmd.Append("acodec=wmav2");
+                }
+                cmd.Append(" ");
             }
-            else if (audType == AudioType.mp3)
-            {
-                cmd.Append("acodec=libmp3lame");
-            }
-            else if (audType == AudioType.ac3)
-            {
-                cmd.Append("acodec=ac3");
-            }
-            else if (audType == AudioType.flac)
-            {
-                cmd.Append("acodec=flac");
-            }
-            else if (audType == AudioType.mp2)
-            {
-                cmd.Append("acodec=mp2");
-            }
-            else if (audType == AudioType.wmav1)
-            {
-                cmd.Append("acodec=wmav1");
-            }
-            else if (audType == AudioType.wmav2)
-            {
-                cmd.Append("acodec=wmav2");
-            }
-            cmd.Append(" ");
 
             cmd.Append("-o");
             cmd.Append(" ");
