@@ -27,6 +27,8 @@ namespace LibMPlayerCommon
 {
     public class Logging
     {
+        // TODO: replace with real logging framework
+
         private static volatile Logging instance;
         private static object syncRoot = new Object();
 
@@ -57,21 +59,27 @@ namespace LibMPlayerCommon
         }
         public void WriteLine(string msg, string category)
         {
-
-            string filePath = System.IO.Path.Combine(Globals.MajorSilenceMPlayerLocalAppDataDirectory, "MajorSilence-Debug.txt");
-
-            if (System.IO.Directory.Exists(Globals.MajorSilenceMPlayerLocalAppDataDirectory) == false)
+            try
             {
-                System.IO.Directory.CreateDirectory(Globals.MajorSilenceMPlayerLocalAppDataDirectory);
+                string filePath = System.IO.Path.Combine(Globals.MajorSilenceMPlayerLocalAppDataDirectory, "MajorSilence-Debug.txt");
+
+                if (System.IO.Directory.Exists(Globals.MajorSilenceMPlayerLocalAppDataDirectory) == false)
+                {
+                    System.IO.Directory.CreateDirectory(Globals.MajorSilenceMPlayerLocalAppDataDirectory);
+                }
+
+
+
+
+                System.IO.File.AppendAllText(filePath, DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine);
+                System.IO.File.AppendAllText(filePath, category + System.Environment.NewLine);
+                System.IO.File.AppendAllText(filePath, msg + System.Environment.NewLine);
+                System.IO.File.AppendAllText(filePath, System.Environment.NewLine + System.Environment.NewLine);
             }
-
-
-
-            System.IO.File.AppendAllText(filePath, DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine);
-            System.IO.File.AppendAllText(filePath, category + System.Environment.NewLine);
-            System.IO.File.AppendAllText(filePath, msg + System.Environment.NewLine);
-            System.IO.File.AppendAllText(filePath, System.Environment.NewLine + System.Environment.NewLine);
-
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.StackTrace);
+            }
         }
 
         public void WriteLine(Exception value)

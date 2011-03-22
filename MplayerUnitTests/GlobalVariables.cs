@@ -44,5 +44,15 @@ namespace MplayerUnitTests
             get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoX264.mp4"; }
         }
 
+        public static string OutputVideoDvdMpegPal
+        {
+            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoDvdMpegPal.mpg"; }
+        }
+
+        public static string OutputVideoDvdMpegNtsc
+        {
+            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoDvdMpegNtsc.mpg"; }
+        }
+
     }
 }

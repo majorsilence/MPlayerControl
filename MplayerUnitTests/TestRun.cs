@@ -12,7 +12,10 @@ namespace MplayerUnitTests
         {
 
             Mencoder_Test a = new Mencoder_Test();
+            a.Convert_Test1();
             a.Convert_Test2();
+            a.Convert_Test3();
+            a.Convert_Test4();
 
             /*
             Discover_Test a = new Discover_Test();

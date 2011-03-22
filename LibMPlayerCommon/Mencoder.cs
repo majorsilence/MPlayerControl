@@ -60,6 +60,7 @@ namespace LibMPlayerCommon
             MencoderInstance.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(MencoderInstance_ErrorDataReceived);
             MencoderInstance.BeginErrorReadLine();
             MencoderInstance.BeginOutputReadLine();
+            MencoderInstance.Exited +=new EventHandler(MencoderInstance_Exited);
 
         }
 
@@ -210,6 +211,9 @@ namespace LibMPlayerCommon
                 cmd.Append(" ");
             }
 
+            cmd.Append("-vf harddup"); // avoid audio/video sync issues
+            cmd.Append(" ");
+
             cmd.Append("-o");
             cmd.Append(" ");
             cmd.Append('"' + outputFilePath + '"');
@@ -218,7 +222,103 @@ namespace LibMPlayerCommon
 
         }
 
+        public enum RegionType
+        {
+            NTSC,
+            PAL
+        }
 
+        public void Convert2DvdMpeg(RegionType regType, string videoToConvertFilePath, string outputFilePath)
+        {
+            // http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-vcd-dvd.html
+
+            StringBuilder cmd = new StringBuilder();
+            // mencoder.exe          
+
+            cmd.Append("-srate");
+            cmd.Append(" ");
+            cmd.Append("48000");
+            cmd.Append(" ");
+
+            cmd.Append("-af");
+            cmd.Append(" ");
+            cmd.Append("lavcresample=48000");
+            cmd.Append(" ");
+
+            cmd.Append("-noautosub");
+            cmd.Append(" ");
+
+            cmd.Append("-oac"); // audio codec option
+            cmd.Append(" ");
+            cmd.Append("lavc"); // use builtin audio codec
+            cmd.Append(" ");
+
+            cmd.Append("-aid");
+            cmd.Append(" ");
+            cmd.Append("0");
+            cmd.Append(" ");
+
+            cmd.Append("-ovc"); // video codec option
+            cmd.Append(" ");
+            cmd.Append("lavc"); // use builtin video codec
+            cmd.Append(" ");
+
+            cmd.Append("-of");
+            cmd.Append(" ");
+            cmd.Append("mpeg");
+            cmd.Append(" ");
+
+            cmd.Append("-mpegopts");
+            cmd.Append(" ");
+            cmd.Append("format=dvd:tsaf");
+            cmd.Append(" ");
+
+            cmd.Append("-ofps");
+            cmd.Append(" ");
+            if (regType == RegionType.PAL)
+            {
+                cmd.Append("25");
+            }
+            else if (regType == RegionType.NTSC)
+            {
+                cmd.Append("30000/1001");
+            }
+            cmd.Append(" ");
+
+            cmd.Append("-vf");
+            cmd.Append(" ");
+            if (regType == RegionType.PAL)
+            {
+                cmd.Append("scale=720:576,harddup");
+            }
+            else if (regType == RegionType.NTSC)
+            {
+                cmd.Append("scale=720:480,harddup");
+            }
+            cmd.Append(" ");
+
+            cmd.Append("-lavcopts");
+            cmd.Append(" ");
+           
+            if (regType == RegionType.PAL)
+            {
+                cmd.Append("vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=15:vstrict=0:acodec=ac3:abitrate=192:aspect=16/9");
+            }
+            else if (regType == RegionType.NTSC)
+            {
+                cmd.Append("vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=18:vstrict=0:acodec=ac3:abitrate=192:aspect=16/9");
+            }
+            cmd.Append(" ");
+
+            cmd.Append("-o");
+            cmd.Append(" ");
+            cmd.Append('"' + outputFilePath + '"');
+            cmd.Append(" ");
+            cmd.Append('"' + videoToConvertFilePath + '"');
+
+            Convert(cmd.ToString());
+
+        }
 
 
 
@@ -243,14 +343,19 @@ namespace LibMPlayerCommon
                         if (percent != _currentPercent)
                         {
                             // Only riase this event once the percent has changed
-                            this.PercentCompleted(this, new MplayerEvent(percent));
+                            if (this.PercentCompleted != null)
+                            {
+                                this.PercentCompleted(this, new MplayerEvent(percent));
+                            }
                         }
 
                     }
-                    else if (line.StartsWith("Exiting") || line.ToLower().StartsWith("eof code"))
+                    else if (line.Contains("Exiting") || line.ToLower().StartsWith("eof code"))
                     {
-
-                        this.ConversionComplete(this, new MplayerEvent("Exiting File"));
+                        if (this.ConversionComplete != null)
+                        {
+                            this.ConversionComplete(this, new MplayerEvent("Exiting File"));
+                        }
                     }
 
 
@@ -276,6 +381,14 @@ namespace LibMPlayerCommon
             }
         }
 
+
+        private void MencoderInstance_Exited(object sender, EventArgs e)
+        {
+            if (this.ConversionComplete != null)
+            {
+                this.ConversionComplete(this, new MplayerEvent("Exiting File"));
+            }
+        }
 
     }
 

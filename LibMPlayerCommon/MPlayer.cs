@@ -552,8 +552,10 @@ namespace LibMPlayerCommon
                 {
                     this._currentPosition =(int) float.Parse(line.Substring("ANS_TIME_POSITION=".Length));
 
-                    this.CurrentPosition(this, new MplayerEvent(this._currentPosition));
-
+                    if (this.CurrentPosition != null)
+                    {
+                        this.CurrentPosition(this, new MplayerEvent(this._currentPosition));
+                    }
                 }
                 else if (line.StartsWith("ANS_length="))
                 {
