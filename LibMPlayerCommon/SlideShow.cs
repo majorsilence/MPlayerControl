@@ -58,6 +58,11 @@ namespace LibMPlayerCommon
             this._audioFile = audioFile;
             this._secondsBetweenImages = secondsBetweenImages;
 
+            if (System.IO.File.Exists(outputFilePath))
+            {
+                System.IO.File.Delete(outputFilePath);
+            }
+
             if (System.IO.Directory.Exists(this._workingDirectory) == false)
             {
                 System.IO.Directory.CreateDirectory(this._workingDirectory);  
@@ -82,20 +87,43 @@ namespace LibMPlayerCommon
                 picOriginal.Dispose();
 
                 // Create 30 (FPS) images for every second for each image
-                for (int i = 0; i < (this._secondsBetweenImages * (int)SlideShow.FPS); i++)
+                int imageCountPerImage= this._secondsBetweenImages * (int)SlideShow.FPS;
+                for (int i = 0; i < imageCountPerImage; i++)
                 {
+                    int something = 1;
+
                     System.Drawing.Bitmap pic = (Bitmap)System.Drawing.Image.FromFile(x.FilePath);
                              
                     string secondPart = i.ToString().PadLeft(6, '0');
-                    
 
-                    if (x.Effect== SlideShowEffect.Swirl)
+
+                    if (x.Effect == SlideShowEffect.Swirl && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.Swirl(pic, i, true);
+                        BitmapFilter.Swirl(pic, EffectValue(imageCountPerImage, i), true);
                     }
-                    else if(x.Effect== SlideShowEffect.Water)
+                    else if(x.Effect== SlideShowEffect.Water && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.Water(pic, (short)i, true);
+                        BitmapFilter.Water(pic, EffectValue(imageCountPerImage, i), true);
+                    }
+                    else if (x.Effect == SlideShowEffect.Moire && EffectImage(imageCountPerImage, i))
+                    {
+                        BitmapFilter.Moire(pic, EffectValue(imageCountPerImage, i));
+                    }
+                    else if (x.Effect == SlideShowEffect.Pixelate && EffectImage(imageCountPerImage, i))
+                    {
+                        BitmapFilter.Pixelate(pic, EffectValue(imageCountPerImage, i), true);
+                    }
+                    else if (x.Effect == SlideShowEffect.RandomJitter && EffectImage(imageCountPerImage, i))
+                    {
+                        BitmapFilter.RandomJitter(pic, EffectValue(imageCountPerImage, i));
+                    }
+                    else if (x.Effect == SlideShowEffect.Sphere && EffectImage(imageCountPerImage, i))
+                    {
+                        BitmapFilter.Sphere(pic, true);
+                    }
+                    else if (x.Effect == SlideShowEffect.TimeWarp && EffectImage(imageCountPerImage, i))
+                    {
+                        BitmapFilter.TimeWarp(pic, (byte)EffectValue(imageCountPerImage, i), true);
                     }
 
                     filename = System.IO.Path.Combine(this._workingDirectory, firstPart + "-a-" + secondPart + ".jpg");
@@ -117,6 +145,22 @@ namespace LibMPlayerCommon
             System.IO.Directory.Delete(this._workingDirectory, true);  
             
         }
+
+        private short EffectValue(int imageCountPerImage, int loopCountPosition)
+        {
+            return (short)((imageCountPerImage / 2) - loopCountPosition);
+        }
+
+
+        private bool EffectImage(int imageCountPerImage, int loopCountPosition)
+        {
+            if ((imageCountPerImage - loopCountPosition) > (imageCountPerImage / 2))
+            {
+                return true;
+            }
+            return false;
+        }
+
 
         private void CreateVideo()
         {
