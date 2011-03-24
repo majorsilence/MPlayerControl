@@ -65,7 +65,7 @@ namespace MPlayerControlExample
 
             LibMPlayerCommon.BackendPrograms b = new LibMPlayerCommon.BackendPrograms();
             if (System.IO.File.Exists(MPlayerControlExample.Properties.Settings.Default.MPlayerPath) == false
-                && System.IO.File.Exists(b.MPlayer) == false)
+                && System.IO.File.Exists(b.MPlayer) == false && BackendPrograms.OSPlatform() == "windows")
             {
                 MessageBox.Show("Cannot find mplayer.  Loading properties form to select.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnPlayerProperties_Click(sender, e);
@@ -111,6 +111,7 @@ namespace MPlayerControlExample
         private void play_VideoExited(object sender, MplayerEvent e)
         {
             btnPlay.Image = MPlayerControlExample.Properties.Resources.play;
+            this._play.Stop();
             this.ResetTime();
         }
 

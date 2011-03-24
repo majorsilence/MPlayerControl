@@ -421,8 +421,8 @@ namespace LibMPlayerCommon
             {
                 MediaPlayer.StandardInput.WriteLine("stop");
                 MediaPlayer.StandardInput.Flush();
-                this.CurrentStatus = MediaStatus.Stopped;
             }
+            this.CurrentStatus = MediaStatus.Stopped;
         }
 
         /// <summary>

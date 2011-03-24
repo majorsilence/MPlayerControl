@@ -52,7 +52,7 @@ namespace LibMPlayerCommon
         }
 
 
-        private static string OSPlatform()
+        public static string OSPlatform()
         {
             if (System.Environment.OSVersion.Platform == System.PlatformID.Unix || System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
             {
