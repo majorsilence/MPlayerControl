@@ -57,6 +57,7 @@
     <Optimize>false</Optimize>
     <WarningLevel>4</WarningLevel>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -67,11 +68,13 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspectRatio.cs" />
     <Compile Include="BackendPrograms.cs" />
+    <Compile Include="BitmapFilters.cs" />
     <Compile Include="Discover.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Logging.cs" />
@@ -79,6 +82,7 @@
     <Compile Include="MPlayer.cs" />
     <Compile Include="MplayerEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlideShow.cs" />
     <Compile Include="TimeConversion.cs" />
   </ItemGroup>
   <ItemGroup>

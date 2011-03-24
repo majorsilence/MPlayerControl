@@ -47,6 +47,12 @@ namespace LibMPlayerCommon
         {
             get { return System.IO.Path.Combine(MajorSilenceLocalAppDataDirectory, "MPlayer"); }
         }
+
+        public static string MajorSilenceMEncoderLocalAppDataDirectory
+        {
+            get { return System.IO.Path.Combine(MajorSilenceLocalAppDataDirectory, "MEncoder"); }
+        }
+
     }
 
 }
