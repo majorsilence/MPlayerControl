@@ -42,9 +42,13 @@ namespace MediaPlayer
         private bool _fullscreen=false;
         private bool _playNow = false;
 
+        private bool _playOnceAndClose;
+
 		private Player() {}
 
-        public Player(string url, bool playNow, bool fullScreen)
+        public Player(string url, bool playNow, bool fullScreen) : this(url, playNow, fullScreen, false){}
+
+        public Player(string url, bool playNow, bool fullScreen, bool playOnceAndClose)
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
@@ -55,7 +59,7 @@ namespace MediaPlayer
             _playNow = playNow;
 
             this._filePath = url.Trim();
-
+            _playOnceAndClose = playOnceAndClose;
 
         }
 		
@@ -113,6 +117,20 @@ namespace MediaPlayer
             btnPlay.Image = MediaPlayer.Properties.Resources.play;
             this._play.Stop();
             this.ResetTime();
+
+            if (this._playOnceAndClose == true)
+            {
+                try
+                {
+
+                    this.Invoke(new MethodInvoker(Close));
+                }
+                catch (Exception ex)
+                {
+                    Logging.Instance.WriteLine(ex);
+                }
+            }
+
         }
 
         private void _play_CurrentPosition(object sender, MplayerEvent e)
@@ -228,12 +246,19 @@ namespace MediaPlayer
 
         private void ResetTime()
         {
-            this.Invoke((MethodInvoker)delegate
+            try
             {
-                this._currentTime = 0;
-                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
-                trackBar1.Value = 0;
-            });
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this._currentTime = 0;
+                    lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+                    trackBar1.Value = 0;
+                });
+            }
+            catch (Exception ex)
+            {
+                Logging.Instance.WriteLine(ex);
+            }
         }
 
         private void btnFastforward_Click(object sender, EventArgs e)

@@ -129,7 +129,7 @@ namespace MediaPlayer
             // 
             // btnPlayerProperties
             // 
-            this.btnPlayerProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPlayerProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPlayerProperties.BackColor = System.Drawing.Color.Transparent;
             this.btnPlayerProperties.FlatAppearance.BorderSize = 0;
             this.btnPlayerProperties.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -242,7 +242,7 @@ namespace MediaPlayer
             this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             this.btnPlay.MouseHover += new System.EventHandler(this.btnPlay_MouseHover);
             // 
-            // MainForm
+            // Player
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -253,7 +253,7 @@ namespace MediaPlayer
             this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.panel1);
             this.KeyPreview = true;
-            this.Name = "MainForm";
+            this.Name = "Player";
             this.Text = "MediaPlayer";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
