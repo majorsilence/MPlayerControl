@@ -72,19 +72,11 @@ namespace LibMPlayerCommon
         }
         public void WriteLine(string msg, string category)
         {
-            try
-            {
-                string output = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine;
-                output += msg + System.Environment.NewLine;
-                output += System.Environment.NewLine + System.Environment.NewLine;
+            string output = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine;
+            output += msg + System.Environment.NewLine;
+            output += System.Environment.NewLine + System.Environment.NewLine;
 
-                System.Diagnostics.Trace.WriteLine(output, category);
-
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine(ex.StackTrace);
-            }
+            System.Diagnostics.Trace.WriteLine(output, category);
         }
 
         public void WriteLine(Exception value)

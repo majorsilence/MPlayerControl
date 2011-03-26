@@ -1,4 +1,4 @@
-﻿namespace MPlayerControlExample
+﻿namespace MediaPlayer
 {
     partial class PlayerProperties
     {

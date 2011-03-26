@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MPlayerControlExample
+namespace MediaPlayer
 {
     public partial class PlayerProperties : Form
     {
@@ -18,7 +18,7 @@ namespace MPlayerControlExample
 
         private void PlayerProperties_Load(object sender, EventArgs e)
         {
-            textBox1.Text = MPlayerControlExample.Properties.Settings.Default.MPlayerPath;
+            textBox1.Text = MediaPlayer.Properties.Settings.Default.MPlayerPath;
         }
 
         private void btnMPlayerPath_Click(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace MPlayerControlExample
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MPlayerControlExample.Properties.Settings.Default.MPlayerPath = textBox1.Text.Trim();
+            MediaPlayer.Properties.Settings.Default.MPlayerPath = textBox1.Text.Trim();
         }
 
     }
