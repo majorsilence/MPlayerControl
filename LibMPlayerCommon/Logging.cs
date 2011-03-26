@@ -32,7 +32,15 @@ namespace LibMPlayerCommon
         private static volatile Logging instance;
         private static object syncRoot = new Object();
 
-        private Logging() { }
+        private string filePath;
+
+
+        private Logging() 
+        { 
+            this.filePath = System.IO.Path.Combine(Globals.MajorSilenceMPlayerLocalAppDataDirectory, "MajorSilence-Debug.txt");
+            System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.TextWriterTraceListener(this.filePath));
+            System.Diagnostics.Trace.AutoFlush = true;
+        }
 
         public static Logging Instance
         {
@@ -49,6 +57,11 @@ namespace LibMPlayerCommon
                     }
                 }
 
+                if (System.IO.Directory.Exists(Globals.MajorSilenceMPlayerLocalAppDataDirectory) == false)
+                {
+                    System.IO.Directory.CreateDirectory(Globals.MajorSilenceMPlayerLocalAppDataDirectory);
+                }
+
                 return instance;
             }
         }
@@ -61,20 +74,12 @@ namespace LibMPlayerCommon
         {
             try
             {
-                string filePath = System.IO.Path.Combine(Globals.MajorSilenceMPlayerLocalAppDataDirectory, "MajorSilence-Debug.txt");
+                string output = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine;
+                output += msg + System.Environment.NewLine;
+                output += System.Environment.NewLine + System.Environment.NewLine;
 
-                if (System.IO.Directory.Exists(Globals.MajorSilenceMPlayerLocalAppDataDirectory) == false)
-                {
-                    System.IO.Directory.CreateDirectory(Globals.MajorSilenceMPlayerLocalAppDataDirectory);
-                }
+                System.Diagnostics.Trace.WriteLine(output, category);
 
-
-
-
-                System.IO.File.AppendAllText(filePath, DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine);
-                System.IO.File.AppendAllText(filePath, category + System.Environment.NewLine);
-                System.IO.File.AppendAllText(filePath, msg + System.Environment.NewLine);
-                System.IO.File.AppendAllText(filePath, System.Environment.NewLine + System.Environment.NewLine);
             }
             catch (Exception ex)
             {

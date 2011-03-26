@@ -1458,16 +1458,23 @@ namespace LibMPlayerCommon
             return true;
         }
 
+
+
+        public static bool Sphere(Bitmap b, bool bSmoothing)
+        {
+            return Sphere(b, bSmoothing, b.Height, b.Width);
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="b"></param>
         /// <param name="bSmoothing"></param>
         /// <returns></returns>
-        public static bool Sphere(Bitmap b, bool bSmoothing)
+        public static bool Sphere(Bitmap b, bool bSmoothing, int height, int width)
         {
-            int nWidth = b.Width;
-            int nHeight = b.Height;
+            int nWidth = height; //b.Width;
+            int nHeight = width; // b.Height;
 
             FloatPoint[,] fp = new FloatPoint[nWidth, nHeight];
             Point[,] pt = new Point[nWidth, nHeight];

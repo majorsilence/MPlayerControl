@@ -117,10 +117,6 @@ namespace LibMPlayerCommon
                     {
                         BitmapFilter.RandomJitter(pic, EffectValue(imageCountPerImage, i));
                     }
-                    else if (x.Effect == SlideShowEffect.Sphere && EffectImage(imageCountPerImage, i))
-                    {
-                        BitmapFilter.Sphere(pic, true);
-                    }
                     else if (x.Effect == SlideShowEffect.TimeWarp && EffectImage(imageCountPerImage, i))
                     {
                         BitmapFilter.TimeWarp(pic, (byte)EffectValue(imageCountPerImage, i), true);
@@ -221,7 +217,6 @@ namespace LibMPlayerCommon
         Flip,
         RandomJitter,
         Swirl,
-        Sphere,
         TimeWarp,
         Moire,
         Water,
