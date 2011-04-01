@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MediaPlayerLocation=$(dirname $0)/MediaPlayer.exe
+
+
+mono "${MediaPlayerLocation}"
