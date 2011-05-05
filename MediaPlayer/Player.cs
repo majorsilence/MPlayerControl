@@ -464,5 +464,10 @@ namespace MediaPlayer
 
         #endregion Button Style Change
 
+        private void panelVideo_Resize(object sender, EventArgs e)
+        {
+            this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
+        }
+
     }
 }

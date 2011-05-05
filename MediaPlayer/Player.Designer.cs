@@ -76,6 +76,7 @@ namespace MediaPlayer
             this.panelVideo.Size = new System.Drawing.Size(795, 378);
             this.panelVideo.TabIndex = 3;
             this.panelVideo.DoubleClick += new System.EventHandler(this.panelVideo_DoubleClick);
+            this.panelVideo.Resize += new System.EventHandler(this.panelVideo_Resize);
             // 
             // openFileDialog1
             // 
@@ -247,7 +248,6 @@ namespace MediaPlayer
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(784, 428);
             this.Controls.Add(this.panelVideo);

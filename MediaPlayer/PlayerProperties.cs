@@ -32,6 +32,7 @@ namespace MediaPlayer
         private void btnSave_Click(object sender, EventArgs e)
         {
             MediaPlayer.Properties.Settings.Default.MPlayerPath = textBox1.Text.Trim();
+            MediaPlayer.Properties.Settings.Default.Save();
         }
 
     }

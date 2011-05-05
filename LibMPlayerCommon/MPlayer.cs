@@ -381,6 +381,17 @@ namespace LibMPlayerCommon
             MediaPlayer.StandardInput.Flush();
         }
 
+        public void SetSize(int width, int height)
+        {
+            if (this.CurrentStatus != MediaStatus.Playing)
+            {
+                return;
+            }
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property width {0}", width));
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property height {0}", height));
+            MediaPlayer.StandardInput.Flush();
+        }
+
         /// <summary>
         /// Pause the current video.  If paused it will unpause.
         /// </summary>
