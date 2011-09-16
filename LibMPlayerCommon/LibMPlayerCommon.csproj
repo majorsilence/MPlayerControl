@@ -57,7 +57,7 @@
     <Optimize>false</Optimize>
     <WarningLevel>4</WarningLevel>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -74,7 +74,6 @@
   <ItemGroup>
     <Compile Include="AspectRatio.cs" />
     <Compile Include="BackendPrograms.cs" />
-    <Compile Include="BitmapFilters.cs" />
     <Compile Include="Discover.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Logging.cs" />
@@ -107,5 +106,10 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\LibImages\LibImages.csproj">
+      <Project>{C859FA27-7882-4814-9202-9C9D807C2CE5}</Project>
+      <Name>LibImages</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -222,6 +222,9 @@ namespace LibMPlayerCommon
 
         }
 
+        /// <summary>
+        /// The region type used in the video.
+        /// </summary>
         public enum RegionType
         {
             NTSC,

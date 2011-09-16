@@ -90,8 +90,7 @@ namespace LibMPlayerCommon
                 int imageCountPerImage= this._secondsBetweenImages * (int)SlideShow.FPS;
                 for (int i = 0; i < imageCountPerImage; i++)
                 {
-                    int something = 1;
-
+   
                     System.Drawing.Bitmap pic = (Bitmap)System.Drawing.Image.FromFile(x.FilePath);
                              
                     string secondPart = i.ToString().PadLeft(6, '0');
@@ -99,27 +98,27 @@ namespace LibMPlayerCommon
 
                     if (x.Effect == SlideShowEffect.Swirl && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.Swirl(pic, EffectValue(imageCountPerImage, i), true);
+                        LibImages.BitmapFilter.Swirl(pic, EffectValue(imageCountPerImage, i), true);
                     }
                     else if(x.Effect== SlideShowEffect.Water && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.Water(pic, EffectValue(imageCountPerImage, i), true);
+                        LibImages.BitmapFilter.Water(pic, EffectValue(imageCountPerImage, i), true);
                     }
                     else if (x.Effect == SlideShowEffect.Moire && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.Moire(pic, EffectValue(imageCountPerImage, i));
+                        LibImages.BitmapFilter.Moire(pic, EffectValue(imageCountPerImage, i));
                     }
                     else if (x.Effect == SlideShowEffect.Pixelate && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.Pixelate(pic, EffectValue(imageCountPerImage, i), true);
+                        LibImages.BitmapFilter.Pixelate(pic, EffectValue(imageCountPerImage, i), true);
                     }
                     else if (x.Effect == SlideShowEffect.RandomJitter && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.RandomJitter(pic, EffectValue(imageCountPerImage, i));
+                        LibImages.BitmapFilter.RandomJitter(pic, EffectValue(imageCountPerImage, i));
                     }
                     else if (x.Effect == SlideShowEffect.TimeWarp && EffectImage(imageCountPerImage, i))
                     {
-                        BitmapFilter.TimeWarp(pic, (byte)EffectValue(imageCountPerImage, i), true);
+                        LibImages.BitmapFilter.TimeWarp(pic, (byte)EffectValue(imageCountPerImage, i), true);
                     }
 
                     filename = System.IO.Path.Combine(this._workingDirectory, firstPart + "-a-" + secondPart + ".jpg");
