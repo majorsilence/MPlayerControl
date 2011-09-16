@@ -40,6 +40,8 @@ namespace LibMPlayerCommon
 
         private int _fileCounter = 0;
         private string _workingDirectory = "";
+        private string _imageDirectory = "";
+        private string _videoDirectory = "";
         private int _secondsBetweenImages=3;
 
         private BackendPrograms _backend;
@@ -49,6 +51,8 @@ namespace LibMPlayerCommon
         {
             _backend = new BackendPrograms("", mencoderPath);
             _workingDirectory = System.IO.Path.Combine(Globals.MajorSilenceMEncoderLocalAppDataDirectory, "SlideShow");
+            _imageDirectory = System.IO.Path.Combine(_workingDirectory, "Images");
+            _videoDirectory = System.IO.Path.Combine(_workingDirectory, "Videos");
         }
 
         public void CreateSlideShow(List<SlideShowInfo> files, string outputFilePath, string audioFile, int secondsBetweenImages)
@@ -63,82 +67,137 @@ namespace LibMPlayerCommon
                 System.IO.File.Delete(outputFilePath);
             }
 
-            if (System.IO.Directory.Exists(this._workingDirectory) == false)
+            if (System.IO.Directory.Exists(this._workingDirectory))
             {
-                System.IO.Directory.CreateDirectory(this._workingDirectory);  
-            }
-            else
-            {
-                // Always make sure to clean up any previous conversion
                 System.IO.Directory.Delete(this._workingDirectory, true);  
+                
             }
+            System.IO.Directory.CreateDirectory(this._workingDirectory);
+            string currentDirectory = System.Environment.CurrentDirectory;
 
+            SetupVideoDirectory();
             foreach (SlideShowInfo x in files)
             {
+                SetupImageDirectory();
+                
 
                 this._fileCounter++;
                 string firstPart = this._fileCounter.ToString().PadLeft(6, '0');
 
-                string filename = System.IO.Path.Combine(this._workingDirectory, firstPart + ".jpg");
+                string firstFilename = System.IO.Path.Combine(_imageDirectory, firstPart + ".jpg");
       
                 System.Drawing.Image picOriginal = System.Drawing.Image.FromFile(x.FilePath);
+                picOriginal = LibImages.ImageResize.ResizeBlackBar(picOriginal, 720, 480); // NTSC - PAL would be 720x576;
 
-                picOriginal.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
+                picOriginal.Save(firstFilename, System.Drawing.Imaging.ImageFormat.Jpeg);
                 picOriginal.Dispose();
 
                 // Create 30 (FPS) images for every second for each image
-                int imageCountPerImage= this._secondsBetweenImages * (int)SlideShow.FPS;
+                int imageCountPerImage = this._secondsBetweenImages * (int)SlideShow.FPS;
                 for (int i = 0; i < imageCountPerImage; i++)
                 {
-   
-                    System.Drawing.Bitmap pic = (Bitmap)System.Drawing.Image.FromFile(x.FilePath);
+
+                    System.Drawing.Bitmap pic = (Bitmap)System.Drawing.Image.FromFile(firstFilename);
                              
                     string secondPart = i.ToString().PadLeft(6, '0');
 
+                    pic = SetImageEffect(x.Effect, pic, imageCountPerImage, i);
 
-                    if (x.Effect == SlideShowEffect.Swirl && EffectImage(imageCountPerImage, i))
-                    {
-                        LibImages.BitmapFilter.Swirl(pic, EffectValue(imageCountPerImage, i), true);
-                    }
-                    else if(x.Effect== SlideShowEffect.Water && EffectImage(imageCountPerImage, i))
-                    {
-                        LibImages.BitmapFilter.Water(pic, EffectValue(imageCountPerImage, i), true);
-                    }
-                    else if (x.Effect == SlideShowEffect.Moire && EffectImage(imageCountPerImage, i))
-                    {
-                        LibImages.BitmapFilter.Moire(pic, EffectValue(imageCountPerImage, i));
-                    }
-                    else if (x.Effect == SlideShowEffect.Pixelate && EffectImage(imageCountPerImage, i))
-                    {
-                        LibImages.BitmapFilter.Pixelate(pic, EffectValue(imageCountPerImage, i), true);
-                    }
-                    else if (x.Effect == SlideShowEffect.RandomJitter && EffectImage(imageCountPerImage, i))
-                    {
-                        LibImages.BitmapFilter.RandomJitter(pic, EffectValue(imageCountPerImage, i));
-                    }
-                    else if (x.Effect == SlideShowEffect.TimeWarp && EffectImage(imageCountPerImage, i))
-                    {
-                        LibImages.BitmapFilter.TimeWarp(pic, (byte)EffectValue(imageCountPerImage, i), true);
-                    }
-
-                    filename = System.IO.Path.Combine(this._workingDirectory, firstPart + "-a-" + secondPart + ".jpg");
+                    string filename = System.IO.Path.Combine(_imageDirectory, firstPart + "-a-" + secondPart + ".jpg");
 
                     pic.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
                     pic.Dispose();
 
                 }
 
+                // Create video of current images
+                
+                System.Environment.CurrentDirectory = _imageDirectory;
+
+                // output-temp.avi
+                string videoName = string.Format("output-temp{0}.avi", _fileCounter.ToString().PadLeft(6, '0'));
+                CreateVideo(videoName);       
+                System.Environment.CurrentDirectory = currentDirectory;
+
+
+                // delete temporary images
+                DeleteImageDirectory();
+
+                  
+                // delete temporary video
+
             }
 
-            string currentDirectory = System.Environment.CurrentDirectory;
-            System.Environment.CurrentDirectory = this._workingDirectory;
-            CreateVideo();
-            AddAudio();
+            System.Environment.CurrentDirectory = _videoDirectory;
+            AppendVideo();
             System.Environment.CurrentDirectory = currentDirectory;
+
+            DeleteVideoDirectory();
+
+            AddAudio();
 
             // Always make sure to clean up conversion files
             System.IO.Directory.Delete(this._workingDirectory, true);  
             
+        }
+
+        private void SetupImageDirectory()
+        {
+            DeleteImageDirectory();
+            System.IO.Directory.CreateDirectory(_imageDirectory);
+        }
+
+        private void DeleteImageDirectory()
+        {
+            if (System.IO.Directory.Exists(_imageDirectory))
+            {
+                System.IO.Directory.Delete(_imageDirectory, true);
+            }
+        }
+
+        private void SetupVideoDirectory()
+        {
+            DeleteVideoDirectory();
+            System.IO.Directory.CreateDirectory(_videoDirectory);
+        }
+
+        private void DeleteVideoDirectory()
+        {
+            if (System.IO.Directory.Exists(_videoDirectory))
+            {
+                System.IO.Directory.Delete(_videoDirectory, true);
+            }
+        }
+
+
+        private System.Drawing.Bitmap SetImageEffect(SlideShowEffect effect, System.Drawing.Bitmap pic, int imageCountPerImage, int loopCount)
+        {
+            if (effect == SlideShowEffect.Swirl && EffectImage(imageCountPerImage, loopCount))
+            {
+                LibImages.BitmapFilter.Swirl(pic, EffectValue(imageCountPerImage, loopCount), true);
+            }
+            else if (effect == SlideShowEffect.Water && EffectImage(imageCountPerImage, loopCount))
+            {
+                LibImages.BitmapFilter.Water(pic, EffectValue(imageCountPerImage, loopCount), true);
+            }
+            else if (effect == SlideShowEffect.Moire && EffectImage(imageCountPerImage, loopCount))
+            {
+                LibImages.BitmapFilter.Moire(pic, EffectValue(imageCountPerImage, loopCount));
+            }
+            else if (effect == SlideShowEffect.Pixelate && EffectImage(imageCountPerImage, loopCount))
+            {
+                LibImages.BitmapFilter.Pixelate(pic, EffectValue(imageCountPerImage, loopCount), true);
+            }
+            else if (effect == SlideShowEffect.RandomJitter && EffectImage(imageCountPerImage, loopCount))
+            {
+                LibImages.BitmapFilter.RandomJitter(pic, EffectValue(imageCountPerImage, loopCount));
+            }
+            else if (effect == SlideShowEffect.TimeWarp && EffectImage(imageCountPerImage, loopCount))
+            {
+                LibImages.BitmapFilter.TimeWarp(pic, (byte)EffectValue(imageCountPerImage, loopCount), true);
+            }
+
+            return pic;
         }
 
         private short EffectValue(int imageCountPerImage, int loopCountPosition)
@@ -156,17 +215,14 @@ namespace LibMPlayerCommon
             return false;
         }
 
-
-        private void CreateVideo()
+        private void CreateVideo(string videoName)
         {
             System.Diagnostics.Process p = new System.Diagnostics.Process();
-
-            
 
             p.StartInfo.FileName = this._backend.MEncoder;
             // harddup - use this so duplicate pictures are not removed, if they are removed there will be major audio video sync problems. 
             p.StartInfo.Arguments = "mf://*.jpg -mf fps=" + SlideShow.FPS + " -ovc lavc harddup -lavcopts vcodec=mpeg4:mbd=2:trell";
-            p.StartInfo.Arguments += " -o output.avi";
+            p.StartInfo.Arguments += string.Format(" -o {0}", videoName);
 
             p.StartInfo.RedirectStandardOutput = false;
             p.StartInfo.CreateNoWindow = true;
@@ -175,11 +231,35 @@ namespace LibMPlayerCommon
             p.Start();
             p.WaitForExit();
 
-
+            System.IO.File.Move(System.IO.Path.Combine(System.Environment.CurrentDirectory, videoName),
+                System.IO.Path.Combine(_videoDirectory, videoName));
             
 
         }
 
+        private void AppendVideo()
+        {
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+
+            p.StartInfo.FileName = this._backend.MEncoder;
+            // -oac copy -ovc copy -o 'combined_clip.avi' 'clip1.avi' 'clip2.avi'
+            p.StartInfo.Arguments = "-oac copy -ovc copy -idx -o output.avi";
+
+            foreach (string file in System.IO.Directory.GetFiles(System.Environment.CurrentDirectory, "*.avi"))
+            {
+                p.StartInfo.Arguments += string.Format(" \"{0}\"", file);
+            }
+
+            p.StartInfo.RedirectStandardOutput = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            p.StartInfo.UseShellExecute = false;
+            p.Start();
+            p.WaitForExit();
+
+            System.IO.File.Move(System.IO.Path.Combine(_videoDirectory, "output.avi"),
+                System.IO.Path.Combine("../", "output.avi"));
+        }
 
         private void AddAudio()
         {
@@ -195,7 +275,7 @@ namespace LibMPlayerCommon
             p.StartInfo.FileName = this._backend.MEncoder;
 
             // -vf harddup is needed to keep duplicates of the video when adding the audio.  Else you are going to have a huge audio/video sync problem.
-            p.StartInfo.Arguments = "output.avi -o \"" + this._outputFilePath + "\" -vf harddup -ovc copy -oac mp3lame -audiofile \"" + this._audioFile + '"';
+            p.StartInfo.Arguments = "\"" + System.IO.Path.Combine(_workingDirectory,"output.avi") +  "\" -o \"" + this._outputFilePath + "\" -vf harddup -ovc copy -oac mp3lame -audiofile \"" + this._audioFile + '"';
             p.StartInfo.RedirectStandardOutput = false;
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
