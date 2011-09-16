@@ -11,17 +11,11 @@ namespace MplayerUnitTests
         static void Main(string[] args)
         {
 
-            LibMPlayerCommon.SlideShow a = new LibMPlayerCommon.SlideShow();
+            //SlideShow_Test st = new SlideShow_Test();
+            //st.Test1();
 
-            List<LibMPlayerCommon.SlideShowInfo> b = new  List<LibMPlayerCommon.SlideShowInfo>();
-            b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Blue hills.jpg",  LibMPlayerCommon.SlideShowEffect.TimeWarp));
-            b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Sunset.jpg",  LibMPlayerCommon.SlideShowEffect.Moire));
-            b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water lilies.jpg",  LibMPlayerCommon.SlideShowEffect.Water));
-            b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Winter.jpg",  LibMPlayerCommon.SlideShowEffect.RandomJitter));
-            a.CreateSlideShow(b, @"C:\Documents and Settings\Peter\Desktop\helloworld.mpg", 
-                @"C:\Documents and Settings\All Users\Documents\My Music\Magnatune Compilation\Rock\16. TranceVision_ Alpha.mp3", 
-                5);
-
+            ImageResize_Test it = new ImageResize_Test();
+            it.Test1();
 
             Console.WriteLine("Push any key to exit...");
             //Console.ReadLine();
