@@ -154,7 +154,6 @@ namespace SlideShow
             panel1.Enabled = true;
             toolStripProgressBar1.Style = ProgressBarStyle.Blocks;
             toolStripProgressBar1.Value = 0;
-            toolStripStatusLabel1.Visible = false;
             toolStripStatusLabel2.Visible = false;
             MessageBox.Show("Slideshow created.", "Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -163,7 +162,6 @@ namespace SlideShow
         {
             panel1.Enabled = false;
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
-            toolStripStatusLabel1.Visible = true;
             toolStripStatusLabel2.Visible = true; 
        }
 
@@ -194,9 +192,7 @@ namespace SlideShow
                 }
             }
 
-            a.CreateSlideShow(b , outputMpeg,
-                audioFilePath,
-                lengthInSecondsBetweenPhotos);
+            a.CreateSlideShow(b , outputMpeg, audioFilePath, lengthInSecondsBetweenPhotos);
         }
 
         private void Callback (IAsyncResult r)

@@ -31,9 +31,6 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnFilePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.PAL = new System.Windows.Forms.RadioButton();
-            this.NTSC = new System.Windows.Forms.RadioButton();
             this.CreateVideo = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.AudioFile = new System.Windows.Forms.Button();
@@ -43,10 +40,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -81,39 +76,6 @@
             this.columnFilePath.Text = "Filepath";
             this.columnFilePath.Width = 347;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.PAL);
-            this.groupBox1.Controls.Add(this.NTSC);
-            this.groupBox1.Location = new System.Drawing.Point(9, 11);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(143, 42);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Region Type";
-            // 
-            // PAL
-            // 
-            this.PAL.AutoSize = true;
-            this.PAL.Location = new System.Drawing.Point(75, 19);
-            this.PAL.Name = "PAL";
-            this.PAL.Size = new System.Drawing.Size(45, 17);
-            this.PAL.TabIndex = 1;
-            this.PAL.Text = "PAL";
-            this.PAL.UseVisualStyleBackColor = true;
-            // 
-            // NTSC
-            // 
-            this.NTSC.AutoSize = true;
-            this.NTSC.Checked = true;
-            this.NTSC.Location = new System.Drawing.Point(6, 19);
-            this.NTSC.Name = "NTSC";
-            this.NTSC.Size = new System.Drawing.Size(54, 17);
-            this.NTSC.TabIndex = 0;
-            this.NTSC.TabStop = true;
-            this.NTSC.Text = "NTSC";
-            this.NTSC.UseVisualStyleBackColor = true;
-            // 
             // CreateVideo
             // 
             this.CreateVideo.Location = new System.Drawing.Point(399, 79);
@@ -127,9 +89,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.AudioFile);
-            this.groupBox2.Location = new System.Drawing.Point(158, 11);
+            this.groupBox2.Location = new System.Drawing.Point(3, 11);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(380, 42);
+            this.groupBox2.Size = new System.Drawing.Size(535, 42);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Audio";
@@ -138,7 +100,7 @@
             // 
             this.AudioFile.Location = new System.Drawing.Point(6, 16);
             this.AudioFile.Name = "AudioFile";
-            this.AudioFile.Size = new System.Drawing.Size(369, 23);
+            this.AudioFile.Size = new System.Drawing.Size(523, 23);
             this.AudioFile.TabIndex = 1;
             this.AudioFile.Text = "Select Audio File";
             this.AudioFile.UseVisualStyleBackColor = true;
@@ -172,7 +134,6 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.statusStrip1);
-            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.numericUpDown1);
             this.panel1.Controls.Add(this.listView1);
             this.panel1.Controls.Add(this.label1);
@@ -188,7 +149,6 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
-            this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 410);
             this.statusStrip1.Name = "statusStrip1";
@@ -200,12 +160,6 @@
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(62, 17);
-            this.toolStripStatusLabel1.Text = "Step 1 of 2";
             // 
             // toolStripStatusLabel2
             // 
@@ -221,8 +175,6 @@
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
             this.Text = "Form1";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -238,9 +190,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnFileName;
         private System.Windows.Forms.ColumnHeader columnFilePath;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton PAL;
-        private System.Windows.Forms.RadioButton NTSC;
         private System.Windows.Forms.Button CreateVideo;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button AudioFile;
@@ -250,7 +199,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
