@@ -22,41 +22,16 @@ namespace WpfMPlayer
     public partial class MainWindow : Window
     {
 
-        MPlayer _play;
-
         public MainWindow()
         {
             InitializeComponent();
-
-
-            //System.Windows.Forms.Panel = new System.Windows.Forms.Panel();
-            
-
-
         }
 
-        private void buttonStop_Click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (_play != null)
-            {
-                _play.Stop();
-            }
-        }
-
-        private void buttonPlay_Click(object sender, RoutedEventArgs e)
-        {
-            if (_play != null)
-            {
-                _play.Stop();
-            }
-
-            int handle = (int)this.windowsFormsHost1.Handle;
-
-            _play = new MPlayer(handle, MplayerBackends.Direct3D, @"C:\Users\Peter\Desktop\MPlayer-rtm-svn-34401\mplayer.exe");
-            _play.Play(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
 
         }
 
-   
+  
     }
 }
