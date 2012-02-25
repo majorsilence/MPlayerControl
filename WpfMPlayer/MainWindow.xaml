@@ -4,9 +4,9 @@
         Title="MainWindow" Height="350" Width="525"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
     <Grid>
-        <Button Content="Play" Height="23" HorizontalAlignment="Right" Margin="0,276,102,0" Name="buttonPlay" VerticalAlignment="Top" Width="75" Click="buttonPlay_Click" />
-        <Button Content="Stop" Height="23" HorizontalAlignment="Left" Margin="224,276,0,0" Name="buttonStop" VerticalAlignment="Top" Width="75" Click="buttonStop_Click" />
-        <WindowsFormsHost Height="258" HorizontalAlignment="Left" Margin="12,12,0,0" Name="windowsFormsHost1" VerticalAlignment="Top" Width="479"  >
+        <Button Content="Play" HorizontalAlignment="Right" Margin="0,0,12,12" Name="buttonPlay" Width="75" Click="buttonPlay_Click" Height="23" VerticalAlignment="Bottom" />
+        <Button Content="Stop" HorizontalAlignment="Right" Margin="0,0,93,12" Name="buttonStop" Width="75" Click="buttonStop_Click" Height="23" VerticalAlignment="Bottom" />
+        <WindowsFormsHost Margin="12,12,12,41" Name="windowsFormsHost1">
             <wf:Panel x:Name="videoPanel" Dock="Fill" />
         </WindowsFormsHost>
     </Grid>
