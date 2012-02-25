@@ -29,7 +29,8 @@ namespace WpfMPlayer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            videoControl.MPlayerPath = @"C:\Users\Peter\Desktop\MPlayer-rtm-svn-34401\mplayer.exe";
+            videoControl.VideoPath = @"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv";
         }
 
   

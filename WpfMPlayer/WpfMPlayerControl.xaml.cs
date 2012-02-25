@@ -44,9 +44,22 @@ namespace WpfMPlayer
 
             int handle = (int)this.windowsFormsHost1.Handle;
 
-            _play = new MPlayer(handle, MplayerBackends.Direct3D, @"C:\Users\Peter\Desktop\MPlayer-rtm-svn-34401\mplayer.exe");
-            _play.Play(@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
+            if (System.IO.File.Exists(MPlayerPath) == false)
+            {
+                throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
+            }
+
+            if (System.IO.File.Exists(VideoPath) == false)
+            {
+                throw new System.IO.FileNotFoundException("File not found", VideoPath);
+            }
+
+            _play = new MPlayer(handle, MplayerBackends.Direct3D, MPlayerPath);
+            _play.Play(VideoPath);
 
         }
+
+        public string MPlayerPath { get; set; }
+        public string VideoPath { get; set; }
     }
 }

@@ -4,7 +4,7 @@
         Title="MainWindow" Height="350" Width="525"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" Loaded="Window_Loaded"
          xmlns:mplayerControl="clr-namespace:WpfMPlayer">
-    <Grid Height="312" Name="grid1" Width="507">
-        <mplayerControl:WpfMPlayerControl />
+    <Grid>
+        <mplayerControl:WpfMPlayerControl x:Name="videoControl" Margin="12" />
     </Grid>
 </Window>
