@@ -541,7 +541,7 @@ namespace LibMPlayerCommon
         {
             Debug.Assert(volume >= 0 && volume <= 100);
 
-            MediaPlayer.StandardInput.WriteLine(string.Format("volume {0}", volume));
+            MediaPlayer.StandardInput.WriteLine(string.Format("volume {0} 1", volume));
             MediaPlayer.StandardInput.Flush();
 
         }
