@@ -545,6 +545,12 @@ namespace LibMPlayerCommon
             MediaPlayer.StandardInput.Flush();
 
         }
+		
+		public void SwitchAudioTrack(int track)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("switch_audio {0}", track));
+            MediaPlayer.StandardInput.Flush();
+        }
 
 
         /// <summary>
