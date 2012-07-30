@@ -561,7 +561,7 @@ namespace LibMPlayerCommon
 
                 if (line.StartsWith("ANS_TIME_POSITION="))
                 {
-                    this._currentPosition =(int) float.Parse(line.Substring("ANS_TIME_POSITION=".Length));
+                    this._currentPosition =(int) Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
                     if (this.CurrentPosition != null)
                     {
@@ -570,7 +570,7 @@ namespace LibMPlayerCommon
                 }
                 else if (line.StartsWith("ANS_length="))
                 {
-                    this._totalTime = (int)float.Parse(line.Substring("ANS_length=".Length));
+                    this._totalTime = (int)Globals.FloatParse(line.Substring("ANS_length=".Length));
                 }
                 else if (line.StartsWith("Exiting") || line.ToLower().StartsWith("eof code"))
                 {

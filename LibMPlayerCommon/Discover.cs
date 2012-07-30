@@ -231,35 +231,35 @@ namespace LibMPlayerCommon
                 line = line.Substring(position);
                 if (line.StartsWith("ID_VIDEO_BITRATE"))
                 {
-                    _VideoBitrate = int.Parse(line.Substring(17)) / 1000; // kilobits per second
+                    _VideoBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
                 }
                 if (line.StartsWith("ID_VIDEO_WIDTH"))
                 {
-                    _Width = int.Parse(line.Substring(15));
+                    _Width = Globals.IntParse(line.Substring(15));
                 }
                 if (line.StartsWith("ID_VIDEO_HEIGHT"))
                 {
-                    _Height = int.Parse(line.Substring(16));
+                    _Height = Globals.IntParse(line.Substring(16));
                 }
                 if (line.StartsWith("ID_VIDEO_ASPECT"))
                 {
-                    _AspectRatio = float.Parse(line.Substring(16));
+                    _AspectRatio = Globals.FloatParse(line.Substring(16));
                 }
                 if (line.StartsWith("ID_VIDEO_FPS"))
                 {
-                    _fps = (int)float.Parse(line.Substring(13));
+                    _fps = (int)Globals.FloatParse(line.Substring(13));
                 }
                 if (line.StartsWith("ID_AUDIO_BITRATE"))
                 {
-                    _AudioBitrate = int.Parse(line.Substring(17)) / 1000; // kilobits per second
+                    _AudioBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
                 }
                 if (line.StartsWith("ID_AUDIO_RATE"))
                 {
-                    _AudioRate = int.Parse(line.Substring(14));
+                    _AudioRate = Globals.IntParse(line.Substring(14));
                 }
                 if (line.StartsWith("ID_LENGTH"))
                 {
-                    _Length = (int)float.Parse(line.Substring(10));
+                    _Length = (int)Globals.FloatParse(line.Substring(10));
                 }
                 if (line.StartsWith("ID_VIDEO_ID"))
                 {
@@ -270,7 +270,7 @@ namespace LibMPlayerCommon
                 {
                     audio += 1;
                     _Audio = true;
-                    int audio_track = int.Parse(line.Substring(12));
+                    int audio_track = Globals.IntParse(line.Substring(12));
                     if (minimum_audio > audio_track)
                     {
                         minimum_audio = audio_track;
