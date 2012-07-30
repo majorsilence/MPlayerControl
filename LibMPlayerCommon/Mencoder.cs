@@ -363,7 +363,7 @@ namespace LibMPlayerCommon
 
                     if (line.StartsWith("Pos:"))
                     {
-                        int percent = int.Parse(line.Substring(21, 3).Replace("%", "").Trim());
+                        int percent = Globals.IntParse(line.Substring(21, 3).Replace("%", "").Trim());
                         if (percent != _currentPercent)
                         {
                             // Only riase this event once the percent has changed
