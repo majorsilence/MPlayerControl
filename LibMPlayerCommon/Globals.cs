@@ -30,7 +30,15 @@ namespace LibMPlayerCommon
     {
         private Globals() { }
 
+        public static int IntParse(string input)
+        {
+            return int.Parse(input.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+        }
 
+        public static float FloatParse(string input)
+        {
+            return float.Parse(input.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+        }
 
         public static string MajorSilenceLocalAppDataDirectory
         {
