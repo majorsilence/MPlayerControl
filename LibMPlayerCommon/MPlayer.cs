@@ -65,6 +65,7 @@ namespace LibMPlayerCommon
         Direct3D, // Windows
 		DirectX, // Windows
 		X11, // Linux
+		XV,
 		VESA,
 		Quartz, // Mac OS X
 		CoreVideo, // Mac OS X
@@ -186,7 +187,15 @@ namespace LibMPlayerCommon
 			else if (this._mplayerBackend == MplayerBackends.X11)
             {
                 backend = "x11";
-            }
+			}
+			else if (this._mplayerBackend == MplayerBackends.Vdpau)
+			{
+				backend = "vdpau";
+			}
+			else if(this._mplayerBackend == MplayerBackends.XV)
+			{
+				backend = "xv";
+			}
 			else if (this._mplayerBackend == MplayerBackends.Quartz)
             {
                 backend = "quartz";
