@@ -120,7 +120,11 @@ namespace LibMPlayerCommon
         /// Linux.   requires Linux 2.6.22+ kernel,  Video output driver for 
         // V4L2 compliant cards with built-in hardware MPEG decoder.
         /// </summary>
-		V4l2=16
+		V4l2=16,
+        /// <summary>
+        /// Linux
+        /// </summary>
+        XV=17
 	
 	}
 
