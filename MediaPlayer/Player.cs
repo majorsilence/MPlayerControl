@@ -466,6 +466,10 @@ namespace MediaPlayer
 
         private void panelVideo_Resize(object sender, EventArgs e)
         {
+			if (this._play == null)
+			{
+				return;
+			}
             this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
         }
 

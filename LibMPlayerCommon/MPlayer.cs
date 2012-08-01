@@ -231,7 +231,15 @@ namespace LibMPlayerCommon
 			else if (this._mplayerBackend == MplayerBackends.X11)
             {
                 backend = "x11";
-            }
+			}
+			else if (this._mplayerBackend == MplayerBackends.Vdpau)
+			{
+				backend = "vdpau";
+			}
+			else if(this._mplayerBackend == MplayerBackends.XV)
+			{
+				backend = "xv";
+			}
 			else if (this._mplayerBackend == MplayerBackends.Quartz)
             {
                 backend = "quartz";
@@ -586,9 +594,15 @@ namespace LibMPlayerCommon
         {
             Debug.Assert(volume >= 0 && volume <= 100);
 
-            MediaPlayer.StandardInput.WriteLine(string.Format("volume {0}", volume));
+            MediaPlayer.StandardInput.WriteLine(string.Format("volume {0} 1", volume));
             MediaPlayer.StandardInput.Flush();
 
+        }
+		
+		public void SwitchAudioTrack(int track)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("switch_audio {0}", track));
+            MediaPlayer.StandardInput.Flush();
         }
 
 
@@ -606,7 +620,7 @@ namespace LibMPlayerCommon
 
                 if (line.StartsWith("ANS_TIME_POSITION="))
                 {
-                    this._currentPosition =(int) float.Parse(line.Substring("ANS_TIME_POSITION=".Length));
+                    this._currentPosition =(int) Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
                     if (this.CurrentPosition != null)
                     {
@@ -615,7 +629,7 @@ namespace LibMPlayerCommon
                 }
                 else if (line.StartsWith("ANS_length="))
                 {
-                    this._totalTime = (int)float.Parse(line.Substring("ANS_length=".Length));
+                    this._totalTime = (int)Globals.FloatParse(line.Substring("ANS_length=".Length));
                 }
                 else if (line.StartsWith("Exiting") || line.ToLower().StartsWith("eof code"))
                 {

@@ -17,7 +17,7 @@ namespace WpfMPlayer
 {
 
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Load an d
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -29,8 +29,8 @@ namespace WpfMPlayer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            videoControl.MPlayerPath = @"C:\Users\Peter\Desktop\MPlayer-rtm-svn-34401\mplayer.exe";
-            videoControl.VideoPath = @"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv";
+            videoControl.MPlayerPath = @"C:\Users\Peter\Desktop\mplayer.exe";
+            videoControl.VideoPath = @"C:\Users\Peter\Downloads\big_buck_bunny_480p_surround-fix.avi";
         }
 
   
