@@ -206,6 +206,11 @@ namespace MediaPlayer
 
             btnPlay.Image = MediaPlayer.Properties.Resources.pause;
 
+
+            comboBoxAudioTracks.DataSource = new BindingSource(_videoSettings.AudioTracks, null);
+            comboBoxAudioTracks.DisplayMember = "Value";
+            comboBoxAudioTracks.ValueMember = "Key";
+
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -471,6 +476,11 @@ namespace MediaPlayer
 				return;
 			}
             this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
+        }
+
+        private void comboBoxAudioTracks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

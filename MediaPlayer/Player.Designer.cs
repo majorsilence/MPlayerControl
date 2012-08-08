@@ -61,15 +61,16 @@ namespace MediaPlayer
             this.lblVideoPosition = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
+            this.comboBoxAudioTracks = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelVideo
             // 
-            this.panelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelVideo.BackColor = System.Drawing.Color.Black;
             this.panelVideo.Location = new System.Drawing.Point(-15, -5);
             this.panelVideo.Name = "panelVideo";
@@ -81,7 +82,7 @@ namespace MediaPlayer
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Video Files|*.asf;*.asx;*.avi;*.mkv;*.wmv;*.mov;*.mpeg;*.mpg;*.mp2;*.mp4;*.flv;*." +
-                "webm;*.ogv;*.ogm;*.ogg;*.swf;*.vob;*.xvid;*.yuv;*.divx|All Files|*.*";
+    "webm;*.ogv;*.ogm;*.ogg;*.swf;*.vob;*.xvid;*.yuv;*.divx|All Files|*.*";
             // 
             // lblVideoLength
             // 
@@ -97,8 +98,8 @@ namespace MediaPlayer
             // 
             // trackBar1
             // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar1.Location = new System.Drawing.Point(75, 3);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Name = "trackBar1";
@@ -111,9 +112,10 @@ namespace MediaPlayer
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.comboBoxAudioTracks);
             this.panel1.Controls.Add(this.btnPlayerProperties);
             this.panel1.Controls.Add(this.btnRewind);
             this.panel1.Controls.Add(this.btnFastforward);
@@ -243,6 +245,16 @@ namespace MediaPlayer
             this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             this.btnPlay.MouseHover += new System.EventHandler(this.btnPlay_MouseHover);
             // 
+            // comboBoxAudioTracks
+            // 
+            this.comboBoxAudioTracks.DropDownWidth = 200;
+            this.comboBoxAudioTracks.FormattingEnabled = true;
+            this.comboBoxAudioTracks.Location = new System.Drawing.Point(527, 11);
+            this.comboBoxAudioTracks.Name = "comboBoxAudioTracks";
+            this.comboBoxAudioTracks.Size = new System.Drawing.Size(33, 21);
+            this.comboBoxAudioTracks.TabIndex = 11;
+            this.comboBoxAudioTracks.SelectedIndexChanged += new System.EventHandler(this.comboBoxAudioTracks_SelectedIndexChanged);
+            // 
             // Player
             // 
             this.AllowDrop = true;
@@ -279,5 +291,6 @@ namespace MediaPlayer
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPlayerProperties;
+        private System.Windows.Forms.ComboBox comboBoxAudioTracks;
     }
 }
