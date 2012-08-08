@@ -141,6 +141,15 @@ namespace LibMPlayerCommon
             }
         }
 
+        private Dictionary<int, string> _AudioTracks;
+        public Dictionary<int, string> AudioTracks
+        {
+            get 
+            {
+                return _AudioTracks;
+            }
+        }
+
         private bool _Video = false;
         /// <summary>
         /// Returns true if the file contains video.
@@ -195,6 +204,7 @@ namespace LibMPlayerCommon
 
             int minimum_audio = 10000;
             _AudioList = new List<int>();
+            _AudioTracks = new Dictionary<int, string>();
             // if CHECK_AUDIO is TRUE, we just check if it's an audio file
 
             //if check_audio:
@@ -215,6 +225,9 @@ namespace LibMPlayerCommon
             string line = "";
             StringReader strReader = new StringReader(handle.StandardOutput.ReadToEnd());
 
+
+            int previousAudioTrack = -1;
+
             while ((line = strReader.ReadLine()) != null)
             //while (handle.HasExited == false)
             {
@@ -233,40 +246,40 @@ namespace LibMPlayerCommon
                 {
                     _VideoBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
                 }
-                if (line.StartsWith("ID_VIDEO_WIDTH"))
+                else if (line.StartsWith("ID_VIDEO_WIDTH"))
                 {
                     _Width = Globals.IntParse(line.Substring(15));
                 }
-                if (line.StartsWith("ID_VIDEO_HEIGHT"))
+                else if (line.StartsWith("ID_VIDEO_HEIGHT"))
                 {
                     _Height = Globals.IntParse(line.Substring(16));
                 }
-                if (line.StartsWith("ID_VIDEO_ASPECT"))
+                else if (line.StartsWith("ID_VIDEO_ASPECT"))
                 {
                     _AspectRatio = Globals.FloatParse(line.Substring(16));
                 }
-                if (line.StartsWith("ID_VIDEO_FPS"))
+                else if (line.StartsWith("ID_VIDEO_FPS"))
                 {
                     _fps = (int)Globals.FloatParse(line.Substring(13));
                 }
-                if (line.StartsWith("ID_AUDIO_BITRATE"))
+                else if (line.StartsWith("ID_AUDIO_BITRATE"))
                 {
                     _AudioBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
                 }
-                if (line.StartsWith("ID_AUDIO_RATE"))
+                else if (line.StartsWith("ID_AUDIO_RATE"))
                 {
                     _AudioRate = Globals.IntParse(line.Substring(14));
                 }
-                if (line.StartsWith("ID_LENGTH"))
+                else if (line.StartsWith("ID_LENGTH"))
                 {
                     _Length = (int)Globals.FloatParse(line.Substring(10));
                 }
-                if (line.StartsWith("ID_VIDEO_ID"))
+                else if (line.StartsWith("ID_VIDEO_ID"))
                 {
                     video += 1;
                     _Video = true;
                 }
-                if (line.StartsWith("ID_AUDIO_ID"))
+                else if (line.StartsWith("ID_AUDIO_ID"))
                 {
                     audio += 1;
                     _Audio = true;
@@ -276,6 +289,17 @@ namespace LibMPlayerCommon
                         minimum_audio = audio_track;
                     }
                     _AudioList.Add(audio_track);
+
+                    previousAudioTrack = audio_track;
+                    
+                }
+                else if (line.StartsWith("ID_AID_0_LANG"))
+                {
+                    if (previousAudioTrack != -1)
+                    {
+                        string language = line.Substring(14);
+                        _AudioTracks.Add(previousAudioTrack, language);
+                    }
                 }
             }
 
