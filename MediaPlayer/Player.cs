@@ -206,9 +206,9 @@ namespace MediaPlayer
 
             btnPlay.Image = MediaPlayer.Properties.Resources.pause;
 
-            comboBoxAudioTracks.DisplayMember = "Value";
-            comboBoxAudioTracks.ValueMember = "Key";
-            comboBoxAudioTracks.DataSource = new BindingSource(_videoSettings.AudioTracks, null);
+            comboBoxAudioTracks.DisplayMember = "Language";
+            comboBoxAudioTracks.ValueMember = "ID";
+            comboBoxAudioTracks.DataSource = _videoSettings.AudioTracks;
             
 
         }
@@ -481,9 +481,13 @@ namespace MediaPlayer
         private void comboBoxAudioTracks_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            string track = comboBoxAudioTracks.SelectedValue.ToString();
-
-            this._play.SwitchAudioTrack(int.Parse(track));
+            if (comboBoxAudioTracks.SelectedIndex == -1)
+            {
+                return;
+            }
+            AudioTrackInfo trackInfo = (AudioTrackInfo)comboBoxAudioTracks.SelectedItem;
+            
+            this._play.SwitchAudioTrack(trackInfo.ID);
         }
 
     }

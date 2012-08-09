@@ -141,8 +141,8 @@ namespace LibMPlayerCommon
             }
         }
 
-        private Dictionary<int, string> _AudioTracks;
-        public Dictionary<int, string> AudioTracks
+        private List<AudioTrackInfo> _AudioTracks;
+        public List<AudioTrackInfo> AudioTracks
         {
             get 
             {
@@ -204,7 +204,7 @@ namespace LibMPlayerCommon
 
             int minimum_audio = 10000;
             _AudioList = new List<int>();
-            _AudioTracks = new Dictionary<int, string>();
+            _AudioTracks = new List<AudioTrackInfo>();
             // if CHECK_AUDIO is TRUE, we just check if it's an audio file
 
             //if check_audio:
@@ -298,7 +298,23 @@ namespace LibMPlayerCommon
                     if (previousAudioTrack != -1)
                     {
                         string language = line.Substring(14);
-                        _AudioTracks.Add(previousAudioTrack, language);
+
+                        AudioTrackInfo info = new AudioTrackInfo();
+                        info.ID = previousAudioTrack;
+                        info.Language = language;
+                        _AudioTracks.Add(info);
+                    }
+                }
+                else if (line.StartsWith("ID_AID_0_NAME"))
+                {
+                    if (previousAudioTrack != -1)
+                    {
+                        string language = line.Substring(14);
+
+                        AudioTrackInfo info = new AudioTrackInfo();
+                        info.ID = previousAudioTrack;
+                        info.Language = language;
+                        _AudioTracks.Add(info);
                     }
                 }
             }
@@ -319,4 +335,12 @@ namespace LibMPlayerCommon
     
 
     }
+
+    public class AudioTrackInfo
+    {
+        public int ID { get; set; }
+
+        public string Language { get; set; }
+    }
+
 }
