@@ -609,6 +609,12 @@ namespace LibMPlayerCommon
             MediaPlayer.StandardInput.Flush();
         }
 
+        public void SwitchSubtitle(int sub)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("sub_select  {0}", sub));
+            MediaPlayer.StandardInput.Flush();
+        }
+
 
         /// <summary>
         /// All mplayer standard output is read through this function.

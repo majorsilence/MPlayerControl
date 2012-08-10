@@ -62,6 +62,7 @@ namespace MediaPlayer
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.comboBoxAudioTracks = new System.Windows.Forms.ComboBox();
+            this.comboBoxSubtitles = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +116,7 @@ namespace MediaPlayer
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.comboBoxSubtitles);
             this.panel1.Controls.Add(this.comboBoxAudioTracks);
             this.panel1.Controls.Add(this.btnPlayerProperties);
             this.panel1.Controls.Add(this.btnRewind);
@@ -189,7 +191,7 @@ namespace MediaPlayer
             this.btnLoadFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnLoadFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoadFile.Image = global::MediaPlayer.Properties.Resources.document_open;
-            this.btnLoadFile.Location = new System.Drawing.Point(446, 6);
+            this.btnLoadFile.Location = new System.Drawing.Point(447, 6);
             this.btnLoadFile.Name = "btnLoadFile";
             this.btnLoadFile.Size = new System.Drawing.Size(75, 42);
             this.btnLoadFile.TabIndex = 5;
@@ -249,11 +251,21 @@ namespace MediaPlayer
             // 
             this.comboBoxAudioTracks.DropDownWidth = 200;
             this.comboBoxAudioTracks.FormattingEnabled = true;
-            this.comboBoxAudioTracks.Location = new System.Drawing.Point(527, 11);
+            this.comboBoxAudioTracks.Location = new System.Drawing.Point(526, 3);
             this.comboBoxAudioTracks.Name = "comboBoxAudioTracks";
             this.comboBoxAudioTracks.Size = new System.Drawing.Size(33, 21);
             this.comboBoxAudioTracks.TabIndex = 11;
             this.comboBoxAudioTracks.SelectedIndexChanged += new System.EventHandler(this.comboBoxAudioTracks_SelectedIndexChanged);
+            // 
+            // comboBoxSubtitles
+            // 
+            this.comboBoxSubtitles.DropDownWidth = 200;
+            this.comboBoxSubtitles.FormattingEnabled = true;
+            this.comboBoxSubtitles.Location = new System.Drawing.Point(526, 26);
+            this.comboBoxSubtitles.Name = "comboBoxSubtitles";
+            this.comboBoxSubtitles.Size = new System.Drawing.Size(33, 21);
+            this.comboBoxSubtitles.TabIndex = 12;
+            this.comboBoxSubtitles.SelectedIndexChanged += new System.EventHandler(this.comboBoxSubtitles_SelectedIndexChanged);
             // 
             // Player
             // 
@@ -292,5 +304,6 @@ namespace MediaPlayer
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPlayerProperties;
         private System.Windows.Forms.ComboBox comboBoxAudioTracks;
+        private System.Windows.Forms.ComboBox comboBoxSubtitles;
     }
 }

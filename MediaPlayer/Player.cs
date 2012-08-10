@@ -206,10 +206,14 @@ namespace MediaPlayer
 
             btnPlay.Image = MediaPlayer.Properties.Resources.pause;
 
-            comboBoxAudioTracks.DisplayMember = "Language";
+            comboBoxAudioTracks.DisplayMember = "Name";
             comboBoxAudioTracks.ValueMember = "ID";
             comboBoxAudioTracks.DataSource = _videoSettings.AudioTracks;
-            
+
+
+            comboBoxSubtitles.DisplayMember = "Name";
+            comboBoxSubtitles.ValueMember = "ID";
+            comboBoxSubtitles.DataSource = _videoSettings.SubtitleList;
 
         }
 
@@ -488,6 +492,18 @@ namespace MediaPlayer
             AudioTrackInfo trackInfo = (AudioTrackInfo)comboBoxAudioTracks.SelectedItem;
             
             this._play.SwitchAudioTrack(trackInfo.ID);
+        }
+
+        private void comboBoxSubtitles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (comboBoxSubtitles.SelectedIndex == -1)
+            {
+                return;
+            }
+            SubtitlesInfo info = (SubtitlesInfo)comboBoxSubtitles.SelectedItem;
+
+            this._play.SwitchSubtitle(info.ID);
         }
 
     }
