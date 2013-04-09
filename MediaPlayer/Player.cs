@@ -469,5 +469,10 @@ namespace MediaPlayer
             this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
         }
 
+        private void btnMute_Click(object sender, EventArgs e)
+        {
+            this._play.Mute();
+        }
+
     }
 }

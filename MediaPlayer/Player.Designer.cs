@@ -61,15 +61,16 @@ namespace MediaPlayer
             this.lblVideoPosition = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
+            this.btnMute = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelVideo
             // 
-            this.panelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelVideo.BackColor = System.Drawing.Color.Black;
             this.panelVideo.Location = new System.Drawing.Point(-15, -5);
             this.panelVideo.Name = "panelVideo";
@@ -81,7 +82,7 @@ namespace MediaPlayer
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Video Files|*.asf;*.asx;*.avi;*.mkv;*.wmv;*.mov;*.mpeg;*.mpg;*.mp2;*.mp4;*.flv;*." +
-                "webm;*.ogv;*.ogm;*.ogg;*.swf;*.vob;*.xvid;*.yuv;*.divx|All Files|*.*";
+    "webm;*.ogv;*.ogm;*.ogg;*.swf;*.vob;*.xvid;*.yuv;*.divx|All Files|*.*";
             // 
             // lblVideoLength
             // 
@@ -97,8 +98,8 @@ namespace MediaPlayer
             // 
             // trackBar1
             // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar1.Location = new System.Drawing.Point(75, 3);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Name = "trackBar1";
@@ -111,9 +112,10 @@ namespace MediaPlayer
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.Black;
+            this.panel1.Controls.Add(this.btnMute);
             this.panel1.Controls.Add(this.btnPlayerProperties);
             this.panel1.Controls.Add(this.btnRewind);
             this.panel1.Controls.Add(this.btnFastforward);
@@ -243,6 +245,22 @@ namespace MediaPlayer
             this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             this.btnPlay.MouseHover += new System.EventHandler(this.btnPlay_MouseHover);
             // 
+            // btnMute
+            // 
+            this.btnMute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMute.BackColor = System.Drawing.Color.Transparent;
+            this.btnMute.FlatAppearance.BorderSize = 0;
+            this.btnMute.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.btnMute.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnMute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMute.Image = global::MediaPlayer.Properties.Resources.audio_volume_medium;
+            this.btnMute.Location = new System.Drawing.Point(527, 4);
+            this.btnMute.Name = "btnMute";
+            this.btnMute.Size = new System.Drawing.Size(45, 44);
+            this.btnMute.TabIndex = 11;
+            this.btnMute.UseVisualStyleBackColor = false;
+            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
+            // 
             // Player
             // 
             this.AllowDrop = true;
@@ -279,5 +297,6 @@ namespace MediaPlayer
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPlayerProperties;
+        private System.Windows.Forms.Button btnMute;
     }
 }
