@@ -506,7 +506,7 @@ namespace MediaPlayer
             this._play.SwitchSubtitle(info.ID);
         }
 
-        private void btnMute_Click(object sender, EventArgs e)
+        private void buttonMute_Click(object sender, EventArgs e)
         {
             this._play.Mute();
         }
