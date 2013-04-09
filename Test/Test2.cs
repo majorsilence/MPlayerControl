@@ -17,8 +17,8 @@ namespace Test
 
             LibMPlayerWinform.WinFormMPlayerControl playerControl = new LibMPlayerWinform.WinFormMPlayerControl();
             playerControl.Dock = DockStyle.Fill;
-            playerControl.MPlayerPath = @"C:\Users\Peter\Desktop\mplayer.exe";
-            playerControl.VideoPath = @"C:\Users\Peter\Downloads\sintel_trailer-720p.mp4";
+            playerControl.MPlayerPath = @"C:\path\to\mplayer.exe";
+            playerControl.VideoPath = @"C:\path\to\video\sintel_trailer-720p.mp4";
             frm.Controls.Add(playerControl);
 
             Application.Run(frm);
