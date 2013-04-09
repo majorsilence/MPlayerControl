@@ -141,6 +141,15 @@ namespace LibMPlayerCommon
             }
         }
 
+        private List<AudioTrackInfo> _AudioTracks;
+        public List<AudioTrackInfo> AudioTracks
+        {
+            get 
+            {
+                return _AudioTracks;
+            }
+        }
+
         private bool _Video = false;
         /// <summary>
         /// Returns true if the file contains video.
@@ -165,6 +174,14 @@ namespace LibMPlayerCommon
             }
         }
 
+        private List<SubtitlesInfo> _SubtitleList;
+        public List<SubtitlesInfo> SubtitleList 
+        { 
+            get
+            {
+                return _SubtitleList;
+            }   
+        }
 
         public Discover(string filePath) : this(filePath, "") { }
        
@@ -195,6 +212,8 @@ namespace LibMPlayerCommon
 
             int minimum_audio = 10000;
             _AudioList = new List<int>();
+            _AudioTracks = new List<AudioTrackInfo>();
+            _SubtitleList = new List<SubtitlesInfo>();
             // if CHECK_AUDIO is TRUE, we just check if it's an audio file
 
             //if check_audio:
@@ -231,51 +250,101 @@ namespace LibMPlayerCommon
                 line = line.Substring(position);
                 if (line.StartsWith("ID_VIDEO_BITRATE"))
                 {
-                    _VideoBitrate = int.Parse(line.Substring(17)) / 1000; // kilobits per second
+                    _VideoBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
                 }
-                if (line.StartsWith("ID_VIDEO_WIDTH"))
+                else if (line.StartsWith("ID_VIDEO_WIDTH"))
                 {
-                    _Width = int.Parse(line.Substring(15));
+                    _Width = Globals.IntParse(line.Substring(15));
                 }
-                if (line.StartsWith("ID_VIDEO_HEIGHT"))
+                else if (line.StartsWith("ID_VIDEO_HEIGHT"))
                 {
-                    _Height = int.Parse(line.Substring(16));
+                    _Height = Globals.IntParse(line.Substring(16));
                 }
-                if (line.StartsWith("ID_VIDEO_ASPECT"))
+                else if (line.StartsWith("ID_VIDEO_ASPECT"))
                 {
-                    _AspectRatio = float.Parse(line.Substring(16));
+                    _AspectRatio = Globals.FloatParse(line.Substring(16));
                 }
-                if (line.StartsWith("ID_VIDEO_FPS"))
+                else if (line.StartsWith("ID_VIDEO_FPS"))
                 {
-                    _fps = (int)float.Parse(line.Substring(13));
+                    _fps = (int)Globals.FloatParse(line.Substring(13));
                 }
-                if (line.StartsWith("ID_AUDIO_BITRATE"))
+                else if (line.StartsWith("ID_AUDIO_BITRATE"))
                 {
-                    _AudioBitrate = int.Parse(line.Substring(17)) / 1000; // kilobits per second
+                    _AudioBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
                 }
-                if (line.StartsWith("ID_AUDIO_RATE"))
+                else if (line.StartsWith("ID_AUDIO_RATE"))
                 {
-                    _AudioRate = int.Parse(line.Substring(14));
+                    _AudioRate = Globals.IntParse(line.Substring(14));
                 }
-                if (line.StartsWith("ID_LENGTH"))
+                else if (line.StartsWith("ID_LENGTH"))
                 {
-                    _Length = (int)float.Parse(line.Substring(10));
+                    _Length = (int)Globals.FloatParse(line.Substring(10));
                 }
-                if (line.StartsWith("ID_VIDEO_ID"))
+                else if (line.StartsWith("ID_VIDEO_ID"))
                 {
                     video += 1;
                     _Video = true;
                 }
-                if (line.StartsWith("ID_AUDIO_ID"))
+                else if (line.StartsWith("ID_AUDIO_ID"))
                 {
                     audio += 1;
                     _Audio = true;
-                    int audio_track = int.Parse(line.Substring(12));
+                    int audio_track = Globals.IntParse(line.Substring(12));
                     if (minimum_audio > audio_track)
                     {
                         minimum_audio = audio_track;
                     }
                     _AudioList.Add(audio_track);
+
+                    AudioTrackInfo info = new AudioTrackInfo();
+                    info.ID = audio_track;
+                    _AudioTracks.Add(info);
+                       
+                }
+                else if (line.StartsWith("ID_AID_") && line.Substring(9, 4) == "LANG")
+                {
+                    if (_AudioTracks.Count > 0)
+                    {
+                        string value = line.Substring(14);
+
+                        _AudioTracks[_AudioTracks.Count - 1].Language = value;
+                    }       
+                }
+                else if (line.StartsWith("ID_AID_") && line.Substring(9, 4) == "NAME")
+                {
+                    if (_AudioTracks.Count > 0)
+                    {
+                        string value = line.Substring(14);
+
+                        _AudioTracks[_AudioTracks.Count-1].Name = value;
+                    }
+                }
+                else if (line.StartsWith("ID_SUBTITLE_ID"))
+                {
+                    int value = Globals.IntParse(line.Substring(15));
+
+                    SubtitlesInfo info = new SubtitlesInfo();
+                    info.ID = value;
+                    _SubtitleList.Add(info);
+                       
+                }
+                else if (line.StartsWith("ID_SID_") && line.Substring(9, 4) == "LANG")
+                {
+                    if (_SubtitleList.Count > 0)
+                    {
+                        string value = line.Substring(14);
+
+                        _SubtitleList[_SubtitleList.Count - 1].Language = value;
+                    }
+                }
+                else if (line.StartsWith("ID_SID_") && line.Substring(9, 4) == "NAME")
+                {
+                    if (_SubtitleList.Count > 0)
+                    {
+                        string value = line.Substring(14);
+
+                        _SubtitleList[_SubtitleList.Count - 1].Name = value;
+                    }
                 }
             }
 
@@ -295,4 +364,23 @@ namespace LibMPlayerCommon
     
 
     }
+
+    public class AudioTrackInfo
+    {
+        public int ID { get; set; }
+
+        public string Language { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class SubtitlesInfo
+    {
+        public int ID { get; set; }
+
+        public string Language { get; set; }
+
+        public string Name { get; set; }
+    }
+
 }

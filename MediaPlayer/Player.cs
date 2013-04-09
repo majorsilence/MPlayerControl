@@ -206,6 +206,15 @@ namespace MediaPlayer
 
             btnPlay.Image = MediaPlayer.Properties.Resources.pause;
 
+            comboBoxAudioTracks.DisplayMember = "Name";
+            comboBoxAudioTracks.ValueMember = "ID";
+            comboBoxAudioTracks.DataSource = _videoSettings.AudioTracks;
+
+
+            comboBoxSubtitles.DisplayMember = "Name";
+            comboBoxSubtitles.ValueMember = "ID";
+            comboBoxSubtitles.DataSource = _videoSettings.SubtitleList;
+
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -466,7 +475,35 @@ namespace MediaPlayer
 
         private void panelVideo_Resize(object sender, EventArgs e)
         {
+			if (this._play == null)
+			{
+				return;
+			}
             this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
+        }
+
+        private void comboBoxAudioTracks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (comboBoxAudioTracks.SelectedIndex == -1)
+            {
+                return;
+            }
+            AudioTrackInfo trackInfo = (AudioTrackInfo)comboBoxAudioTracks.SelectedItem;
+            
+            this._play.SwitchAudioTrack(trackInfo.ID);
+        }
+
+        private void comboBoxSubtitles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (comboBoxSubtitles.SelectedIndex == -1)
+            {
+                return;
+            }
+            SubtitlesInfo info = (SubtitlesInfo)comboBoxSubtitles.SelectedItem;
+
+            this._play.SwitchSubtitle(info.ID);
         }
 
         private void btnMute_Click(object sender, EventArgs e)
