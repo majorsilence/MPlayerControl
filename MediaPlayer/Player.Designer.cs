@@ -54,6 +54,7 @@ namespace MediaPlayer
             this.lblVideoLength = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonMute = new System.Windows.Forms.Button();
             this.comboBoxSubtitles = new System.Windows.Forms.ComboBox();
             this.comboBoxAudioTracks = new System.Windows.Forms.ComboBox();
             this.btnPlayerProperties = new System.Windows.Forms.Button();
@@ -63,7 +64,6 @@ namespace MediaPlayer
             this.lblVideoPosition = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
-            this.buttonMute = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -134,8 +134,25 @@ namespace MediaPlayer
             this.panel1.Size = new System.Drawing.Size(779, 55);
             this.panel1.TabIndex = 2;
             // 
+            // buttonMute
+            // 
+            this.buttonMute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMute.BackColor = System.Drawing.Color.Transparent;
+            this.buttonMute.FlatAppearance.BorderSize = 0;
+            this.buttonMute.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonMute.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.buttonMute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMute.Image = global::MediaPlayer.Properties.Resources.audio_volume_medium;
+            this.buttonMute.Location = new System.Drawing.Point(551, 4);
+            this.buttonMute.Name = "buttonMute";
+            this.buttonMute.Size = new System.Drawing.Size(25, 44);
+            this.buttonMute.TabIndex = 13;
+            this.buttonMute.UseVisualStyleBackColor = false;
+            this.buttonMute.Click += new System.EventHandler(this.buttonMute_Click);
+            // 
             // comboBoxSubtitles
             // 
+            this.comboBoxSubtitles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSubtitles.DropDownWidth = 200;
             this.comboBoxSubtitles.FormattingEnabled = true;
             this.comboBoxSubtitles.Location = new System.Drawing.Point(512, 26);
@@ -146,6 +163,7 @@ namespace MediaPlayer
             // 
             // comboBoxAudioTracks
             // 
+            this.comboBoxAudioTracks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAudioTracks.DropDownWidth = 200;
             this.comboBoxAudioTracks.FormattingEnabled = true;
             this.comboBoxAudioTracks.Location = new System.Drawing.Point(512, 3);
@@ -268,22 +286,6 @@ namespace MediaPlayer
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             this.btnPlay.MouseLeave += new System.EventHandler(this.btnPlay_MouseLeave);
             this.btnPlay.MouseHover += new System.EventHandler(this.btnPlay_MouseHover);
-            // 
-            // buttonMute
-            // 
-            this.buttonMute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMute.BackColor = System.Drawing.Color.Transparent;
-            this.buttonMute.FlatAppearance.BorderSize = 0;
-            this.buttonMute.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.buttonMute.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
-            this.buttonMute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonMute.Image = global::MediaPlayer.Properties.Resources.audio_volume_medium;
-            this.buttonMute.Location = new System.Drawing.Point(551, 4);
-            this.buttonMute.Name = "buttonMute";
-            this.buttonMute.Size = new System.Drawing.Size(25, 44);
-            this.buttonMute.TabIndex = 13;
-            this.buttonMute.UseVisualStyleBackColor = false;
-            this.buttonMute.Click += new System.EventHandler(this.buttonMute_Click);
             // 
             // Player
             // 
