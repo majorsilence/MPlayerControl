@@ -31,103 +31,6 @@ using System.Diagnostics;
 namespace LibMPlayerCommon
 {
 
-    /// <summary>
-    /// The seek type that is used when seeking a new position in the video stream.
-    /// </summary>
-    public enum Seek
-    {
-        Relative = 0,
-        Percentage = 1,
-        Absolute=2
-    }
-
-    /// <summary>
-    /// Status of the mplayer.exe instance.
-    /// </summary>
-    public enum MediaStatus
-    {
-        Paused,
-        Playing,
-        Stopped
-    }
-
-    /// <summary>
-    /// The video output backend that mplayer is using.
-    /// </summary>
-    public enum MplayerBackends
-    {
-        /// <summary>
-        /// This may be the recommened backend on Mac OSX.
-        /// </summary>
-        OpenGL=1,
-        /// <summary>
-        /// Simple Version
-        /// </summary>
-		GL=2,
-        /// <summary>
-        /// Simple Version.  Variant of the OpenGL  video  output  driver.   
-        /// Supports  videos larger  than  the maximum texture size but lacks 
-        /// many of the ad‐vanced features and optimizations of the gl driver  
-        /// and  is  un‐likely to be extended further.
-        /// </summary>
-		GL2=3, 
-        /// <summary>
-        /// Windows. This is the recommened backend on windows.
-        /// </summary>
-        Direct3D=4, 
-        /// <summary>
-        /// Windows
-        /// </summary>
-		DirectX=5, 
-        /// <summary>
-        /// Linux
-        /// </summary>
-		X11=6, 
-		VESA=7,
-        /// <summary>
-        /// Mac OS X
-        /// </summary>
-		Quartz=8, 
-        /// <summary>
-        /// Mac OS X
-        /// </summary>
-		CoreVideo=9, 
-        /// <summary>
-        /// Cross Platform
-        /// </summary>
-        SDL=10,
-        /// <summary>
-        /// Linux
-        /// </summary>
-		Vdpau=11, 
-        /// <summary>
-        /// ASCII art video output driver that works on a text console.
-        /// </summary>
-		ASCII=12, 
-        /// <summary>
-        /// Color  ASCII  art  video output driver that works on a text console.
-        /// </summary>
-		ColorASCII=13,
-        /// <summary>
-        /// Linux.  Play video using the DirectFB library.
-        /// </summary>
-    	Directfb=14, 
-        /// <summary>
-        /// Linux.  Nintendo Wii/GameCube specific video output driver.
-        /// </summary>
-		Wii=15, 
-        /// <summary>
-        /// Linux.   requires Linux 2.6.22+ kernel,  Video output driver for 
-        // V4L2 compliant cards with built-in hardware MPEG decoder.
-        /// </summary>
-		V4l2=16,
-        /// <summary>
-        /// Linux
-        /// </summary>
-        XV=17
-	
-	}
-
     public class MPlayer
     {
         private int _wid;
@@ -154,6 +57,8 @@ namespace LibMPlayerCommon
         private MPlayer(){}
         public MPlayer(int wid, MplayerBackends backend) : this(wid, backend, ""){}
 
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath) : this(wid, backend, mplayerPath, false) { }
+
         /// <summary>
         /// Create a new instance of mplayer class.
         /// </summary>
@@ -161,7 +66,9 @@ namespace LibMPlayerCommon
         /// <param name="backend">The video output backend that mplayer will use.</param>
         /// <param name="mplayerPath">The full filepath to mplayer.exe.  If mplayerPath is left empty it will search for mplayer.exe in 
         /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath)
+        /// <param name="loadMplayer">If true mplayer will immediately be loaded and you should not attempt to 
+        /// play any files until MplayerRunning is true.</param>
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer)
         {
             this._wid = wid;
             this._fullscreen = false;
@@ -179,6 +86,12 @@ namespace LibMPlayerCommon
             this._currentPostionTimer = new System.Timers.Timer(1000);
             this._currentPostionTimer.Elapsed += new ElapsedEventHandler(_currentPostionTimer_Elapsed);
             this._currentPostionTimer.Enabled = true;
+
+            if (loadMplayer)
+            {
+                Action caller = new Action(InitializeMplayer);
+                caller.BeginInvoke(null, null);
+            }
 
         }
 
@@ -295,26 +208,9 @@ namespace LibMPlayerCommon
 			
 			return backend;
 		}
-		
-        /// <summary>
-        /// Load and start playing a video.
-        /// </summary>
-        /// <param name="filePath"></param>
-        public void Play(string filePath)
+
+        private void InitializeMplayer()
         {
-            this.currentFilePath = filePath;
-
-            
-            
-
-            if (this.MplayerRunning)
-            {
-                LoadFile(filePath);
-                this.CurrentStatus = MediaStatus.Playing;
-                return;
-            }
-
-            this._currentPostionTimer.Start();
 
             MediaPlayer.StartInfo.CreateNoWindow = true;
             MediaPlayer.StartInfo.UseShellExecute = false;
@@ -322,6 +218,9 @@ namespace LibMPlayerCommon
             MediaPlayer.StartInfo.RedirectStandardOutput = true;
             MediaPlayer.StartInfo.RedirectStandardInput = true;
             MediaPlayer.StartInfo.RedirectStandardError = true;
+
+            this._currentPostionTimer.Start();
+
 
             //
             //slave
@@ -333,37 +232,36 @@ namespace LibMPlayerCommon
             //    this is quite useful as you don’t want to start a new process everytime 
             //    you want to play a file, but rather loading the file into the existing 
             //    already started process (for performance reasons)
-			//
-			// -ss HH:MM:SS  seek the position. Works with webm.
-			//
-			// -bandwidth <bytes>    Specify the maximum bandwidth for network streaming (for servers
+            //
+            // -ss HH:MM:SS  seek the position. Works with webm.
+            //
+            // -bandwidth <bytes>    Specify the maximum bandwidth for network streaming (for servers
             //  that are able to send content in different bitrates).
-			//
-			// -cache
-			//
-			// -prefer-ipv4   Use  IPv4  on network connections.  Falls back on IPv6 automatically.
-			//
-			// -user <username>   Specify username for HTTP authentication.
-			// -passwd <password> Specify password for HTTP authentication.
-			//
-			// -user-agent <string>
+            //
+            // -cache
+            //
+            // -prefer-ipv4   Use  IPv4  on network connections.  Falls back on IPv6 automatically.
+            //
+            // -user <username>   Specify username for HTTP authentication.
+            // -passwd <password> Specify password for HTTP authentication.
+            //
+            // -user-agent <string>
             //  Use <string> as user agent for HTTP streaming.
-			//
-			// -wid <window ID> (also see -guiwid) (X11, OpenGL and DirectX only)
-			//
-			// -vc <[-|+]codec1,[-|+]codec2,...[,]>
+            //
+            // -wid <window ID> (also see -guiwid) (X11, OpenGL and DirectX only)
+            //
+            // -vc <[-|+]codec1,[-|+]codec2,...[,]>
             //  Specify a priority list of video codecs to be used, according to
             //  their  codec  name  in  codecs.conf. 
 
-			
+
             string backend = MplayerBackend();
 
-            MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -ontop -vo {0} -wid {1} \"{2}\"", backend, this._wid, filePath);
+            MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -ontop -vo {0} -wid {1}", backend, this._wid);
             MediaPlayer.StartInfo.FileName = this._backendProgram.MPlayer;
 
             MediaPlayer.Start();
 
-            this.CurrentStatus = MediaStatus.Playing;
 
             this.MplayerRunning = true;
             this._mplayerProcessID = MediaPlayer.Id;
@@ -376,7 +274,27 @@ namespace LibMPlayerCommon
             MediaPlayer.BeginErrorReadLine();
             MediaPlayer.BeginOutputReadLine();
 
-            this.LoadCurrentPlayingFileLength();
+
+
+        }
+
+        /// <summary>
+        /// Load and start playing a video.
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void Play(string filePath)
+        {
+            this.currentFilePath = filePath;
+
+
+            if (this.MplayerRunning == false)
+            {
+                InitializeMplayer();
+            }
+
+            LoadFile(filePath);
+            this.CurrentStatus = MediaStatus.Playing;
+
 
 
         }
