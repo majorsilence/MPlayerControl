@@ -8,4 +8,13 @@ It currently supports play, pause, stop. seek and some other basic functionality
 
 See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wiki/_pages.
 
-Commerical support available from http://mplayercontrol.majorsilence.com.
+Commercial support available from http://mplayercontrol.majorsilence.com.
+
+# Development
+MPlayerControl is developed with the following work flow:
+
+* Nothing happens for weeks
+* Someone needs it to do something it doesn't already do
+* That person implements that something and submits a pull request
+* Repeat If it doesn't have a feature that you want it to have, add it
+    * If it has a bug you need fixed, fix it
