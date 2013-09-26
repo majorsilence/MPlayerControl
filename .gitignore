@@ -398,3 +398,10 @@ Test.pdb
 /LibMPlayerCommon/obj/x86/Debug/LibMPlayerCommon.csprojResolveAssemblyReference.cache
 /MediaPlayer/obj/x86/Debug/MediaPlayer.csproj.GenerateResource.Cache
 /MediaPlayer/obj/x86/Debug/MediaPlayer.csprojResolveAssemblyReference.cache
+/LibMPlayerCommon/obj/Debug
+/LibImages/obj/Debug
+/LibMPlayerWinform/obj/Debug
+/MediaPlayer/obj/Debug
+/MplayerUnitTests/obj/Debug
+/SlideShow/obj/x86/Debug
+/Test/obj/x86/Debug
