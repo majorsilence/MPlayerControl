@@ -23,7 +23,7 @@ namespace MPlayerGtkWidget
 
             int handle = (int)this.drawingareaVideo.Handle;
 
-            if (System.IO.File.Exists(VideoPath) == false)
+			if (System.IO.File.Exists(VideoPath) == false  && VideoPath.StartsWith("http") == false)
             {
                 throw new System.IO.FileNotFoundException("File not found", VideoPath);
             }
