@@ -6,7 +6,7 @@ It can play both audio and video files. It includes a sample user interface.
 
 It currently supports play, pause, stop. seek and some other basic functionality. I only add new features as I require them or people send in patches.
 
-See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wiki/_pages.
+See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wiki.
 
 Commercial support available from http://mplayercontrol.majorsilence.com.
 
