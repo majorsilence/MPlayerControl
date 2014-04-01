@@ -10,6 +10,9 @@ See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wi
 
 Commercial support available from http://mplayercontrol.majorsilence.com.
 
+# Downloads
+Download using nuget http://www.nuget.org/packages/MPlayerControl/.
+
 # Development
 MPlayerControl is developed with the following work flow:
 
