@@ -35,12 +35,12 @@ namespace LibMPlayerCommon
     {
         private int _wid;
         private bool _fullscreen;
-        private int _mplayerProcessID=-1;
+        private int _mplayerProcessID = -1;
         private MplayerBackends _mplayerBackend;
         private int _currentPosition = 0; // Current position in seconds in stream.
         private int _totalTime = 0; // The total length that the video is in seconds.
         private string currentFilePath;
-        private string _mplayerPath="";
+        private string _mplayerPath = "";
         private BackendPrograms _backendProgram;
 
         public event MplayerEventHandler VideoExited;
@@ -54,8 +54,8 @@ namespace LibMPlayerCommon
         private System.Timers.Timer _currentPostionTimer;
 
 
-        private MPlayer(){}
-        public MPlayer(int wid, MplayerBackends backend) : this(wid, backend, ""){}
+        private MPlayer() { }
+        public MPlayer(int wid, MplayerBackends backend) : this(wid, backend, "") { }
 
         public MPlayer(int wid, MplayerBackends backend, string mplayerPath) : this(wid, backend, mplayerPath, false) { }
 
@@ -123,7 +123,7 @@ namespace LibMPlayerCommon
         /// <summary>
         /// Is mplayer alreadying running?  True or False.
         /// </summary>
-        public bool MplayerRunning{get; set; }
+        public bool MplayerRunning { get; set; }
 
         /// <summary>
         /// The current status of the player.
@@ -138,30 +138,30 @@ namespace LibMPlayerCommon
         /// </summary>
         private System.Diagnostics.Process MediaPlayer { get; set; }
 
-		private string MplayerBackend()
-		{
-			string backend;
+        private string MplayerBackend()
+        {
+            string backend;
             if (this._mplayerBackend == MplayerBackends.Direct3D)
             {
                 backend = "direct3d";
             }
-			else if (this._mplayerBackend == MplayerBackends.X11)
+            else if (this._mplayerBackend == MplayerBackends.X11)
             {
                 backend = "x11";
-			}
-			else if (this._mplayerBackend == MplayerBackends.Vdpau)
-			{
-				backend = "vdpau";
-			}
-			else if(this._mplayerBackend == MplayerBackends.XV)
-			{
-				backend = "xv";
-			}
-			else if (this._mplayerBackend == MplayerBackends.Quartz)
+            }
+            else if (this._mplayerBackend == MplayerBackends.Vdpau)
+            {
+                backend = "vdpau";
+            }
+            else if (this._mplayerBackend == MplayerBackends.XV)
+            {
+                backend = "xv";
+            }
+            else if (this._mplayerBackend == MplayerBackends.Quartz)
             {
                 backend = "quartz";
             }
-			else if (this._mplayerBackend == MplayerBackends.CoreVideo)
+            else if (this._mplayerBackend == MplayerBackends.CoreVideo)
             {
                 backend = "corevideo";
             }
@@ -169,45 +169,45 @@ namespace LibMPlayerCommon
             {
                 backend = "sdl";
             }
-			else if (this._mplayerBackend == MplayerBackends.GL)
+            else if (this._mplayerBackend == MplayerBackends.GL)
             {
                 backend = "gl";
             }
-			else if (this._mplayerBackend == MplayerBackends.GL2)
+            else if (this._mplayerBackend == MplayerBackends.GL2)
             {
                 backend = "gl2";
             }
-			else if (this._mplayerBackend == MplayerBackends.ASCII)
+            else if (this._mplayerBackend == MplayerBackends.ASCII)
             {
                 backend = "aa";
             }
-			else if (this._mplayerBackend == MplayerBackends.ColorASCII)
+            else if (this._mplayerBackend == MplayerBackends.ColorASCII)
             {
                 backend = "caca";
             }
-			else if (this._mplayerBackend == MplayerBackends.Directfb)
+            else if (this._mplayerBackend == MplayerBackends.Directfb)
             {
                 backend = "directfb";
             }
-			else if (this._mplayerBackend == MplayerBackends.Wii)
+            else if (this._mplayerBackend == MplayerBackends.Wii)
             {
                 backend = "wii";
             }
-			else if (this._mplayerBackend == MplayerBackends.V4l2)
+            else if (this._mplayerBackend == MplayerBackends.V4l2)
             {
                 backend = "v4l2";
             }
-			else if (this._mplayerBackend == MplayerBackends.VESA)
+            else if (this._mplayerBackend == MplayerBackends.VESA)
             {
                 backend = "vesa";
             }
             else
             {
                 backend = "opengl";
-            }	
-			
-			return backend;
-		}
+            }
+
+            return backend;
+        }
 
         private void InitializeMplayer()
         {
@@ -478,10 +478,10 @@ namespace LibMPlayerCommon
         public bool FullScreen
         {
             get { return _fullscreen; }
-            set 
+            set
             {
                 _fullscreen = value;
-                MediaPlayer.StandardInput.WriteLine(string.Format("set_property fullscreen {0}", Convert.ToInt32(_fullscreen)  ));
+                MediaPlayer.StandardInput.WriteLine(string.Format("set_property fullscreen {0}", Convert.ToInt32(_fullscreen)));
                 MediaPlayer.StandardInput.Flush();
             }
         }
@@ -520,8 +520,8 @@ namespace LibMPlayerCommon
             MediaPlayer.StandardInput.Flush();
 
         }
-		
-		public void SwitchAudioTrack(int track)
+
+        public void SwitchAudioTrack(int track)
         {
             MediaPlayer.StandardInput.WriteLine(string.Format("switch_audio {0}", track));
             MediaPlayer.StandardInput.Flush();
@@ -548,7 +548,7 @@ namespace LibMPlayerCommon
 
                 if (line.StartsWith("ANS_TIME_POSITION="))
                 {
-                    this._currentPosition =(int) Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
+                    this._currentPosition = (int)Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
                     if (this.CurrentPosition != null)
                     {
