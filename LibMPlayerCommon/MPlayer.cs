@@ -529,7 +529,21 @@ namespace LibMPlayerCommon
 
         public void SwitchSubtitle(int sub)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("sub_select  {0}", sub));
+            MediaPlayer.StandardInput.WriteLine(string.Format("sub_select {0}", sub));
+            MediaPlayer.StandardInput.Flush();
+        }
+
+        /// <summary>
+        /// Change aspect ratio at runtime. [value] is the new aspect ratio expressed
+        /// as a float (e.g. 1.77778 for 16/9), or special value -1 to reset to
+        /// original aspect ratio (ditto if [value] is missing), or special value 0
+        /// to disable automatic movie aspect ratio compensation.
+        /// There might be problems with some video filters.
+        /// </summary>
+        /// <param name="ratio"></param>
+        public void SwitchRatio(string ratio)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("switch_ratio {0}", ratio));
             MediaPlayer.StandardInput.Flush();
         }
 
