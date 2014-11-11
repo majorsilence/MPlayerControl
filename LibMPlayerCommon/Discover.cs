@@ -31,13 +31,16 @@ namespace LibMPlayerCommon
     /// </summary>
     public class Discover
     {
-        private Discover() { }
+        private Discover()
+        {
+        }
 
-        private int _VideoBitrate=0;
+        private int _VideoBitrate = 0;
+
         /// <summary>
         /// Is the files video bitrate.  Kilobits per second.
         /// </summary>
-        public int VideoBitrate 
+        public int VideoBitrate
         {
             get
             {
@@ -45,7 +48,8 @@ namespace LibMPlayerCommon
             }
         }
 
-        private int _AudioBitrate=0;
+        private int _AudioBitrate = 0;
+
         /// <summary>
         /// Is the files audio bitrate.  Kilobits per second.
         /// </summary>
@@ -57,7 +61,8 @@ namespace LibMPlayerCommon
             }
         }
 
-        private int _AudioRate=0;
+        private int _AudioRate = 0;
+
         /// <summary>
         /// Is the files audio rate.  What is the difference between this and AudioBitrate.
         /// </summary>
@@ -69,7 +74,8 @@ namespace LibMPlayerCommon
             }
         }
 
-        private int _Width=0;
+        private int _Width = 0;
+
         /// <summary>
         /// Is the videos width.
         /// </summary>
@@ -81,7 +87,8 @@ namespace LibMPlayerCommon
             }
         }
 
-        private int _Height=0;
+        private int _Height = 0;
+
         /// <summary>
         /// Is the videos height.
         /// </summary>
@@ -94,6 +101,7 @@ namespace LibMPlayerCommon
         }
 
         private int _fps;
+
         /// <summary>
         /// The videos frames per second.
         /// </summary>
@@ -105,7 +113,8 @@ namespace LibMPlayerCommon
             }
         }
 
-        private int _Length=0;
+        private int _Length = 0;
+
         /// <summary>
         /// The length of the video in seconds.
         /// </summary>
@@ -118,6 +127,7 @@ namespace LibMPlayerCommon
         }
 
         private float _AspectRatio = 0f;
+
         /// <summary>
         /// The aspect ratio of the video. Could be 4/3 or 16/9.
         /// </summary>
@@ -130,6 +140,7 @@ namespace LibMPlayerCommon
         }
 
         private List<int> _AudioList;
+
         /// <summary>
         /// List of audio tracks in the video.
         /// </summary>
@@ -142,15 +153,17 @@ namespace LibMPlayerCommon
         }
 
         private List<AudioTrackInfo> _AudioTracks;
+
         public List<AudioTrackInfo> AudioTracks
         {
-            get 
+            get
             {
                 return _AudioTracks;
             }
         }
 
         private bool _Video = false;
+
         /// <summary>
         /// Returns true if the file contains video.
         /// </summary>
@@ -163,6 +176,7 @@ namespace LibMPlayerCommon
         }
 
         private bool _Audio = false;
+
         /// <summary>
         /// Returns true if the file contains audio.
         /// </summary>
@@ -175,7 +189,8 @@ namespace LibMPlayerCommon
         }
 
         private List<SubtitlesInfo> _SubtitleList;
-        public List<SubtitlesInfo> SubtitleList 
+
+        public List<SubtitlesInfo> SubtitleList
         { 
             get
             {
@@ -183,8 +198,11 @@ namespace LibMPlayerCommon
             }   
         }
 
-        public Discover(string filePath) : this(filePath, "") { }
-       
+        public Discover(string filePath)
+            : this(filePath, "")
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -316,7 +334,7 @@ namespace LibMPlayerCommon
                     {
                         string value = line.Substring(14);
 
-                        _AudioTracks[_AudioTracks.Count-1].Name = value;
+                        _AudioTracks[_AudioTracks.Count - 1].Name = value;
                     }
                 }
                 else if (line.StartsWith("ID_SUBTITLE_ID"))
