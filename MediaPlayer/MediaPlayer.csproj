@@ -7,15 +7,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>MediaPlayer</RootNamespace>
     <AssemblyName>MediaPlayer</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <StartupObject>MediaPlayer.Program</StartupObject>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -53,15 +51,15 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <WarningLevel>4</WarningLevel>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
