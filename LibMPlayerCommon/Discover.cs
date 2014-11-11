@@ -198,6 +198,10 @@ namespace LibMPlayerCommon
             }   
         }
 
+
+        private readonly string filePath;
+        private readonly string mplayerPath;
+
         public Discover(string filePath)
             : this(filePath, "")
         {
@@ -211,7 +215,12 @@ namespace LibMPlayerCommon
         /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
         public Discover(string filePath, string mplayerPath)
         {
+            this.filePath = filePath;
+            this.mplayerPath = mplayerPath;
+        }
 
+        public void Execute()
+        {
             /*
              Reads the values of the video (width, heigth, fps...) and stores them
              into file_values.

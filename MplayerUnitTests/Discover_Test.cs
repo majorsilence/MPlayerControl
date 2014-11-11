@@ -17,7 +17,8 @@ namespace MplayerUnitTests
         [Test()]
         public void AudioBitrate_Test1()
         {
-            LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);            
+            LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(8, a.AudioBitrate);
         }
 
@@ -25,6 +26,7 @@ namespace MplayerUnitTests
         public void IsAudio_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(true, a.Audio);
         }
 
@@ -33,6 +35,7 @@ namespace MplayerUnitTests
         public void IsVideo_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(true, a.Video);
         }
 
@@ -40,6 +43,7 @@ namespace MplayerUnitTests
         public void AspectRatio_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(1.33333337f, a.AspectRatio);
         }
 
@@ -54,6 +58,7 @@ namespace MplayerUnitTests
         public void AudioSampleRate_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(22050, a.AudioSampleRate);
         }
 
@@ -69,6 +74,7 @@ namespace MplayerUnitTests
         public void Height_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(240, a.Height);
         }
 
@@ -76,6 +82,7 @@ namespace MplayerUnitTests
         public void Width_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(320, a.Width);
         }
 
@@ -83,6 +90,7 @@ namespace MplayerUnitTests
         public void Length_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(208, a.Length);
         }
 
@@ -90,6 +98,7 @@ namespace MplayerUnitTests
         public void VideoBitrate_Test1()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(339, a.VideoBitrate);
         }
 
@@ -102,6 +111,7 @@ namespace MplayerUnitTests
         public void AudioBitrate_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(8, a.AudioBitrate);
         }
 
@@ -109,6 +119,7 @@ namespace MplayerUnitTests
         public void IsAudio_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(true, a.Audio);
         }
 
@@ -124,6 +135,7 @@ namespace MplayerUnitTests
         public void AspectRatio_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(1.33333337f, a.AspectRatio);
         }
 
@@ -131,6 +143,7 @@ namespace MplayerUnitTests
         public void AudioList_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(1, a.AudioList.Count);
         }
 
@@ -138,6 +151,7 @@ namespace MplayerUnitTests
         public void AudioSampleRate_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(22050, a.AudioSampleRate);
         }
 
@@ -153,6 +167,7 @@ namespace MplayerUnitTests
         public void Height_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(240, a.Height);
         }
 
@@ -160,6 +175,7 @@ namespace MplayerUnitTests
         public void Width_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(320, a.Width);
         }
 
@@ -167,6 +183,7 @@ namespace MplayerUnitTests
         public void Length_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(255, a.Length);
         }
 
@@ -174,6 +191,7 @@ namespace MplayerUnitTests
         public void VideoBitrate_Test2()
         {
             LibMPlayerCommon.Discover a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            a.Execute();
             NUnit.Framework.Assert.AreEqual(330, a.VideoBitrate);
         }
 
