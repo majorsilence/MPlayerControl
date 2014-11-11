@@ -23,6 +23,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LibMPlayerCommon
 {
@@ -217,6 +218,11 @@ namespace LibMPlayerCommon
         {
             this.filePath = filePath;
             this.mplayerPath = mplayerPath;
+        }
+
+        public Task ExecuteAsync()
+        {
+            return Task.Run(() => Execute());
         }
 
         public void Execute()

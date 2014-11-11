@@ -169,7 +169,7 @@ namespace MediaPlayer
 
 
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private async void btnPlay_Click(object sender, EventArgs e)
         {
 
             if (this._play.CurrentStatus != MediaStatus.Stopped)
@@ -206,7 +206,7 @@ namespace MediaPlayer
             }
 
             _videoSettings = new Discover(this._filePath, MediaPlayer.Properties.Settings.Default.MPlayerPath);
-            _videoSettings.Execute();
+            await _videoSettings.ExecuteAsync();
             this._play.Play(this._filePath);
             lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(_videoSettings.Length);
 
