@@ -14,33 +14,63 @@ namespace MplayerUnitTests
 
 
         [Test()]
-        public void Convert_Test1()
+        public void Convert2WebMTest()
         {
             LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
             a.Convert2WebM(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
         }
 
         [Test()]
-        public void Convert_Test2()
+        public async void Convert2WebMAsyncTest()
+        {
+            LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
+            await a.Convert2WebMAsync(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
+        }
+
+
+        [Test()]
+        public void Convert2X264Test()
         {
             LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
             a.Convert2X264(GlobalVariables.Video8Path, GlobalVariables.OutputVideoX264);
         }
 
         [Test()]
-        public void Convert_Test3()
+        public async void Convert2X264AsyncTest()
+        {
+            LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
+            await a.Convert2X264Async(GlobalVariables.Video8Path, GlobalVariables.OutputVideoX264);
+        }
+
+        [Test()]
+        public void Convert2DvdMpegPalTest()
         {
             LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
             a.Convert2DvdMpeg(LibMPlayerCommon.Mencoder.RegionType.PAL, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegPal);
         }
 
         [Test()]
-        public void Convert_Test4()
+        public async void Convert2DvdMpegPalAsyncTest()
+        {
+            LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
+            await a.Convert2DvdMpegAsync(LibMPlayerCommon.Mencoder.RegionType.PAL, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegPal);
+        }
+
+        [Test()]
+        public void Convert2DvdMpegNtscTest()
         {
             LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
             a.Convert2DvdMpeg(LibMPlayerCommon.Mencoder.RegionType.NTSC, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegNtsc);
 
-            a.ConversionComplete+=new LibMPlayerCommon.MplayerEventHandler(a_ConversionComplete);
+            a.ConversionComplete += a_ConversionComplete;
+        }
+
+        [Test()]
+        public async void Convert2DvdMpegNtscAsyncTest()
+        {
+            LibMPlayerCommon.Mencoder a = new LibMPlayerCommon.Mencoder();
+            await a.Convert2DvdMpegAsync(LibMPlayerCommon.Mencoder.RegionType.NTSC, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegNtsc);
+
         }
 
         private void a_ConversionComplete(object sender, LibMPlayerCommon.MplayerEvent e)

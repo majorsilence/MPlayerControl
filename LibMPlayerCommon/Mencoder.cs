@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 
 
@@ -57,6 +58,10 @@ namespace LibMPlayerCommon
             _backendProgram = new BackendPrograms();
         }
 
+        public Task ConvertAsync(string cmd)
+        {
+            return Task.Run(() => Convert(cmd));
+        }
 
         public void Convert(string cmd)
         {
@@ -77,11 +82,11 @@ namespace LibMPlayerCommon
             MencoderInstance.Start();
 
 
-            MencoderInstance.OutputDataReceived +=new System.Diagnostics.DataReceivedEventHandler(MencoderInstance_OutputDataReceived);
+            MencoderInstance.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(MencoderInstance_OutputDataReceived);
             MencoderInstance.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(MencoderInstance_ErrorDataReceived);
             MencoderInstance.BeginErrorReadLine();
             MencoderInstance.BeginOutputReadLine();
-            MencoderInstance.Exited +=new EventHandler(MencoderInstance_Exited);
+            MencoderInstance.Exited += new EventHandler(MencoderInstance_Exited);
 
         }
 
@@ -106,9 +111,19 @@ namespace LibMPlayerCommon
             wmav2
         }
 
+        public Task Convert2WebMAsync(string videoToConvertFilePath, string outputFilePath)
+        {
+            return Task.Run(() => Convert2WebMAsync(videoToConvertFilePath, outputFilePath));
+        }
+
         public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
         {
             Convert(VideoType.webm, AudioType.vorbis, videoToConvertFilePath, outputFilePath);
+        }
+
+        public Task Convert2X264Async(string videoToConvertFilePath, string outputFilePath)
+        {
+            return Task.Run(() => Convert2X264Async(videoToConvertFilePath, outputFilePath));
         }
 
         public void Convert2X264(string videoToConvertFilePath, string outputFilePath)
@@ -116,6 +131,10 @@ namespace LibMPlayerCommon
             Convert(VideoType.x264, AudioType.mp3, videoToConvertFilePath, outputFilePath);
         }
 
+        public Task ConvertAsync(VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath)
+        {
+            return Task.Run(() => Convert(vidType, audType, videoToConvertFilePath, outputFilePath));
+        }
 
         public void Convert(VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath)
         {
@@ -250,6 +269,11 @@ namespace LibMPlayerCommon
         {
             NTSC,
             PAL
+        }
+
+        public Task Convert2DvdMpegAsync(RegionType regType, string videoToConvertFilePath, string outputFilePath)
+        {
+            return Task.Run(() => Convert2DvdMpeg(regType, videoToConvertFilePath, outputFilePath));
         }
 
         public void Convert2DvdMpeg(RegionType regType, string videoToConvertFilePath, string outputFilePath)
