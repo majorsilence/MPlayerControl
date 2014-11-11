@@ -39,14 +39,19 @@ namespace MediaPlayer
         private string _filePath;
         private bool _trackBarMousePushedDown = false;
         private int _currentTime = 0;
-        private bool _fullscreen=false;
+        private bool _fullscreen = false;
         private bool _playNow = false;
 
         private bool _playOnceAndClose;
 
-		private Player() {}
+        private Player()
+        {
+        }
 
-        public Player(string url, bool playNow, bool fullScreen) : this(url, playNow, fullScreen, false){}
+        public Player(string url, bool playNow, bool fullScreen)
+            : this(url, playNow, fullScreen, false)
+        {
+        }
 
         public Player(string url, bool playNow, bool fullScreen, bool playOnceAndClose)
         {
@@ -62,7 +67,7 @@ namespace MediaPlayer
             _playOnceAndClose = playOnceAndClose;
 
         }
-		
+
         
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -155,9 +160,9 @@ namespace MediaPlayer
             if (this._trackBarMousePushedDown == false)
             {
                 this.Invoke((MethodInvoker)delegate
-                {
-                    trackBar1.Value = percent;
-                });
+                    {
+                        trackBar1.Value = percent;
+                    });
             }
 
         }
@@ -201,6 +206,7 @@ namespace MediaPlayer
             }
 
             _videoSettings = new Discover(this._filePath, MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            _videoSettings.Execute();
             this._play.Play(this._filePath);
             lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(_videoSettings.Length);
 
@@ -234,10 +240,10 @@ namespace MediaPlayer
         private void SetExactTime(int newTime)
         {
             this.Invoke((MethodInvoker)delegate
-            {
-                this._currentTime = newTime;
-                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
-            });
+                {
+                    this._currentTime = newTime;
+                    lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+                });
 
 
         }
@@ -245,10 +251,10 @@ namespace MediaPlayer
         private void SetTime(int timeInSecondsAdded)
         {
             this.Invoke((MethodInvoker)delegate
-            {
-                this._currentTime += timeInSecondsAdded;
-                lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
-            });
+                {
+                    this._currentTime += timeInSecondsAdded;
+                    lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+                });
 
             
         }
@@ -258,11 +264,11 @@ namespace MediaPlayer
             try
             {
                 this.Invoke((MethodInvoker)delegate
-                {
-                    this._currentTime = 0;
-                    lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
-                    trackBar1.Value = 0;
-                });
+                    {
+                        this._currentTime = 0;
+                        lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+                        trackBar1.Value = 0;
+                    });
             }
             catch (Exception ex)
             {
@@ -324,6 +330,7 @@ namespace MediaPlayer
 
         private System.Windows.Forms.FormBorderStyle _border = FormBorderStyle.Sizable;
         private FormWindowState _windowstate = FormWindowState.Normal;
+
         private void ToggleFormFullScreen()
         {
             if (this.WindowState == FormWindowState.Maximized)
@@ -354,7 +361,7 @@ namespace MediaPlayer
         {
             switch (m.WParam.ToInt32())
             {
-                // TODO: Fix so move commands are sent to correct carousel
+            // TODO: Fix so move commands are sent to correct carousel
                 case (int)Keys.Right:
 
                     this._play.Seek(10, Seek.Relative);
@@ -421,6 +428,7 @@ namespace MediaPlayer
         }
 
         #region Button Style Changes
+
         private void btnLoadFile_MouseHover(object sender, EventArgs e)
         {
             btnLoadFile.FlatStyle = FlatStyle.Popup;
@@ -475,10 +483,10 @@ namespace MediaPlayer
 
         private void panelVideo_Resize(object sender, EventArgs e)
         {
-			if (this._play == null)
-			{
-				return;
-			}
+            if (this._play == null)
+            {
+                return;
+            }
             this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
         }
 
