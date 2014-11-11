@@ -37,8 +37,13 @@ namespace LibMPlayerCommon
         private bool _fullscreen;
         private int _mplayerProcessID = -1;
         private MplayerBackends _mplayerBackend;
-        private int _currentPosition = 0; // Current position in seconds in stream.
-        private int _totalTime = 0; // The total length that the video is in seconds.
+
+        // Current position in seconds in stream.
+        private int _currentPosition = 0;
+
+        // The total length that the video is in seconds.
+        private int _totalTime = 0;
+       
         private string currentFilePath;
         private string _mplayerPath = "";
         private BackendPrograms _backendProgram;
@@ -54,10 +59,19 @@ namespace LibMPlayerCommon
         private System.Timers.Timer _currentPostionTimer;
 
 
-        private MPlayer() { }
-        public MPlayer(int wid, MplayerBackends backend) : this(wid, backend, "") { }
+        private MPlayer()
+        {
+        }
 
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath) : this(wid, backend, mplayerPath, false) { }
+        public MPlayer(int wid, MplayerBackends backend)
+            : this(wid, backend, "")
+        {
+        }
+
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath)
+            : this(wid, backend, mplayerPath, false)
+        {
+        }
 
         /// <summary>
         /// Create a new instance of mplayer class.
@@ -69,7 +83,7 @@ namespace LibMPlayerCommon
         /// <param name="loadMplayer">If true mplayer will immediately be loaded and you should not attempt to 
         /// play any files until MplayerRunning is true.</param>
         public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer)
-        {
+        { 
             this._wid = wid;
             this._fullscreen = false;
             this.MplayerRunning = false;
