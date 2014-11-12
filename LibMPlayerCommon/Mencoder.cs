@@ -58,6 +58,12 @@ namespace LibMPlayerCommon
             _backendProgram = new BackendPrograms();
         }
 
+        public Mencoder(string mencoderPath)
+        {
+
+            _backendProgram = new BackendPrograms("", mencoderPath);
+        }
+
         public Task ConvertAsync(string cmd)
         {
             return Task.Run(() => Convert(cmd));
@@ -68,6 +74,7 @@ namespace LibMPlayerCommon
 
             MencoderInstance = new System.Diagnostics.Process();
             MencoderInstance.StartInfo.CreateNoWindow = true;
+            MencoderInstance.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             MencoderInstance.StartInfo.UseShellExecute = false;
             MencoderInstance.StartInfo.ErrorDialog = false;
             MencoderInstance.StartInfo.RedirectStandardOutput = true;

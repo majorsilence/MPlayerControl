@@ -63,14 +63,17 @@ namespace LibMPlayerCommon
         private string _workingDirectory = "";
         private string _imageDirectory = "";
         private string _videoDirectory = "";
-        private int _secondsBetweenImages=3;
+        private int _secondsBetweenImages = 3;
+        private string mencoderPath;
 
-        private BackendPrograms _backend;
+        public SlideShow()
+            : this("")
+        {
+        }
 
-        public SlideShow() : this("") { }
         public SlideShow(string mencoderPath)
         {
-            _backend = new BackendPrograms("", mencoderPath);
+            this.mencoderPath = mencoderPath;
             _workingDirectory = System.IO.Path.Combine(Globals.MajorSilenceMEncoderLocalAppDataDirectory, "SlideShow");
             _imageDirectory = System.IO.Path.Combine(_workingDirectory, "Images");
             _videoDirectory = System.IO.Path.Combine(_workingDirectory, "Videos");
@@ -238,48 +241,53 @@ namespace LibMPlayerCommon
 
         private void CreateVideo(string videoName)
         {
-            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            var mencod = new Mencoder(mencoderPath);
+            bool finished = false;
+            mencod.ConversionComplete += (object sender, MplayerEvent e) =>
+            {
+                System.IO.File.Move(System.IO.Path.Combine(System.Environment.CurrentDirectory, videoName),
+                    System.IO.Path.Combine(_videoDirectory, videoName));
+                finished = true;
+            };
 
-            p.StartInfo.FileName = this._backend.MEncoder;
-            // harddup - use this so duplicate pictures are not removed, if they are removed there will be major audio video sync problems. 
-            p.StartInfo.Arguments = "mf://*.jpg -mf fps=" + SlideShow.FPS + " -ovc lavc harddup -lavcopts vcodec=mpeg4:mbd=2:trell";
-            p.StartInfo.Arguments += string.Format(" -o {0}", videoName);
+            mencod.Convert(string.Format("mf://*.jpg -mf fps={0} -ovc lavc harddup -lavcopts vcodec=mpeg4:mbd=2:trell -o {1}", 
+                    SlideShow.FPS, videoName));
 
-            p.StartInfo.RedirectStandardOutput = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            p.StartInfo.UseShellExecute = false;
-            p.Start();
-            p.WaitForExit();
-
-            System.IO.File.Move(System.IO.Path.Combine(System.Environment.CurrentDirectory, videoName),
-                System.IO.Path.Combine(_videoDirectory, videoName));
-            
-
+            while (!finished)
+            {
+                System.Threading.Thread.Sleep(200);
+            }
+                
         }
 
         private void AppendVideo()
         {
-            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            var mencod = new Mencoder(mencoderPath);
 
-            p.StartInfo.FileName = this._backend.MEncoder;
             // -oac copy -ovc copy -o 'combined_clip.avi' 'clip1.avi' 'clip2.avi'
-            p.StartInfo.Arguments = "-oac copy -ovc copy -idx -o output.avi";
+            var cmd = new StringBuilder();
+            cmd.Append("-oac copy -ovc copy -idx -o output.avi");
 
             foreach (string file in System.IO.Directory.GetFiles(System.Environment.CurrentDirectory, "*.avi"))
             {
-                p.StartInfo.Arguments += string.Format(" \"{0}\"", file);
+                cmd.Append(string.Format(" \"{0}\"", file));
             }
 
-            p.StartInfo.RedirectStandardOutput = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            p.StartInfo.UseShellExecute = false;
-            p.Start();
-            p.WaitForExit();
+            bool finished = false;
+            mencod.ConversionComplete += (object sender, MplayerEvent e) =>
+            {
+                System.IO.File.Move(System.IO.Path.Combine(_videoDirectory, "output.avi"),
+                    System.IO.Path.Combine("../", "output.avi"));
 
-            System.IO.File.Move(System.IO.Path.Combine(_videoDirectory, "output.avi"),
-                System.IO.Path.Combine("../", "output.avi"));
+                finished = true;
+            };
+            mencod.Convert(cmd.ToString());
+
+            while (!finished)
+            {
+                System.Threading.Thread.Sleep(200);
+            }
+
         }
 
         private void AddAudio()
@@ -291,20 +299,20 @@ namespace LibMPlayerCommon
                 return;
             }
 
-            System.Diagnostics.Process p = new System.Diagnostics.Process();
-
-            p.StartInfo.FileName = this._backend.MEncoder;
-
+            var mencod = new Mencoder(mencoderPath);
+            bool finished = false;
+            mencod.ConversionComplete += (object sender, MplayerEvent e) =>
+            {
+                finished = true;
+            };
             // -vf harddup is needed to keep duplicates of the video when adding the audio.  Else you are going to have a huge audio/video sync problem.
-            p.StartInfo.Arguments = "\"" + System.IO.Path.Combine(_workingDirectory,"output.avi") +  "\" -o \"" + this._outputFilePath + "\" -vf harddup -ovc copy -oac mp3lame -audiofile \"" + this._audioFile + '"';
-            p.StartInfo.RedirectStandardOutput = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            p.StartInfo.UseShellExecute = false;
-            p.Start();
-            p.WaitForExit();
 
+            mencod.Convert("\"" + System.IO.Path.Combine(_workingDirectory, "output.avi") + "\" -o \"" + this._outputFilePath + "\" -vf harddup -ovc copy -oac mp3lame -audiofile \"" + this._audioFile + '"');
 
+            while (!finished)
+            {
+                System.Threading.Thread.Sleep(200);
+            }
         }
 
 
@@ -322,7 +330,7 @@ namespace LibMPlayerCommon
         Water,
         Pixelate
     }
-    
+
     public class SlideShowInfo
     {
 
@@ -331,7 +339,9 @@ namespace LibMPlayerCommon
             this.FilePath = filepath;
             this.Effect = effect;
         }
+
         public string FilePath { get; set; }
+
         public SlideShowEffect Effect { get; set; }
     }
 }
