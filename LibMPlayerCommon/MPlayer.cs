@@ -55,10 +55,26 @@ namespace LibMPlayerCommon
         /// being the new position (seconds into the file).
         /// </summary>
         public event MplayerEventHandler CurrentPosition;
-
+        public event MplayerEventHandler cache;
+        public event MplayerEventHandler finalfile;
+        public event MplayerEventHandler consola;
+        public event MplayerEventHandler scanfonts;
+        public event MplayerEventHandler filesub;
+        public event MplayerEventHandler audiochannel;
+        public event MplayerEventHandler setaudiolang;
         private System.Timers.Timer _currentPostionTimer;
-
-
+        
+        ///vars for mplayer info
+        private string _getfileinfofilename;
+        private string _cache;
+        private string _percentpos;
+        private string _getinfotitle;
+        private string _finalfilecode;
+        private string _scanning;
+        private string _filesub;
+        private string _audiochannel;
+        private string _setaudiolang;
+        ///
         private MPlayer()
         {
         }
@@ -270,7 +286,11 @@ namespace LibMPlayerCommon
 
 
             string backend = MplayerBackend();
+            /*
+                if you like you can parse more args
+                MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -priority abovenormal -nodr -double -nokeepaspect -cache 8192 -nofs -autosync 100 -mc 2.0 -nomouseinput -framedrop -osdlevel 0 -lavdopts threads=4 -ao dsound -v -monitorpixelaspect 1 -ontop -font \"{0}\" -subfont-autoscale {1} -subfont-text-scale {2} -subcp {3} -subpos {4} -volume {5} -vo {6} -wid {7} \"{8}\"", this._font, this._fontautoscale, this._textscale, this._subcp, this._subpos, this.volumemain, backend, this._wid, filePath);
 
+            */
             MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -ontop -vo {0} -wid {1}", backend, this._wid);
             MediaPlayer.StartInfo.FileName = this._backendProgram.MPlayer;
 
@@ -440,7 +460,14 @@ namespace LibMPlayerCommon
                 Logging.Instance.WriteLine(ex);
             }
         }
-
+        /// <summary>
+        /// set percent position of mplayer 
+        /// </summary>
+        public void setpercent(int v)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property percent_pos {0}", v));
+            MediaPlayer.StandardInput.Flush();
+        }
 
         /// <summary>
         /// Retrieves the number of seconds of the current playing video.
@@ -467,7 +494,20 @@ namespace LibMPlayerCommon
                 MediaPlayer.StandardInput.Flush();
             }
         }
-
+        /// <summary>
+        /// get percent positiob
+        /// </summary>
+        public string getpercentpos()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_percent_pos");
+                MediaPlayer.StandardInput.Flush();
+                return this._percentpos;
+            }
+            return "";
+        this._percentpos = "";
+        }
         /// <summary>
         /// Get the current postion in the file being played.
         /// </summary>
@@ -549,6 +589,45 @@ namespace LibMPlayerCommon
         }
 
         /// <summary>
+        /// Insert subtitles, change visibility, position of subtitle, and some another functions
+        /// </sumamry>
+        public void insertSubtitles(string filepath)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("sub_load \"{0}\"", PrepareFilePath(filepath)));
+            MediaPlayer.StandardInput.WriteLine(string.Format("sub_file 0"));
+            MediaPlayer.StandardInput.Flush();
+        }
+        //visibility of subtitles
+        public void visibilitySubtitle(int v)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property sub_visibility {0}", v));
+            MediaPlayer.StandardInput.Flush();
+        }
+        //position of subtitle bottom//center//up
+        public void subpos(int v)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property sub_pos {0}", v));
+            MediaPlayer.StandardInput.Flush();
+        }
+        //subtitle font scale
+        public void subscale(int v)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property sub_scale {0}", v));
+            MediaPlayer.StandardInput.Flush();
+        }
+        //remove subtitles
+        public void removeSubtitle()
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("sub_remove -1"));
+            MediaPlayer.StandardInput.Flush();
+        }
+        //subtitle delay
+        public void subdelay(int v)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("sub_delay {0}", v));
+            MediaPlayer.StandardInput.Flush();
+        }
+        /// <summary>
         /// Change aspect ratio at runtime. [value] is the new aspect ratio expressed
         /// as a float (e.g. 1.77778 for 16/9), or special value -1 to reset to
         /// original aspect ratio (ditto if [value] is missing), or special value 0
@@ -561,7 +640,181 @@ namespace LibMPlayerCommon
             MediaPlayer.StandardInput.WriteLine(string.Format("switch_ratio {0}", ratio));
             MediaPlayer.StandardInput.Flush();
         }
-
+        
+        /// <summary>
+        /// get info about the file 
+        /// </summary>
+#region get info
+        //get audio bitrate
+        public string getAudioBitrate()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_audio_bitrate");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get audio codec
+        public string getAudioCodec()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_audio_codec");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get audio samples
+        public string getAudioSamples()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_audio_samples");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+            return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get filename
+        public string getfileName()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_file_name");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get album
+        public string getalbum()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_album");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get artist
+        public string getartist()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_artist");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get comment
+        public string getcomment()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_comment");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get comment
+        public string getgenre()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_genre");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+            return "";
+        }
+        //get title
+        public string gettitle()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_title");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getinfotitle;
+            }
+        return "";
+        }
+        //get meta track
+        public string gettrack()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_track");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get year
+        public string getyear()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_meta_year");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+            return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get videobitrate
+        public string getvideobitrate()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_video_bitrate");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+        //get video resolution
+        public string getvideoresolution()
+        {
+            if (this.CurrentStatus != MediaStatus.Stopped)
+            {
+                MediaPlayer.StandardInput.WriteLine("get_video_resolution");
+                MediaPlayer.StandardInput.Flush();
+                // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
+                System.Threading.Thread.Sleep(100);
+                return this._getfileinfofilename;
+            }
+        return "";
+        }
+#endregion
 
         /// <summary>
         /// All mplayer standard output is read through this function.
@@ -574,8 +827,111 @@ namespace LibMPlayerCommon
             {
                 string line = e.Data.ToString();
 
-
-                if (line.StartsWith("ANS_TIME_POSITION="))
+                if (line.StartsWith("EOF code:"))
+                {
+                    this._finalfilecode = line.Substring("EOF code:".Length);
+                    if (this._finalfilecode != null)
+                    {
+                    this.finalfile(this, new MplayerEvent(this._finalfilecode));
+                    }
+                }
+                else if (line.Contains("Scanning file") || line.Contains("get_path"))
+                {
+                    this._scanning = line;
+                    if (this._scanning != null)
+                    {
+                        this.scanfonts(this, new MplayerEvent(this._scanning));
+                    }
+                }
+                else if (line.StartsWith("ID_FILE_SUB_FILENAME="))
+                {
+                    this._filesub = line.Substring("ID_FILE_SUB_FILENAME=".Length);
+                    if (this._filesub != null)
+                    {
+                        this.filesub(this, new MplayerEvent(this._filesub));
+                    }
+                }
+                else if (line.StartsWith("ID_AID_"))
+                {
+                    this._audiochannel = line.Substring("ID_AID_".Length);
+                    if (this._audiochannel != null)
+                    {
+                        this.audiochannel(this, new MplayerEvent(this._audiochannel));
+                    }
+                }
+                else if (line.StartsWith("ID_SID_"))
+                {
+                    this._setaudiolang = line.Substring("ID_SID_".Length);
+                    if (this._setaudiolang != null)
+                    {
+                        this.setaudiolang(this, new MplayerEvent(this._setaudiolang));
+                    }
+                }
+                else if (line.StartsWith("ANS_PERCENT_POSITION="))
+                {
+                    this._percentpos = line.Substring("ANS_PERCENT_POSITION=".Length);
+                }
+                else if (line.StartsWith("Cache fill:"))
+                {
+                    this._cache = line.Substring("Cache fill:".Length);
+                    if (this._cache != null)
+                    {
+                        this.cache(this, new MplayerEvent(this._cache));
+                    }
+                }
+                else if (line.StartsWith("ANS_AUDIO_BITRATE=")) //audio bitrate
+                {
+                this._getfileinfofilename = line.Substring("ANS_AUDIO_BITRATE=".Length);
+                }
+                else if (line.StartsWith("ANS_AUDIO_CODEC=")) //audio codec
+                {
+                this._getfileinfofilename = line.Substring("ANS_AUDIO_CODEC=".Length);
+                }
+                else if (line.StartsWith("ANS_AUDIO_SAMPLES=")) //audio sample
+                {
+                this._getfileinfofilename = line.Substring("ANS_AUDIO_SAMPLES=".Length);
+                }
+                else if (line.StartsWith("ANS_FILENAME=")) //audio filename
+                {
+                this._getfileinfofilename = line.Substring("ANS_FILENAME=".Length);
+                }
+                else if (line.StartsWith("ANS_META_ALBUM=")) //album
+                {
+                this._getfileinfofilename = line.Substring("ANS_META_ALBUM=".Length);
+                }
+                else if (line.StartsWith("ANS_META_ARTIST=")) //artista
+                {
+                this._getfileinfofilename = line.Substring("ANS_META_ARTIST=".Length);
+                }
+                else if (line.StartsWith("ANS_META_COMMENT=")) //comentarios
+                {
+                this._getfileinfofilename = line.Substring("ANS_META_COMMENT=".Length);
+                }
+                else if (line.StartsWith("ANS_META_GENRE=")) //genero
+                {
+                this._getfileinfofilename = line.Substring("ANS_META_GENRE=".Length);
+                }
+                else if (line.StartsWith("ANS_META_TITLE=")) //titulo
+                {
+                this._getinfotitle = line.Substring("ANS_META_TITLE=".Length);
+                }
+                else if (line.StartsWith("ANS_META_TRACK=")) //track
+                {
+                this._getfileinfofilename = line.Substring("ANS_META_TRACK=".Length);
+                }
+                else if (line.StartsWith("ANS_META_YEAR=")) //ano
+                {
+                this._getfileinfofilename = line.Substring("ANS_META_YEAR=".Length);
+                }
+                else if (line.StartsWith("ANS_VIDEO_BITRATE=")) //video bitrate
+                {
+                this._getfileinfofilename = line.Substring("ANS_VIDEO_BITRATE=".Length);
+                }
+                else if (line.StartsWith("ANS_VIDEO_RESOLUTION=")) //video resoluçao
+                {
+                this._getfileinfofilename = line.Substring("ANS_VIDEO_RESOLUTION=".Length);
+                }
+                else if (line.StartsWith("ANS_TIME_POSITION="))
                 {
                     this._currentPosition = (int)Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
