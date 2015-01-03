@@ -5,6 +5,6 @@ public partial class MainWindow
 {
 	protected virtual void Build ()
 	{
-
+	
 	}
 }
