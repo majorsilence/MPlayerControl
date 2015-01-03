@@ -1,4 +1,5 @@
 xbuild "../MPlayerControl.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="AnyCPU"
+xbuild "../MPlayerGtkWidget.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="AnyCPU"
 
 CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.5-AnyCPU"
@@ -9,7 +10,9 @@ mkdir -p ./build-output/MPlayerControl-dot-net-4.5-AnyCPU
 cp ../MediaPlayer/bin/Release/LibImages.dll "./build-output/$PACKAGEDIR/LibImages.dll"
 cp ../MediaPlayer/bin/Release/LibMplayerCommon.dll "./build-output/$PACKAGEDIR/LibMplayerCommon.dll"
 cp ../MediaPlayer/bin/Release/MediaPlayer.exe "./build-output/$PACKAGEDIR/MediaPlayer.exe"
-
+cp ../LibMPlayerWinform/bin/Release/LibMPlayerWinform.dll "./build-output/$PACKAGEDIR/LibMPlayerWinform.dll"
+cp ../MPlayerGtkWidget/bin/Release/MPlayerGtkWidget.dll "./build-output/$PACKAGEDIR/MPlayerGtkWidget.dll"
+cp ../SlideShow/bin/Release/SlideShow.exe "./build-output/$PACKAGEDIR/SlideShow.exe"
 
 # nuget stuff
 cd nuget
