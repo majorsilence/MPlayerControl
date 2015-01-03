@@ -22,11 +22,13 @@ cd ..
 
 # nuget stuff
 rm -rf "./build-output/*.nupkg"
+
+# Begin Core Nuget Package
 cd nuget
 cd MPlayerControl
 rm -rf lib/net45
 rm -rf content
-mkdir lib/net45
+mkdir -p lib/net45
 mkdir content
 
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibImages.dll" lib/net45/LibImages.dll
@@ -35,5 +37,31 @@ cp "$CURRENTPATH/build-output/$PACKAGEDIR/MediaPlayer.exe" content/MediaPlayer.e
 
 nuget pack "$CURRENTPATH/nuget/MPlayerControl/MPlayerControl.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
 
-
 cd "$CURRENTPATH"
+# End Core Nuget Package
+
+
+# Begin winform Nuget Package
+cd nuget
+cd MPlayerControl-Winform
+rm -rf lib/net45
+mkdir -p lib/net45
+
+cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibMPlayerWinform.dll" lib/net45/LibMPlayerWinform.dll
+
+nuget pack "$CURRENTPATH/nuget/MPlayerControl-Winform/MPlayerControl-Winform.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
+cd "$CURRENTPATH"
+# End winform Nuget Package
+
+
+# Begin winform Nuget Package
+cd nuget
+cd MPlayerControl-Gtk
+rm -rf lib/net45
+mkdir -p lib/net45
+
+cp "$CURRENTPATH/build-output/$PACKAGEDIR/MPlayerGtkWidget.dll" lib/net45/MPlayerGtkWidget.dll
+
+nuget pack "$CURRENTPATH/nuget/MPlayerControl-Gtk/MPlayerControl-Gtk.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
+cd "$CURRENTPATH"
+# End winform Nuget Package
