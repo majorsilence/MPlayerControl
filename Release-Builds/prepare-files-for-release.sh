@@ -20,9 +20,9 @@ VERSION="${VERSION_WITH_ASTERIK%??}"
 cd ..
 cd Release-Builds
 
-REM Update NUGET spec files
-sed -i "5s/.*/ <version>$VERSION<\/version>/" "$CURRENTPATH\/nuget\/MPlayerControl\/MPlayerControl.nuspec"
-sed -i "5s/.*/ <version>$VERSION<\/version>/" "$CURRENTPATH\/nuget\/MPlayerControl-Winform\/MPlayerControl-Winform.nuspec"
-sed -i "5s/.*/ <version>$VERSION<\/version>/" "$CURRENTPATH\/nuget\/MPlayerControl-Gtk\/MPlayerControl-Gtk.nuspec"
+# Update NUGET spec files
+sed -i "5s/.*/ <version>$VERSION<\/version>/" "$CURRENTPATH/nuget/MPlayerControl/MPlayerControl.nuspec"
+sed -i "5s/.*/ <version>$VERSION<\/version>/" "$CURRENTPATH/nuget/MPlayerControl-Winform/MPlayerControl-Winform.nuspec"
+sed -i "5s/.*/ <version>$VERSION<\/version>/" "$CURRENTPATH/nuget/MPlayerControl-Gtk/MPlayerControl-Gtk.nuspec"
 
-del "sed*"
+
