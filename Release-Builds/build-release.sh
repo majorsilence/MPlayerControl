@@ -5,6 +5,7 @@ CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.5-AnyCPU"
 
 rm -rf ./build-output/MPlayerControl-dot-net-4.5-AnyCPU
+rm -rf "./build-output/$PACKAGEDIR.zip"
 mkdir -p ./build-output/MPlayerControl-dot-net-4.5-AnyCPU
 
 cp ../MediaPlayer/bin/Release/LibImages.dll "./build-output/$PACKAGEDIR/LibImages.dll"
@@ -14,7 +15,13 @@ cp ../LibMPlayerWinform/bin/Release/LibMPlayerWinform.dll "./build-output/$PACKA
 cp ../MPlayerGtkWidget/bin/Release/MPlayerGtkWidget.dll "./build-output/$PACKAGEDIR/MPlayerGtkWidget.dll"
 cp ../SlideShow/bin/Release/SlideShow.exe "./build-output/$PACKAGEDIR/SlideShow.exe"
 
+
+cd build-output
+zip -r "$PACKAGEDIR.zip" "$PACKAGEDIR"
+cd ..
+
 # nuget stuff
+rm -rf "./build-output/*.nupkg"
 cd nuget
 cd MPlayerControl
 rm -rf lib/net45
