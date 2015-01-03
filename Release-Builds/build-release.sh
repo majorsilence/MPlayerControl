@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+set -e # exit on first error
+set -u # exit on using unset variable
+
 xbuild "../MPlayerControl.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="AnyCPU"
 xbuild "../MPlayerGtkWidget.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="AnyCPU"
 
