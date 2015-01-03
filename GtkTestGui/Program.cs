@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using Gtk;
 
-namespace MPlayerGtkWidget
+namespace GtkTestGui
 {
 	class MainClass
 	{

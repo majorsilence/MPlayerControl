@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{F1C6FF07-C7FD-4405-B739-C82BA4620B0F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>GtkTestGui</RootNamespace>
+    <AssemblyName>GtkTestGui</AssemblyName>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{47923683-28D4-487C-A214-0F292EB5DBBE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>MPlayerGtkWidget</RootNamespace>
-    <AssemblyName>MPlayerGtkWidget</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -16,20 +16,20 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,20 +66,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\MainWindow.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="GtkMPlayerWidget.cs" />
-    <Compile Include="gtk-gui\MPlayerGtkWidget.GtkMPlayerWidget.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\LibImages\LibImages.csproj">
-      <Project>{C859FA27-7882-4814-9202-9C9D807C2CE5}</Project>
-      <Name>LibImages</Name>
+    <ProjectReference Include="..\MPlayerGtkWidget\MPlayerGtkWidget.csproj">
+      <Project>{47923683-28D4-487C-A214-0F292EB5DBBE}</Project>
+      <Name>MPlayerGtkWidget</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibMPlayerCommon\LibMPlayerCommon.csproj">
       <Project>{5D3616D0-160D-4601-AB67-E1ED9111C676}</Project>
       <Name>LibMPlayerCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibImages\LibImages.csproj">
+      <Project>{C859FA27-7882-4814-9202-9C9D807C2CE5}</Project>
+      <Name>LibImages</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
