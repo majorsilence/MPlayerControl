@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MPlayerControl</id>
-    <version>1.0.5026.22050</version>
+    <version>1.1</version>
     <authors>Peter Gill</authors>
     <owners>Peter Gill</owners>
     <licenseUrl>https://raw.github.com/majorsilence/MPlayerControl/master/lgpl-2.1.txt</licenseUrl>
