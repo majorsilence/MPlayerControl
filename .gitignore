@@ -192,3 +192,6 @@ bin/
 obj/
 *.userprefs
 
+Release-Builds/build-output
+Release-Builds/nuget/MPlayerControl/lib
+Release-Builds/nuget/MPlayerControl/content
