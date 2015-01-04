@@ -17,6 +17,9 @@ Download using nuget https://www.nuget.org/packages?q=mplayercontrol.
 * PM> Install-Package MPlayerControl-Gtk
 * PM> Install-Package MPlayerControl-Winform
 
+## CI Server Downloads
+Each change that is pushed is automatically built by the http://build01.majorsilence.com/ ci server.  The last 100 builds are archived.
+
 # Development
 MPlayerControl is developed with the following work flow:
 
