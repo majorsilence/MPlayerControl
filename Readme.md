@@ -11,7 +11,11 @@ See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wi
 Commercial support available from http://mplayercontrol.majorsilence.com.
 
 # Downloads
-Download using nuget http://www.nuget.org/packages/MPlayerControl/.
+Download using nuget https://www.nuget.org/packages?q=mplayercontrol.
+
+* PM> Install-Package MPlayerControl
+* PM> Install-Package MPlayerControl-Gtk
+* PM> Install-Package MPlayerControl-Winform
 
 # Development
 MPlayerControl is developed with the following work flow:
@@ -19,5 +23,5 @@ MPlayerControl is developed with the following work flow:
 * Nothing happens for weeks
 * Someone needs it to do something it doesn't already do
 * That person implements that something and submits a pull request
-* Repeat If it doesn't have a feature that you want it to have, add it
+* Repeat if it doesn't have a feature that you want it to have, add it
     * If it has a bug you need fixed, fix it
