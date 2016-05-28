@@ -28,7 +28,8 @@ namespace MplayerUnitTests
             b.Add(new LibMPlayerCommon.SlideShowInfo(Path.Combine(GlobalVariables.BasePath,
                         "12038280_10153157463458441_1902212361551718770_n.jpg"),
                     LibMPlayerCommon.SlideShowEffect.RandomJitter));
-            a.CreateSlideShow(b, @"C:\Documents and Settings\Peter\Desktop\helloworld.mpg",
+            a.CreateSlideShow(b, 
+                Path.Combine(GlobalVariables.BasePath, "helloworld.mpg"),
                 @"C:\Documents and Settings\All Users\Documents\My Music\Magnatune Compilation\Rock\16. TranceVision_ Alpha.mp3",
                 5);
         }

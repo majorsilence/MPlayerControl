@@ -79,7 +79,8 @@ namespace LibMPlayerCommon
             _videoDirectory = System.IO.Path.Combine(_workingDirectory, "Videos");
         }
 
-        public void CreateSlideShow(List<SlideShowInfo> files, string outputFilePath, string audioFile, int secondsBetweenImages)
+        public void CreateSlideShow(List<SlideShowInfo> files, string outputFilePath, string audioFile, 
+                                    int secondsBetweenImages)
         {
             this._files = files;
             this._outputFilePath = outputFilePath;
