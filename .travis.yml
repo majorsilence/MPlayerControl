@@ -2,5 +2,5 @@ language: csharp
 install:
   - sudo apt-get install mono-devel nunit-console libpoppler-cil xvfb libgtk2.0-cil libpoppler-cil nuget mplayer mencoder p7zip-full
 script:
-  - ./build-release.sh
+  - cd Release-Builds && ./build-release.sh
 
