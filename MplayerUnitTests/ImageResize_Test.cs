@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using System.IO;
 
 namespace MplayerUnitTests
 {
@@ -13,8 +14,11 @@ namespace MplayerUnitTests
         [Test()]
         public void Test1()
         {
-            System.Drawing.Image a = LibImages.ImageResize.ResizeBlackBar(@"C:\Users\Peter\Desktop\Vacation 2011\100_0315.JPG", 720, 480);
-            a.Save(@"C:\Users\Peter\Desktop\Testing\test.jpg",  System.Drawing.Imaging.ImageFormat.Jpeg);
+            var a = LibImages.ImageResize.ResizeBlackBar(
+                        Path.Combine(GlobalVariables.BasePath,
+                            "12195978_10153226237613441_9028549466281839298_n.jpg"), 720, 480);
+            a.Save(Path.Combine(GlobalVariables.BasePath, 
+                    "test.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
     }

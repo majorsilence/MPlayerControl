@@ -197,3 +197,4 @@ Release-Builds/nuget/MPlayerControl/lib
 Release-Builds/nuget/MPlayerControl/content
 Release-Builds/nuget/MPlayerControl-Winform/lib
 Release-Builds/nuget/MPlayerControl-Gtk/lib
+Release-Builds/nunit-result.xml

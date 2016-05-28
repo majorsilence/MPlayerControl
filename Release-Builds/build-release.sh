@@ -2,8 +2,16 @@
 set -e # exit on first error
 set -u # exit on using unset variable
 
+nuget restore ../MPlayerControl.sln -NonInteractive
+nuget restore ../MPlayerGtkWidget.sln -NonInteractive
+if [ ! -f ./packages/NUnit.Runners/tools/nunit3-console.exe ]; then
+	nuget "Install" "NUnit.Runners" "-OutputDirectory" "packages" "-Version" "3.2.1" "-ExcludeVersion"
+fi
+
 xbuild "../MPlayerControl.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
 xbuild "../MPlayerGtkWidget.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
+
+mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.dll" -result:"nunit-result.xml;format=nunit2"
 
 CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.5-AnyCPU"

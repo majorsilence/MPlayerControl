@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace MplayerUnitTests
 {
@@ -13,45 +14,58 @@ namespace MplayerUnitTests
         // TODO: You must point the path to the mplayer.exe and the test videos to the location
         // were they exist on your computer.
 
-        public static string MplayerPath
+        private static string _basePath;
+        private static string _mplayerPath;
+
+        public static void InitPath(string basePath, string mplayerPath)
         {
-            get { return @"C:\Program Files\MajorSilence\DeVeDe\bin\mplayer.exe"; }
+            _basePath = basePath;
+            _mplayerPath = mplayerPath;
         }
 
+        public static string BasePath
+        {
+            get { return _basePath; }
+        }
+
+        public static string MplayerPath
+        {
+            get { return _mplayerPath; }
+        }
 
         public static string Video1Path
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\TestVideo1-á.flv"; }
+            get { return Path.Combine(_basePath, "TestVideo1-á.flv"); }
         }
 
         public static string Video2Path
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\TestVideo2.flv"; }
+            get { return Path.Combine(_basePath, "TestVideo2.flv"); }
         }
 
         public static string Video8Path
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\TestVideo8.flv"; }
+            get { return Path.Combine(_basePath, "TestVideo8.flv"); }
         }
 
         public static string OutputVideoWebM
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoWebM.webm"; }
+            get { return Path.Combine(_basePath, "OutputVideoWebM.webm"); }
         }
 
         public static string OutputVideoX264
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoX264.mp4"; }
+            get { return Path.Combine(_basePath, "OutputVideoX264.mp4"); }
         }
 
         public static string OutputVideoDvdMpegPal
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoDvdMpegPal.mpg"; }
+            get { return Path.Combine(_basePath, "OutputVideoDvdMpegPal.mpg"); }
         }
 
         public static string OutputVideoDvdMpegNtsc
         {
-            get { return @"C:\Documents and Settings\Peter\My Documents\Projects\TestVideos\OutputVideoDvdMpegNtsc.mpg"; }
+            get { return Path.Combine(_basePath, "OutputVideoDvdMpegNtsc.mpg"); }
         }
 
     }
