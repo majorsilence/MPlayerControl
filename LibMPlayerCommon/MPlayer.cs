@@ -833,7 +833,7 @@ namespace LibMPlayerCommon
                     this._finalfilecode = line.Substring("EOF code:".Length);
                     if (this._finalfilecode != null)
                     {
-                    this.Finalfile(this, new MplayerEvent(this._finalfilecode));
+                    this.Finalfile?.Invoke(this, new MplayerEvent(this._finalfilecode));
                     }
                 }
                 else if (line.Contains("Scanning file") || line.Contains("get_path"))
@@ -841,7 +841,7 @@ namespace LibMPlayerCommon
                     this._scanning = line;
                     if (this._scanning != null)
                     {
-                        this.Scanfonts(this, new MplayerEvent(this._scanning));
+                        this.Scanfonts?.Invoke(this, new MplayerEvent(this._scanning));
                     }
                 }
                 else if (line.StartsWith("ID_FILE_SUB_FILENAME=", StringComparison.Ordinal))
@@ -849,7 +849,7 @@ namespace LibMPlayerCommon
                     this._filesub = line.Substring("ID_FILE_SUB_FILENAME=".Length);
                     if (this._filesub != null)
                     {
-                        this.Filesub(this, new MplayerEvent(this._filesub));
+                        this.Filesub?.Invoke(this, new MplayerEvent(this._filesub));
                     }
                 }
                 else if (line.StartsWith("ID_AID_", StringComparison.Ordinal))
@@ -857,7 +857,7 @@ namespace LibMPlayerCommon
                     this._audiochannel = line.Substring("ID_AID_".Length);
                     if (this._audiochannel != null)
                     {
-                        this.Audiochannel(this, new MplayerEvent(this._audiochannel));
+                        this.Audiochannel?.Invoke(this, new MplayerEvent(this._audiochannel));
                     }
                 }
                 else if (line.StartsWith("ID_SID_", StringComparison.Ordinal))
@@ -865,7 +865,7 @@ namespace LibMPlayerCommon
                     this._setaudiolang = line.Substring("ID_SID_".Length);
                     if (this._setaudiolang != null)
                     {
-                        this.Setaudiolang(this, new MplayerEvent(this._setaudiolang));
+                        this.Setaudiolang?.Invoke(this, new MplayerEvent(this._setaudiolang));
                     }
                 }
                 else if (line.StartsWith("ANS_PERCENT_POSITION=", StringComparison.Ordinal))
@@ -877,7 +877,7 @@ namespace LibMPlayerCommon
                     this._cache = line.Substring("Cache fill:".Length);
                     if (this._cache != null)
                     {
-                        this.Cache(this, new MplayerEvent(this._cache));
+                        this.Cache?.Invoke(this, new MplayerEvent(this._cache));
                     }
                 }
                 else if (line.StartsWith("ANS_AUDIO_BITRATE=", StringComparison.Ordinal)) //audio bitrate
@@ -936,10 +936,7 @@ namespace LibMPlayerCommon
                 {
                     this._currentPosition = (int)Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
-                    if (this.CurrentPosition != null)
-                    {
-                        this.CurrentPosition(this, new MplayerEvent(this._currentPosition));
-                    }
+                    this.CurrentPosition?.Invoke(this, new MplayerEvent(this._currentPosition));
                 }
                 else if (line.StartsWith("ANS_length=", StringComparison.Ordinal))
                 {
@@ -947,10 +944,7 @@ namespace LibMPlayerCommon
                 }
                 else if (line.StartsWith("Exiting", StringComparison.Ordinal) || line.ToLower().StartsWith("eof code", StringComparison.Ordinal))
                 {
-                    if (this.VideoExited != null)
-                    {
-                        this.VideoExited(this, new MplayerEvent("Exiting File"));
-                    }
+                    this.VideoExited?.Invoke(this, new MplayerEvent("Exiting File"));
                 }
 
                 //System.Console.WriteLine(line);
