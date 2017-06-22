@@ -403,6 +403,24 @@ namespace LibMPlayerCommon
             MediaPlayer.StandardInput.Flush();
         }
 
+        public void EnableFramedropping()
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property framedropping 1"));
+            MediaPlayer.StandardInput.Flush();
+        }
+
+        public void DisableFramedropping()
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property framedropping 0"));
+            MediaPlayer.StandardInput.Flush();
+        }
+
+        public void SetSpeed(double speed)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("speed_set {0}", speed));
+            MediaPlayer.StandardInput.Flush();
+        }
+
         /// <summary>
         /// Pause the current video.  If paused it will unpause.
         /// </summary>
