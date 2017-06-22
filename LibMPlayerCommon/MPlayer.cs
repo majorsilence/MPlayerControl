@@ -39,7 +39,7 @@ namespace LibMPlayerCommon
         private MplayerBackends _mplayerBackend;
 
         // Current position in seconds in stream.
-        private int _currentPosition = 0;
+        private float _currentPosition = 0;
 
         // The total length that the video is in seconds.
         private int _totalTime = 0;
@@ -514,7 +514,7 @@ namespace LibMPlayerCommon
         /// </summary>
         /// <remarks>It is highly recommended to use the CurrentPostion event instead.</remarks>
         /// <returns></returns>
-        public int GetCurrentPosition()
+        public float GetCurrentPosition()
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
@@ -934,7 +934,7 @@ namespace LibMPlayerCommon
                 }
                 else if (line.StartsWith("ANS_TIME_POSITION=", StringComparison.Ordinal))
                 {
-                    this._currentPosition = (int)Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
+                    this._currentPosition = Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
                     this.CurrentPosition?.Invoke(this, new MplayerEvent(this._currentPosition));
                 }

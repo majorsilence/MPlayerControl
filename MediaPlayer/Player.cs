@@ -142,7 +142,7 @@ namespace MediaPlayer
         {
             // handle current postion event.  Display the current postion and update trackbar.
 
-            SetExactTime(e.Value);
+            SetExactTime((int)e.Value);
 
             float videoLength = (float)this._play.CurrentPlayingFileLength();
             if (videoLength == 0f)
