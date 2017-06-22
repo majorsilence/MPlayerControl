@@ -86,7 +86,7 @@ namespace LibMPlayerCommon
         }
 
         public MPlayer(int wid, MplayerBackends backend, string mplayerPath)
-            : this(wid, backend, mplayerPath, false)
+            : this(wid, backend, mplayerPath, false, TimeSpan.FromMilliseconds(1000))
         {
         }
 
@@ -99,7 +99,8 @@ namespace LibMPlayerCommon
         /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
         /// <param name="loadMplayer">If true mplayer will immediately be loaded and you should not attempt to 
         /// play any files until MplayerRunning is true.</param>
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer)
+        /// <param name="positionUpdateInterval">Interval of periodical position updates</param>
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer, TimeSpan positionUpdateInterval)
         { 
             this._wid = wid;
             this._fullscreen = false;
@@ -114,7 +115,7 @@ namespace LibMPlayerCommon
 
             // This timer will send an event every second with the current video postion when video
             // is in play mode.
-            this._currentPostionTimer = new System.Timers.Timer(1000);
+            this._currentPostionTimer = new System.Timers.Timer(positionUpdateInterval.TotalMilliseconds);
             this._currentPostionTimer.Elapsed += new ElapsedEventHandler(_currentPostionTimer_Elapsed);
             this._currentPostionTimer.Enabled = true;
 
