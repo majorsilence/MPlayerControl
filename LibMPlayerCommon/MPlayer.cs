@@ -103,8 +103,8 @@ namespace LibMPlayerCommon
         /// <param name="loadMplayer">If true mplayer will immediately be loaded and you should not attempt to 
         /// play any files until MplayerRunning is true.</param>
         /// <param name="positionUpdateInterval">Interval of periodical position updates</param>
-        /// <param name="consoleArguments">Specify custom console arguments here; default "-slave -quiet -idle -aspect 4/3 -v -ontop" ( do not set -vo and -wid ) </param>
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer, TimeSpan positionUpdateInterval, string consoleArguments = "-slave -quiet -idle -aspect 4/3 -v -ontop")
+        /// <param name="consoleArguments">Specify custom console arguments here; default "-slave -quiet -idle -v -ontop" ( do not set -vo and -wid ) </param>
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer, TimeSpan positionUpdateInterval, string consoleArguments = "-slave -quiet -idle -v -ontop")
         { 
             this._wid = wid;
             this._fullscreen = false;
