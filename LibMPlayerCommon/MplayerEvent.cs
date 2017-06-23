@@ -39,7 +39,7 @@ namespace LibMPlayerCommon
     public class MplayerEvent : System.EventArgs
     {
          private string _msg;
-         private int _value;
+         private float _value;
 
         public MplayerEvent(string m)
         {
@@ -47,7 +47,7 @@ namespace LibMPlayerCommon
             _value = 0;
         }
 
-        public MplayerEvent(int v)
+        public MplayerEvent(float v)
         {
             _msg = "";
             _value = v;
@@ -61,7 +61,7 @@ namespace LibMPlayerCommon
             get { return _msg; }
         }
 
-        public int Value
+        public float Value
         {
             get { return _value; }
         }

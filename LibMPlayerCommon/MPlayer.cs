@@ -39,7 +39,7 @@ namespace LibMPlayerCommon
         private MplayerBackends _mplayerBackend;
 
         // Current position in seconds in stream.
-        private int _currentPosition = 0;
+        private float _currentPosition = 0;
 
         // The total length that the video is in seconds.
         private int _totalTime = 0;
@@ -75,6 +75,9 @@ namespace LibMPlayerCommon
         private string _filesub;
         private string _audiochannel;
         private string _setaudiolang;
+
+        private string consoleArguments;
+
         ///
         private MPlayer()
         {
@@ -86,7 +89,7 @@ namespace LibMPlayerCommon
         }
 
         public MPlayer(int wid, MplayerBackends backend, string mplayerPath)
-            : this(wid, backend, mplayerPath, false)
+            : this(wid, backend, mplayerPath, false, TimeSpan.FromMilliseconds(1000))
         {
         }
 
@@ -99,7 +102,9 @@ namespace LibMPlayerCommon
         /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
         /// <param name="loadMplayer">If true mplayer will immediately be loaded and you should not attempt to 
         /// play any files until MplayerRunning is true.</param>
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer)
+        /// <param name="positionUpdateInterval">Interval of periodical position updates</param>
+        /// <param name="consoleArguments">Specify custom console arguments here; default "-slave -quiet -idle -v -ontop" ( do not set -vo and -wid ) </param>
+        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer, TimeSpan positionUpdateInterval, string consoleArguments = "-slave -quiet -idle -v -ontop")
         { 
             this._wid = wid;
             this._fullscreen = false;
@@ -108,13 +113,15 @@ namespace LibMPlayerCommon
             this._mplayerPath = mplayerPath;
             this.CurrentStatus = MediaStatus.Stopped;
 
+            this.consoleArguments = consoleArguments;
+
             this._backendProgram = new BackendPrograms(mplayerPath);
 
             MediaPlayer = new System.Diagnostics.Process();
 
             // This timer will send an event every second with the current video postion when video
             // is in play mode.
-            this._currentPostionTimer = new System.Timers.Timer(1000);
+            this._currentPostionTimer = new System.Timers.Timer(positionUpdateInterval.TotalMilliseconds);
             this._currentPostionTimer.Elapsed += new ElapsedEventHandler(_currentPostionTimer_Elapsed);
             this._currentPostionTimer.Enabled = true;
 
@@ -292,7 +299,7 @@ namespace LibMPlayerCommon
                 MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -priority abovenormal -nodr -double -nokeepaspect -cache 8192 -nofs -autosync 100 -mc 2.0 -nomouseinput -framedrop -osdlevel 0 -lavdopts threads=4 -ao dsound -v -monitorpixelaspect 1 -ontop -font \"{0}\" -subfont-autoscale {1} -subfont-text-scale {2} -subcp {3} -subpos {4} -volume {5} -vo {6} -wid {7} \"{8}\"", this._font, this._fontautoscale, this._textscale, this._subcp, this._subpos, this.volumemain, backend, this._wid, filePath);
 
             */
-            MediaPlayer.StartInfo.Arguments = string.Format("-slave -quiet -idle -aspect 4/3 -v -ontop -vo {0} -wid {1}", backend, this._wid);
+            MediaPlayer.StartInfo.Arguments = string.Format("{0} -vo {1} -wid {2}", consoleArguments, backend, this._wid);
             MediaPlayer.StartInfo.FileName = this._backendProgram.MPlayer;
 
             MediaPlayer.Start();
@@ -399,6 +406,24 @@ namespace LibMPlayerCommon
             }
             MediaPlayer.StandardInput.WriteLine(string.Format("set_property width {0}", width));
             MediaPlayer.StandardInput.WriteLine(string.Format("set_property height {0}", height));
+            MediaPlayer.StandardInput.Flush();
+        }
+
+        public void EnableFramedropping()
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property framedropping 1"));
+            MediaPlayer.StandardInput.Flush();
+        }
+
+        public void DisableFramedropping()
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("set_property framedropping 0"));
+            MediaPlayer.StandardInput.Flush();
+        }
+
+        public void SetSpeed(double speed)
+        {
+            MediaPlayer.StandardInput.WriteLine(string.Format("speed_set {0}", speed));
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -514,7 +539,7 @@ namespace LibMPlayerCommon
         /// </summary>
         /// <remarks>It is highly recommended to use the CurrentPostion event instead.</remarks>
         /// <returns></returns>
-        public int GetCurrentPosition()
+        public float GetCurrentPosition()
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
@@ -934,7 +959,7 @@ namespace LibMPlayerCommon
                 }
                 else if (line.StartsWith("ANS_TIME_POSITION=", StringComparison.Ordinal))
                 {
-                    this._currentPosition = (int)Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
+                    this._currentPosition = Globals.FloatParse(line.Substring("ANS_TIME_POSITION=".Length));
 
                     this.CurrentPosition?.Invoke(this, new MplayerEvent(this._currentPosition));
                 }
