@@ -18,13 +18,9 @@ This is a .NET 4.5 wrapper library for MPlayer.  It has been tested on Windows X
     <tags>Media</tags>
 
     <dependencies>
-      <dependency id="MPlayerControl" />
+      <dependency id="MPlayerControl" version="1.2" />
     </dependencies>
 
   </metadata>
-
-  <files>
-    <file src="lib/net45/*.*" target="lib/net45" />
-  </files>
 
 </package>

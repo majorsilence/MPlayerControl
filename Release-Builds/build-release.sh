@@ -2,17 +2,46 @@
 set -e # exit on first error
 set -u # exit on using unset variable
 
+MSBUILD="xbuild"
+
+getos()
+{
+	if [ "$(expr $(uname -s))" = "windows32" ]; then
+		echo "windows"
+	elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
+		echo "windows"
+	else
+	    echo "linux"
+	fi
+}
+
+
 nuget restore ../MPlayerControl.sln -NonInteractive
 nuget restore ../MPlayerGtkWidget.sln -NonInteractive
 if [ ! -f ./packages/NUnit.Runners/tools/nunit3-console.exe ]; then
 	nuget "Install" "NUnit.Runners" "-OutputDirectory" "packages" "-Version" "3.2.1" "-ExcludeVersion"
 fi
 
-xbuild "../MPlayerControl.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
-xbuild "../MPlayerGtkWidget.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
+read osversion junk <<< $(getos; echo $?)
+if [ "$osversion" = 'windows' ];
+then
+	nuget restore ../WpfMPlayer.sln -NonInteractive
+	MSBUILD="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+	"$MSBUILD" "../MPlayerControl.sln" /toolsversion:4.0 /property:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../WpfMPlayer.sln" /toolsversion:4.0 /property:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../MPlayerGtkWidget.sln" /toolsversion:4.0 /property:Configuration="Release";Platform="Any CPU"
+else
+	"$MSBUILD" "../MPlayerControl.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../MPlayerGtkWidget.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
+fi
 
-mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.dll" -result:"nunit-result.xml;format=nunit2"
 
+if [ "$osversion" = 'windows' ];
+then
+	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.dll" -result:"nunit-result.xml;format=nunit2"
+else
+	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.dll" -result:"nunit-result.xml;format=nunit2"
+fi
 CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.5-AnyCPU"
 
@@ -28,6 +57,10 @@ cp ../LibMPlayerWinform/bin/Release/LibMPlayerWinform.dll "./build-output/$PACKA
 cp ../LibMPlayerWinform/bin/Release/LibMPlayerWinform.xml "./build-output/$PACKAGEDIR/LibMPlayerWinform.xml"
 cp ../MPlayerGtkWidget/bin/Release/MPlayerGtkWidget.dll "./build-output/$PACKAGEDIR/MPlayerGtkWidget.dll"
 cp ../SlideShow/bin/Release/SlideShow.exe "./build-output/$PACKAGEDIR/SlideShow.exe"
+if [ "$osversion" = 'windows' ];
+then
+	cp ../WpfMPlayer/bin/Release/WpfMPlayer.exe "./build-output/$PACKAGEDIR/WpfMPlayer.exe"
+fi
 
 
 cd build-output
@@ -49,6 +82,10 @@ cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibImages.dll" lib/net45/LibImages.dll
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibMplayerCommon.dll" lib/net45/LibMplayerCommon.dll
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibMplayerCommon.xml" lib/net45/LibMplayerCommon.xml
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/MediaPlayer.exe" content/MediaPlayer.exe
+if [ "$osversion" = 'windows' ];
+then
+	cp "$CURRENTPATH/build-output/$PACKAGEDIR/WpfMPlayer.exe" content/WpfMPlayer.exe
+fi
 
 nuget pack "$CURRENTPATH/nuget/MPlayerControl/MPlayerControl.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
 

@@ -26,9 +26,4 @@ This is a .NET 4.5 wrapper library for MPlayer.  It has been tested on Windows X
 
   </metadata>
 
-  <files>
-    <file src="lib/net45/*.*" target="lib/net45" />
-    <file src="content/*.*" target="content" />
-  </files>
-
 </package>
