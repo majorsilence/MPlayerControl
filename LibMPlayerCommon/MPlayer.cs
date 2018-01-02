@@ -123,7 +123,7 @@ namespace LibMPlayerCommon
             // is in play mode.
             this._currentPostionTimer = new System.Timers.Timer(positionUpdateInterval.TotalMilliseconds);
             this._currentPostionTimer.Elapsed += new ElapsedEventHandler(_currentPostionTimer_Elapsed);
-            this._currentPostionTimer.Enabled = true;
+            this._currentPostionTimer.Enabled = false;
 
             if (loadMplayer)
             {
@@ -348,8 +348,8 @@ namespace LibMPlayerCommon
         public void LoadFile(string filePath)
         {
             string LoadCommand = @"" + string.Format("loadfile \"{0}\"", PrepareFilePath(filePath));
-            MediaPlayer.StandardInput.WriteLine(LoadCommand);
-            //MediaPlayer.StandardInput.WriteLine("play");
+            WriteLineWithDebug(LoadCommand);
+            //WriteLineWithDebug("play");
             MediaPlayer.StandardInput.Flush();
             this.LoadCurrentPlayingFileLength();
         }
@@ -370,6 +370,14 @@ namespace LibMPlayerCommon
             return preparedPath;
         }
 
+        private void WriteLineWithDebug(string line)
+        {
+#if DEBUG_LINES
+            Console.WriteLine(line);
+#endif
+            MediaPlayer.StandardInput.WriteLine(line);
+        }
+
 
         /// <summary>
         /// Move to a new position in the video.
@@ -377,7 +385,7 @@ namespace LibMPlayerCommon
         /// <param name="timePosition">Seconds.  The position to seek move to.</param>
         public void MovePosition(int timePosition)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property time_pos {0}", timePosition));
+            WriteLineWithDebug(string.Format("set_property time_pos {0}", timePosition));
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -394,7 +402,7 @@ namespace LibMPlayerCommon
         /// <param name="type"></param>
         public void Seek(int value, Seek type)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("seek {0} {1}", value, type));
+            WriteLineWithDebug(string.Format("pausing_keep_force seek {0} {1}", value, (int)type));
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -404,26 +412,26 @@ namespace LibMPlayerCommon
             {
                 return;
             }
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property width {0}", width));
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property height {0}", height));
+            WriteLineWithDebug(string.Format("set_property width {0}", width));
+            WriteLineWithDebug(string.Format("set_property height {0}", height));
             MediaPlayer.StandardInput.Flush();
         }
 
         public void EnableFramedropping()
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property framedropping 1"));
+            WriteLineWithDebug(string.Format("set_property framedropping 1"));
             MediaPlayer.StandardInput.Flush();
         }
 
         public void DisableFramedropping()
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property framedropping 0"));
+            WriteLineWithDebug(string.Format("set_property framedropping 0"));
             MediaPlayer.StandardInput.Flush();
         }
 
         public void SetSpeed(double speed)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("speed_set {0}", speed));
+            WriteLineWithDebug(string.Format("speed_set {0}", speed));
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -439,7 +447,7 @@ namespace LibMPlayerCommon
 
             try
             {
-                MediaPlayer.StandardInput.WriteLine("pause");
+                WriteLineWithDebug("pause");
                 MediaPlayer.StandardInput.Flush();
             }
             catch (Exception ex)
@@ -465,7 +473,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("stop");
+                WriteLineWithDebug("stop");
                 MediaPlayer.StandardInput.Flush();
             }
             this.CurrentStatus = MediaStatus.Stopped;
@@ -478,7 +486,7 @@ namespace LibMPlayerCommon
         {
             try
             {
-                MediaPlayer.StandardInput.WriteLine("quit");
+                WriteLineWithDebug("quit");
                 MediaPlayer.StandardInput.Flush();
             }
             catch (ObjectDisposedException ex)
@@ -491,7 +499,7 @@ namespace LibMPlayerCommon
         /// </summary>
         public void SetPercent(int v)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property percent_pos {0}", v));
+            WriteLineWithDebug(string.Format("set_property percent_pos {0}", v));
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -516,7 +524,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus == MediaStatus.Playing)
             {
-                MediaPlayer.StandardInput.WriteLine("get_time_pos");
+                WriteLineWithDebug("pausing_keep_force get_time_pos");
                 MediaPlayer.StandardInput.Flush();
             }
         }
@@ -527,7 +535,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_percent_pos");
+                WriteLineWithDebug("pausing_keep_force get_percent_pos");
                 MediaPlayer.StandardInput.Flush();
                 return this._percentpos;
             }
@@ -543,7 +551,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_time_pos");
+                WriteLineWithDebug("pausing_keep_force get_time_pos");
                 MediaPlayer.StandardInput.Flush();
 
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
@@ -562,7 +570,7 @@ namespace LibMPlayerCommon
             set
             {
                 _fullscreen = value;
-                MediaPlayer.StandardInput.WriteLine(string.Format("set_property fullscreen {0}", Convert.ToInt32(_fullscreen)));
+                WriteLineWithDebug(string.Format("set_property fullscreen {0}", Convert.ToInt32(_fullscreen)));
                 MediaPlayer.StandardInput.Flush();
             }
         }
@@ -574,7 +582,7 @@ namespace LibMPlayerCommon
         {
             if (this.MplayerRunning)
             {
-                MediaPlayer.StandardInput.WriteLine("vo_fullscreen");
+                WriteLineWithDebug("vo_fullscreen");
                 MediaPlayer.StandardInput.Flush();
             }
         }
@@ -584,7 +592,7 @@ namespace LibMPlayerCommon
         /// </summary>
         public void Mute()
         {
-            MediaPlayer.StandardInput.WriteLine("mute");
+            WriteLineWithDebug("mute");
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -597,20 +605,20 @@ namespace LibMPlayerCommon
         {
             Debug.Assert(volume >= 0 && volume <= 100);
 
-            MediaPlayer.StandardInput.WriteLine(string.Format("volume {0} 1", volume));
+            WriteLineWithDebug(string.Format("pausing_keep_force volume {0} 1", volume));
             MediaPlayer.StandardInput.Flush();
 
         }
 
         public void SwitchAudioTrack(int track)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("switch_audio {0}", track));
+            WriteLineWithDebug(string.Format("switch_audio {0}", track));
             MediaPlayer.StandardInput.Flush();
         }
 
         public void SwitchSubtitle(int sub)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("sub_select {0}", sub));
+            WriteLineWithDebug(string.Format("sub_select {0}", sub));
             MediaPlayer.StandardInput.Flush();
         }
 
@@ -619,38 +627,38 @@ namespace LibMPlayerCommon
         /// </sumamry>
         public void InsertSubtitles(string filepath)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("sub_load \"{0}\"", PrepareFilePath(filepath)));
-            MediaPlayer.StandardInput.WriteLine(string.Format("sub_file 0"));
+            WriteLineWithDebug(string.Format("sub_load \"{0}\"", PrepareFilePath(filepath)));
+            WriteLineWithDebug(string.Format("sub_file 0"));
             MediaPlayer.StandardInput.Flush();
         }
         //visibility of subtitles
         public void VisibilitySubtitle(int v)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property sub_visibility {0}", v));
+            WriteLineWithDebug(string.Format("set_property sub_visibility {0}", v));
             MediaPlayer.StandardInput.Flush();
         }
         //position of subtitle bottom//center//up
         public void SubPos(int v)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property sub_pos {0}", v));
+            WriteLineWithDebug(string.Format("set_property sub_pos {0}", v));
             MediaPlayer.StandardInput.Flush();
         }
         //subtitle font scale
         public void SubScale(int v)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("set_property sub_scale {0}", v));
+            WriteLineWithDebug(string.Format("set_property sub_scale {0}", v));
             MediaPlayer.StandardInput.Flush();
         }
         //remove subtitles
         public void RemoveSubtitle()
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("sub_remove -1"));
+            WriteLineWithDebug(string.Format("sub_remove -1"));
             MediaPlayer.StandardInput.Flush();
         }
         //subtitle delay
         public void SubDelay(int v)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("sub_delay {0}", v));
+            WriteLineWithDebug(string.Format("sub_delay {0}", v));
             MediaPlayer.StandardInput.Flush();
         }
         /// <summary>
@@ -663,7 +671,7 @@ namespace LibMPlayerCommon
         /// <param name="ratio"></param>
         public void SwitchRatio(string ratio)
         {
-            MediaPlayer.StandardInput.WriteLine(string.Format("switch_ratio {0}", ratio));
+            WriteLineWithDebug(string.Format("switch_ratio {0}", ratio));
             MediaPlayer.StandardInput.Flush();
         }
         
@@ -676,7 +684,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_audio_bitrate");
+                WriteLineWithDebug("get_audio_bitrate");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -689,7 +697,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_audio_codec");
+                WriteLineWithDebug("get_audio_codec");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -702,7 +710,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_audio_samples");
+                WriteLineWithDebug("get_audio_samples");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -715,7 +723,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_file_name");
+                WriteLineWithDebug("get_file_name");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -728,7 +736,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_album");
+                WriteLineWithDebug("get_meta_album");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -741,7 +749,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_artist");
+                WriteLineWithDebug("get_meta_artist");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -754,7 +762,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_comment");
+                WriteLineWithDebug("get_meta_comment");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -767,7 +775,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_genre");
+                WriteLineWithDebug("get_meta_genre");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -780,7 +788,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_title");
+                WriteLineWithDebug("get_meta_title");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -793,7 +801,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_track");
+                WriteLineWithDebug("get_meta_track");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -806,7 +814,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_meta_year");
+                WriteLineWithDebug("get_meta_year");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -819,7 +827,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_video_bitrate");
+                WriteLineWithDebug("get_video_bitrate");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -832,7 +840,7 @@ namespace LibMPlayerCommon
         {
             if (this.CurrentStatus != MediaStatus.Stopped)
             {
-                MediaPlayer.StandardInput.WriteLine("get_video_resolution");
+                WriteLineWithDebug("get_video_resolution");
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
@@ -976,6 +984,8 @@ namespace LibMPlayerCommon
             }
         }
 
+        public EventHandler<DataReceivedEventArgs> MplayerError;
+
         /// <summary>
         /// All mplayer error output is read through this function.
         /// </summary>
@@ -985,7 +995,7 @@ namespace LibMPlayerCommon
         {
             if (e.Data != null)
             {
-                System.Console.WriteLine(e.Data.ToString());
+                MplayerError?.Invoke(sender, e);
             }
         }
 
