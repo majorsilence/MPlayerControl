@@ -254,136 +254,136 @@ namespace LibMPlayerCommon
             //else:
             //    nframes=1
 
-            System.Diagnostics.Process handle = new System.Diagnostics.Process();
-
-            handle.StartInfo.UseShellExecute = false;
-            handle.StartInfo.CreateNoWindow = true;
-            handle.StartInfo.RedirectStandardOutput = true;
-            handle.StartInfo.RedirectStandardError = true;
-
-            handle.StartInfo.FileName = mplayerLocation.MPlayer;
-            handle.StartInfo.Arguments = string.Format("-loop 1 -identify -ao null -vo null -frames 0 {0} \"{1}\"", nframes.ToString(), filePath);
-            handle.Start();
-            string line = "";
-            StringReader strReader = new StringReader(handle.StandardOutput.ReadToEnd());
-
-            while ((line = strReader.ReadLine()) != null)
-            //while (handle.HasExited == false)
+            using (var handle = new System.Diagnostics.Process())
             {
+                handle.StartInfo.UseShellExecute = false;
+                handle.StartInfo.CreateNoWindow = true;
+                handle.StartInfo.RedirectStandardOutput = true;
+                handle.StartInfo.RedirectStandardError = true;
 
-                if (line.Trim() == "")
+                handle.StartInfo.FileName = mplayerLocation.MPlayer;
+                handle.StartInfo.Arguments = string.Format("-loop 1 -identify -ao null -vo null -frames 0 {0} \"{1}\"", nframes.ToString(), filePath);
+                handle.Start();
+                string line = "";
+                StringReader strReader = new StringReader(handle.StandardOutput.ReadToEnd());
+
+                while ((line = strReader.ReadLine()) != null)
+            //while (handle.HasExited == false)
                 {
-                    continue;
-                }
-                int position = line.IndexOf("ID_");
-                if (position == -1)
-                {
-                    continue;
-                }
-                line = line.Substring(position);
-                if (line.StartsWith("ID_VIDEO_BITRATE"))
-                {
-                    _VideoBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
-                }
-                else if (line.StartsWith("ID_VIDEO_WIDTH"))
-                {
-                    _Width = Globals.IntParse(line.Substring(15));
-                }
-                else if (line.StartsWith("ID_VIDEO_HEIGHT"))
-                {
-                    _Height = Globals.IntParse(line.Substring(16));
-                }
-                else if (line.StartsWith("ID_VIDEO_ASPECT"))
-                {
-                    _AspectRatio = Globals.FloatParse(line.Substring(16));
-                }
-                else if (line.StartsWith("ID_VIDEO_FPS"))
-                {
-                    _fps = (int)Globals.FloatParse(line.Substring(13));
-                }
-                else if (line.StartsWith("ID_AUDIO_BITRATE"))
-                {
-                    _AudioBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
-                }
-                else if (line.StartsWith("ID_AUDIO_RATE"))
-                {
-                    _AudioRate = Globals.IntParse(line.Substring(14));
-                }
-                else if (line.StartsWith("ID_LENGTH"))
-                {
-                    _Length = (int)Globals.FloatParse(line.Substring(10));
-                }
-                else if (line.StartsWith("ID_VIDEO_ID"))
-                {
-                    video += 1;
-                    _Video = true;
-                }
-                else if (line.StartsWith("ID_AUDIO_ID"))
-                {
-                    audio += 1;
-                    _Audio = true;
-                    int audio_track = Globals.IntParse(line.Substring(12));
-                    if (minimum_audio > audio_track)
+
+                    if (line.Trim() == "")
                     {
-                        minimum_audio = audio_track;
+                        continue;
                     }
-                    _AudioList.Add(audio_track);
+                    int position = line.IndexOf("ID_");
+                    if (position == -1)
+                    {
+                        continue;
+                    }
+                    line = line.Substring(position);
+                    if (line.StartsWith("ID_VIDEO_BITRATE"))
+                    {
+                        _VideoBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
+                    }
+                    else if (line.StartsWith("ID_VIDEO_WIDTH"))
+                    {
+                        _Width = Globals.IntParse(line.Substring(15));
+                    }
+                    else if (line.StartsWith("ID_VIDEO_HEIGHT"))
+                    {
+                        _Height = Globals.IntParse(line.Substring(16));
+                    }
+                    else if (line.StartsWith("ID_VIDEO_ASPECT"))
+                    {
+                        _AspectRatio = Globals.FloatParse(line.Substring(16));
+                    }
+                    else if (line.StartsWith("ID_VIDEO_FPS"))
+                    {
+                        _fps = (int)Globals.FloatParse(line.Substring(13));
+                    }
+                    else if (line.StartsWith("ID_AUDIO_BITRATE"))
+                    {
+                        _AudioBitrate = Globals.IntParse(line.Substring(17)) / 1000; // kilobits per second
+                    }
+                    else if (line.StartsWith("ID_AUDIO_RATE"))
+                    {
+                        _AudioRate = Globals.IntParse(line.Substring(14));
+                    }
+                    else if (line.StartsWith("ID_LENGTH"))
+                    {
+                        _Length = (int)Globals.FloatParse(line.Substring(10));
+                    }
+                    else if (line.StartsWith("ID_VIDEO_ID"))
+                    {
+                        video += 1;
+                        _Video = true;
+                    }
+                    else if (line.StartsWith("ID_AUDIO_ID"))
+                    {
+                        audio += 1;
+                        _Audio = true;
+                        int audio_track = Globals.IntParse(line.Substring(12));
+                        if (minimum_audio > audio_track)
+                        {
+                            minimum_audio = audio_track;
+                        }
+                        _AudioList.Add(audio_track);
 
-                    AudioTrackInfo info = new AudioTrackInfo();
-                    info.ID = audio_track;
-                    _AudioTracks.Add(info);
+                        AudioTrackInfo info = new AudioTrackInfo();
+                        info.ID = audio_track;
+                        _AudioTracks.Add(info);
                        
-                }
-                else if (line.StartsWith("ID_AID_") && line.Substring(9, 4) == "LANG")
-                {
-                    if (_AudioTracks.Count > 0)
-                    {
-                        string value = line.Substring(14);
-
-                        _AudioTracks[_AudioTracks.Count - 1].Language = value;
-                    }       
-                }
-                else if (line.StartsWith("ID_AID_") && line.Substring(9, 4) == "NAME")
-                {
-                    if (_AudioTracks.Count > 0)
-                    {
-                        string value = line.Substring(14);
-
-                        _AudioTracks[_AudioTracks.Count - 1].Name = value;
                     }
-                }
-                else if (line.StartsWith("ID_SUBTITLE_ID"))
-                {
-                    int value = Globals.IntParse(line.Substring(15));
+                    else if (line.StartsWith("ID_AID_") && line.Substring(9, 4) == "LANG")
+                    {
+                        if (_AudioTracks.Count > 0)
+                        {
+                            string value = line.Substring(14);
 
-                    SubtitlesInfo info = new SubtitlesInfo();
-                    info.ID = value;
-                    _SubtitleList.Add(info);
+                            _AudioTracks[_AudioTracks.Count - 1].Language = value;
+                        }       
+                    }
+                    else if (line.StartsWith("ID_AID_") && line.Substring(9, 4) == "NAME")
+                    {
+                        if (_AudioTracks.Count > 0)
+                        {
+                            string value = line.Substring(14);
+
+                            _AudioTracks[_AudioTracks.Count - 1].Name = value;
+                        }
+                    }
+                    else if (line.StartsWith("ID_SUBTITLE_ID"))
+                    {
+                        int value = Globals.IntParse(line.Substring(15));
+
+                        SubtitlesInfo info = new SubtitlesInfo();
+                        info.ID = value;
+                        _SubtitleList.Add(info);
                        
-                }
-                else if (line.StartsWith("ID_SID_") && line.Substring(9, 4) == "LANG")
-                {
-                    if (_SubtitleList.Count > 0)
+                    }
+                    else if (line.StartsWith("ID_SID_") && line.Substring(9, 4) == "LANG")
                     {
-                        string value = line.Substring(14);
+                        if (_SubtitleList.Count > 0)
+                        {
+                            string value = line.Substring(14);
 
-                        _SubtitleList[_SubtitleList.Count - 1].Language = value;
+                            _SubtitleList[_SubtitleList.Count - 1].Language = value;
+                        }
+                    }
+                    else if (line.StartsWith("ID_SID_") && line.Substring(9, 4) == "NAME")
+                    {
+                        if (_SubtitleList.Count > 0)
+                        {
+                            string value = line.Substring(14);
+
+                            _SubtitleList[_SubtitleList.Count - 1].Name = value;
+                        }
                     }
                 }
-                else if (line.StartsWith("ID_SID_") && line.Substring(9, 4) == "NAME")
-                {
-                    if (_SubtitleList.Count > 0)
-                    {
-                        string value = line.Substring(14);
 
-                        _SubtitleList[_SubtitleList.Count - 1].Name = value;
-                    }
-                }
+                handle.WaitForExit();
+                handle.Close();
             }
-
-            handle.WaitForExit();
-            handle.Close();
-
             if (_AspectRatio == 0.0)
             {
                 _AspectRatio = ((float)_Width / (float)_Height);
