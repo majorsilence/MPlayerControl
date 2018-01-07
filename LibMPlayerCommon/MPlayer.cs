@@ -31,7 +31,7 @@ using System.Diagnostics;
 namespace LibMPlayerCommon
 {
 
-    public class MPlayer : IDisposable
+    public class MPlayer : IDisposable, Player
     {
         private int _wid;
         private bool _fullscreen;
@@ -648,7 +648,7 @@ namespace LibMPlayerCommon
 
         /// <summary>
         /// Insert subtitles, change visibility, position of subtitle, and some another functions
-        /// </sumamry>
+        /// </summary>
         public void InsertSubtitles(string filepath)
         {
             WriteLineWithDebug(string.Format("sub_load \"{0}\"", PrepareFilePath(filepath)));

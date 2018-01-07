@@ -35,7 +35,7 @@ namespace MediaPlayer
     {
 
         private Discover _videoSettings;
-        private MPlayer _play;
+        private LibMPlayerCommon.Player _play;
         private string _filePath;
         private bool _trackBarMousePushedDown = false;
         private int _currentTime = 0;

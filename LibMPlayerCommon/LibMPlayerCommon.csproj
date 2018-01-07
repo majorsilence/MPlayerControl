@@ -85,6 +85,7 @@
     <Compile Include="Seek.cs" />
     <Compile Include="SlideShow.cs" />
     <Compile Include="TimeConversion.cs" />
+    <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
