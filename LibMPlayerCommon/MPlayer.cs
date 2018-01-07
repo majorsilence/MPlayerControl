@@ -31,7 +31,7 @@ using System.Diagnostics;
 namespace LibMPlayerCommon
 {
 
-    public class MPlayer
+    public class MPlayer : IDisposable
     {
         private int _wid;
         private bool _fullscreen;
@@ -63,6 +63,7 @@ namespace LibMPlayerCommon
         public event MplayerEventHandler Filesub;
         public event MplayerEventHandler Audiochannel;
         public event MplayerEventHandler Setaudiolang;
+
         private System.Timers.Timer _currentPostionTimer;
         
         ///vars for mplayer info
@@ -136,10 +137,10 @@ namespace LibMPlayerCommon
         /// <summary>
         /// Cleanup resources.  Currently this means that mplayer is closed if it is still running.
         /// </summary>
+        /// <remarks>Alternatively call the Dispose method.</remarks>
         ~MPlayer()
         {
             // Cleanup
-
             if (this._mplayerProcessID != -1)
             {
                 try
@@ -157,6 +158,26 @@ namespace LibMPlayerCommon
             }
         }
 
+        bool disposed = false;
+
+        public void Dispose()
+        { 
+            Dispose(true);
+            GC.SuppressFinalize(this);           
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return; 
+
+            if (disposing)
+            {
+                MediaPlayer.Dispose();
+            }
+                
+            disposed = true;
+        }
 
         /// <summary>
         /// Is mplayer alreadying running?  True or False.
@@ -494,6 +515,7 @@ namespace LibMPlayerCommon
                 Logging.Instance.WriteLine(ex);
             }
         }
+
         /// <summary>
         /// set percent position of mplayer 
         /// </summary>
@@ -528,6 +550,7 @@ namespace LibMPlayerCommon
                 MediaPlayer.StandardInput.Flush();
             }
         }
+
         /// <summary>
         /// get percent positiob
         /// </summary>
@@ -540,8 +563,9 @@ namespace LibMPlayerCommon
                 return this._percentpos;
             }
             return "";
-        this._percentpos = "";
+            this._percentpos = "";
         }
+
         /// <summary>
         /// Get the current postion in the file being played.
         /// </summary>
@@ -661,6 +685,7 @@ namespace LibMPlayerCommon
             WriteLineWithDebug(string.Format("sub_delay {0}", v));
             MediaPlayer.StandardInput.Flush();
         }
+
         /// <summary>
         /// Change aspect ratio at runtime. [value] is the new aspect ratio expressed
         /// as a float (e.g. 1.77778 for 16/9), or special value -1 to reset to
@@ -674,11 +699,11 @@ namespace LibMPlayerCommon
             WriteLineWithDebug(string.Format("switch_ratio {0}", ratio));
             MediaPlayer.StandardInput.Flush();
         }
-        
+
         /// <summary>
         /// get info about the file 
         /// </summary>
-#region get info
+        #region get info
         //get audio bitrate
         public string GetAudioBitrate()
         {
@@ -690,7 +715,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get audio codec
         public string GetAudioCodec()
@@ -703,7 +728,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get audio samples
         public string GetAudioSamples()
@@ -714,9 +739,9 @@ namespace LibMPlayerCommon
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
-            return this._getfileinfofilename;
+                return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get filename
         public string GetfileName()
@@ -729,7 +754,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get album
         public string getalbum()
@@ -742,7 +767,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get artist
         public string GetArtist()
@@ -755,7 +780,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get comment
         public string GetComment()
@@ -768,7 +793,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get comment
         public string GetGenre()
@@ -794,7 +819,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getinfotitle;
             }
-        return "";
+            return "";
         }
         //get meta track
         public string GetTrack()
@@ -807,7 +832,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get year
         public string GetYear()
@@ -818,9 +843,9 @@ namespace LibMPlayerCommon
                 MediaPlayer.StandardInput.Flush();
                 // This is to give the HandleMediaPlayerOutputDataReceived enought time to process and set the currentPosition.
                 System.Threading.Thread.Sleep(100);
-            return this._getfileinfofilename;
+                return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get videobitrate
         public string GetVideoBitrate()
@@ -833,7 +858,7 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
         //get video resolution
         public string GetVideoResolution()
@@ -846,9 +871,10 @@ namespace LibMPlayerCommon
                 System.Threading.Thread.Sleep(100);
                 return this._getfileinfofilename;
             }
-        return "";
+            return "";
         }
-#endregion
+
+        #endregion
 
         /// <summary>
         /// All mplayer standard output is read through this function.
@@ -866,7 +892,7 @@ namespace LibMPlayerCommon
                     this._finalfilecode = line.Substring("EOF code:".Length);
                     if (this._finalfilecode != null)
                     {
-                    this.Finalfile?.Invoke(this, new MplayerEvent(this._finalfilecode));
+                        this.Finalfile?.Invoke(this, new MplayerEvent(this._finalfilecode));
                     }
                 }
                 else if (line.Contains("Scanning file") || line.Contains("get_path"))
@@ -915,43 +941,43 @@ namespace LibMPlayerCommon
                 }
                 else if (line.StartsWith("ANS_AUDIO_BITRATE=", StringComparison.Ordinal)) //audio bitrate
                 {
-                this._getfileinfofilename = line.Substring("ANS_AUDIO_BITRATE=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_AUDIO_BITRATE=".Length);
                 }
                 else if (line.StartsWith("ANS_AUDIO_CODEC=", StringComparison.Ordinal)) //audio codec
                 {
-                this._getfileinfofilename = line.Substring("ANS_AUDIO_CODEC=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_AUDIO_CODEC=".Length);
                 }
                 else if (line.StartsWith("ANS_AUDIO_SAMPLES=", StringComparison.Ordinal)) //audio sample
                 {
-                this._getfileinfofilename = line.Substring("ANS_AUDIO_SAMPLES=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_AUDIO_SAMPLES=".Length);
                 }
                 else if (line.StartsWith("ANS_FILENAME=")) //audio filename
                 {
-                this._getfileinfofilename = line.Substring("ANS_FILENAME=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_FILENAME=".Length);
                 }
                 else if (line.StartsWith("ANS_META_ALBUM=")) //album
                 {
-                this._getfileinfofilename = line.Substring("ANS_META_ALBUM=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_META_ALBUM=".Length);
                 }
                 else if (line.StartsWith("ANS_META_ARTIST=", StringComparison.Ordinal)) //artista
                 {
-                this._getfileinfofilename = line.Substring("ANS_META_ARTIST=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_META_ARTIST=".Length);
                 }
                 else if (line.StartsWith("ANS_META_COMMENT=", StringComparison.Ordinal)) //comentarios
                 {
-                this._getfileinfofilename = line.Substring("ANS_META_COMMENT=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_META_COMMENT=".Length);
                 }
                 else if (line.StartsWith("ANS_META_GENRE=", StringComparison.Ordinal)) //genero
                 {
-                this._getfileinfofilename = line.Substring("ANS_META_GENRE=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_META_GENRE=".Length);
                 }
                 else if (line.StartsWith("ANS_META_TITLE=", StringComparison.Ordinal)) //titulo
                 {
-                this._getinfotitle = line.Substring("ANS_META_TITLE=".Length);
+                    this._getinfotitle = line.Substring("ANS_META_TITLE=".Length);
                 }
                 else if (line.StartsWith("ANS_META_TRACK=", StringComparison.Ordinal)) //track
                 {
-                this._getfileinfofilename = line.Substring("ANS_META_TRACK=".Length);
+                    this._getfileinfofilename = line.Substring("ANS_META_TRACK=".Length);
                 }
                 else if (line.StartsWith("ANS_META_YEAR=", StringComparison.Ordinal)) //ano
                 {
