@@ -478,12 +478,9 @@ namespace LibMPlayerCommon
         {
             var lpBuffer = IntPtr.Zero;
             _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes ("duration"), MpvFormatString, ref lpBuffer);
-
             var duration = Marshal.PtrToStringAuto (lpBuffer);
-
             _mpvFree (lpBuffer);
            
-            Console.WriteLine ("Duration is: " + duration);
             this._totalTime = (int)Globals.FloatParse (duration);
         }
 
