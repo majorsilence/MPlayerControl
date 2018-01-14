@@ -7,13 +7,25 @@ namespace LibMPlayerCommon
         event MplayerEventHandler VideoExited;
         event MplayerEventHandler CurrentPosition;
 
+        bool FullScreen { get; set; }
+
         MediaStatus CurrentStatus { get; set; }
+
+        void ToggleFullScreen();
 
         void Stop();
 
         void Pause();
 
         void Mute();
+
+        /// <summary>
+        /// The window id that the video will play in
+        /// </summary>
+        /// <param name="wid">Wid.</param>
+        void SetHandle(long wid);
+
+        void MovePosition(int timePosition);
 
         void Play(string filePath);
 
@@ -26,6 +38,9 @@ namespace LibMPlayerCommon
         void SwitchSubtitle(int sub);
 
         int CurrentPlayingFileLength();
+
+        void Volume(int volume);
+
     }
 }
 

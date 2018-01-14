@@ -12,11 +12,26 @@ namespace LibMPlayerWinform
 {
     public partial class WinFormMPlayerControl : UserControl
     {
-        MPlayer _play;
+        Player _play;
 
         public WinFormMPlayerControl()
         {
             InitializeComponent();
+        }
+
+        public WinFormMPlayerControl(Player play)
+        {
+            InitializeComponent();
+
+            _play = play;
+        }
+
+        public long Handle
+        {
+            get
+            {
+                return this.panelVideo.Handle.ToInt64();
+            }
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -34,9 +49,7 @@ namespace LibMPlayerWinform
                 _play.Stop();
             }
 
-            int handle = (int)this.panelVideo.Handle;
-
-            if (System.IO.File.Exists(MPlayerPath) == false)
+            if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MPlayer)
             {
                 throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
             }
@@ -46,11 +59,15 @@ namespace LibMPlayerWinform
                 throw new System.IO.FileNotFoundException("File not found", VideoPath);
             }
 
-            _play = new MPlayer(handle, MplayerBackends.Direct3D, MPlayerPath);
+            if (_play == null)
+            {
+                //_play = new MPlayer(Handle, MplayerBackends.Direct3D, MPlayerPath);
+            }
             _play.Play(VideoPath);
         }
 
         public string MPlayerPath { get; set; }
+
         public string VideoPath { get; set; }
     }
 }

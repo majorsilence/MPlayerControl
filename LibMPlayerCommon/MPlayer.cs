@@ -33,7 +33,7 @@ namespace LibMPlayerCommon
 
     public class MPlayer : IDisposable, Player
     {
-        private int _wid;
+        private long _wid;
         private bool _fullscreen;
         private int _mplayerProcessID = -1;
         private MplayerBackends _mplayerBackend;
@@ -84,12 +84,12 @@ namespace LibMPlayerCommon
         {
         }
 
-        public MPlayer(int wid, MplayerBackends backend)
+        public MPlayer(long wid, MplayerBackends backend)
             : this(wid, backend, "")
         {
         }
 
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath)
+        public MPlayer(long wid, MplayerBackends backend, string mplayerPath)
             : this(wid, backend, mplayerPath, false, TimeSpan.FromMilliseconds(1000))
         {
         }
@@ -105,7 +105,7 @@ namespace LibMPlayerCommon
         /// play any files until MplayerRunning is true.</param>
         /// <param name="positionUpdateInterval">Interval of periodical position updates</param>
         /// <param name="consoleArguments">Specify custom console arguments here; default "-slave -quiet -idle -v -ontop" ( do not set -vo and -wid ) </param>
-        public MPlayer(int wid, MplayerBackends backend, string mplayerPath, bool loadMplayer, TimeSpan positionUpdateInterval, string consoleArguments = "-slave -quiet -idle -v -ontop")
+        public MPlayer(long wid, MplayerBackends backend, string mplayerPath, bool loadMplayer, TimeSpan positionUpdateInterval, string consoleArguments = "-slave -quiet -idle -v -ontop")
         { 
             this._wid = wid;
             this._fullscreen = false;
@@ -339,6 +339,14 @@ namespace LibMPlayerCommon
 
 
 
+        }
+
+        /// <summary>
+        /// This is only useful if mplayer has not yet been initialized
+        /// </summary>
+        public void SetHandle(long wid)
+        {
+            _wid = wid;
         }
 
         /// <summary>

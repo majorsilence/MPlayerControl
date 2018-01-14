@@ -97,7 +97,7 @@ namespace MediaPlayer
             }
 
 
-            this._play = new MPlayer(panelVideo.Handle.ToInt32(), backend, MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            this._play = new MPlayer(panelVideo.Handle.ToInt64(), backend, MediaPlayer.Properties.Settings.Default.MPlayerPath);
             this._play.VideoExited += new MplayerEventHandler(play_VideoExited);
             this._play.CurrentPosition += new MplayerEventHandler(_play_CurrentPosition);
 
