@@ -36,6 +36,22 @@ namespace MediaPlayer
         [STAThread]
         private static void Main(string[] args)
         {
+
+            string path = "";
+            for (int i = 0; i <= Environment.GetCommandLineArgs().Length - 1; i++)
+            {
+                if (Environment.GetCommandLineArgs()[i] == "-path")
+                {
+                    path = Environment.GetCommandLineArgs()[i + 1].Trim();
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                MediaPlayer.Properties.Settings.Default.MPlayerPath = path;
+                MediaPlayer.Properties.Settings.Default.Save();
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Player("", false, false));
