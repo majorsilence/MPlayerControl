@@ -74,30 +74,14 @@ namespace MediaPlayer
 
             LibMPlayerCommon.BackendPrograms b = new LibMPlayerCommon.BackendPrograms();
             if (System.IO.File.Exists(MediaPlayer.Properties.Settings.Default.MPlayerPath) == false
-                && System.IO.File.Exists(b.MPlayer) == false && BackendPrograms.OSPlatform() == "windows")
+                && System.IO.File.Exists(b.MPlayer) == false)
             {
                 MessageBox.Show("Cannot find mplayer.  Loading properties form to select.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnPlayerProperties_Click(sender, e);
             }
 
-
-            MplayerBackends backend;
-            System.PlatformID runningPlatform = System.Environment.OSVersion.Platform;
-            if (runningPlatform == System.PlatformID.Unix)
-            {
-                backend = MplayerBackends.GL2;
-            }
-            else if (runningPlatform == PlatformID.MacOSX)
-            {
-                backend = MplayerBackends.OpenGL;
-            }
-            else
-            {
-                backend = MplayerBackends.Direct3D;
-            }
-
-
-            this._play = new MPlayer(panelVideo.Handle.ToInt64(), backend, MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            this._play = LibMPlayerCommon.PlayerFactory.Get(panelVideo.Handle.ToInt64(), MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            //this._play = new MPlayer(panelVideo.Handle.ToInt64(), backend, MediaPlayer.Properties.Settings.Default.MPlayerPath);
             this._play.VideoExited += new MplayerEventHandler(play_VideoExited);
             this._play.CurrentPosition += new MplayerEventHandler(_play_CurrentPosition);
 

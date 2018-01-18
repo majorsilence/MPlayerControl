@@ -45,7 +45,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "MPlayer Path:";
+            this.label1.Text = "MPlayer/libmpv Path:";
             // 
             // textBox1
             // 
@@ -64,14 +64,16 @@
             this.btnMPlayerPath.Name = "btnMPlayerPath";
             this.btnMPlayerPath.Size = new System.Drawing.Size(114, 23);
             this.btnMPlayerPath.TabIndex = 2;
-            this.btnMPlayerPath.Text = "Select MPlayer Path";
+            this.btnMPlayerPath.Text = "Select MPlayer/libmpv Path";
             this.btnMPlayerPath.UseVisualStyleBackColor = true;
             this.btnMPlayerPath.Click += new System.EventHandler(this.btnMPlayerPath_Click);
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus});
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                {
+                    this.lblStatus
+                });
             this.statusStrip1.Location = new System.Drawing.Point(0, 106);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(630, 22);

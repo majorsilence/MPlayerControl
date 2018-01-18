@@ -29,3 +29,24 @@ MPlayerControl is developed with the following work flow:
 * That person implements that something and submits a pull request
 * Repeat if it doesn't have a feature that you want it to have, add it
     * If it has a bug you need fixed, fix it
+
+
+# MPV Support
+Initial mpv support has been added.
+
+The LC_NUMERIC environment variable must be set to "C" before running an that uses LibMPlayerCommon and libmpv.
+
+```
+LC_NUMERIC=C
+```
+
+Example
+```
+LC_NUMERIC=C mono MediaPlayer.exe
+```
+
+In mono develop right click the executable __Project -> Options -> Run -> General__ add the environment varilabe here.
+
+```
+LC_NUMERIC=C
+```

@@ -21,12 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Timers;
-
-
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Globalization;
 
 
@@ -35,115 +31,7 @@ namespace LibMPlayerCommon
 
     public class MpvPlayer : IDisposable, Player
     {
-
-        private const int MpvFormatString = (int)MpvFormat.MPV_FORMAT_STRING;
-        private IntPtr _libMpvDll;
-        private IntPtr _mpvHandle;
-
-        #region Linux
-
-        [DllImport ("libdl.so")]
-        protected static extern IntPtr dlopen (string filename, int flags);
-
-        [DllImport ("libdl.so")]
-        protected static extern IntPtr dlsym (IntPtr handle, string symbol);
-
-        const int RTLD_NOW = 2;
-        // for dlopen's flags
-
-        #endregion
-
-        [DllImport ("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, BestFitMapping = false)]
-        internal static extern IntPtr LoadLibrary (string dllToLoad);
-
-        [DllImport ("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, BestFitMapping = false)]
-        internal static extern IntPtr GetProcAddress (IntPtr hModule, string procedureName);
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate IntPtr MpvCreate ();
-
-        private MpvCreate _mpvCreate;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvInitialize (IntPtr mpvHandle);
-
-        private MpvInitialize _mpvInitialize;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvCommand (IntPtr mpvHandle, IntPtr strings);
-
-        private MpvCommand _mpvCommand;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvTerminateDestroy (IntPtr mpvHandle);
-
-        private MpvTerminateDestroy _mpvTerminateDestroy;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvSetOption (IntPtr mpvHandle, byte[] name, int format, ref long data);
-
-        private MpvSetOption _mpvSetOption;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvSetOptionString (IntPtr mpvHandle, byte[] name, byte[] value);
-
-        private MpvSetOptionString _mpvSetOptionString;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvGetPropertystring (IntPtr mpvHandle, byte[] name, int format, ref IntPtr data);
-
-        private MpvGetPropertystring _mpvGetPropertyString;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate int MpvSetProperty (IntPtr mpvHandle, byte[] name, int format, ref byte[] data);
-
-        private MpvSetProperty _mpvSetProperty;
-
-        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
-        private delegate void MpvFree (IntPtr data);
-
-        private MpvFree _mpvFree;
-
-
-        private object GetDllType (Type type, string name)
-        {
-            IntPtr address;
-            var platform = PlatformCheck.RunningPlatform ();
-            if (platform == Platform.Windows) {
-                address = GetProcAddress (_libMpvDll, name);
-            } else if (platform == Platform.Linux) {
-                address = dlsym (_libMpvDll, name);
-            } else {
-                throw new NotImplementedException ();
-            }
-
-            if (address != IntPtr.Zero)
-                return Marshal.GetDelegateForFunctionPointer (address, type);
-            return null;
-        }
-
-        private void LoadMpvDynamic ()
-        {
-            var platform = PlatformCheck.RunningPlatform ();
-            if (platform == Platform.Windows) {
-                _libMpvDll = LoadLibrary (_libMpvPath); // "mpv-1.dll"); // The dll is included in the DEV builds by lachs0r: https://mpv.srsfckn.biz/
-            } else if (platform == Platform.Linux) {
-                _libMpvDll = dlopen (_libMpvPath, RTLD_NOW); //("/usr/lib/x86_64-linux-gnu/libmpv.so.1", RTLD_NOW);
-            } else {
-                throw new NotImplementedException ();
-            }
-
-
-            _mpvCreate = (MpvCreate)GetDllType (typeof(MpvCreate), "mpv_create");
-            _mpvInitialize = (MpvInitialize)GetDllType (typeof(MpvInitialize), "mpv_initialize");
-            _mpvTerminateDestroy = (MpvTerminateDestroy)GetDllType (typeof(MpvTerminateDestroy), "mpv_terminate_destroy");
-            _mpvCommand = (MpvCommand)GetDllType (typeof(MpvCommand), "mpv_command");
-            _mpvSetOption = (MpvSetOption)GetDllType (typeof(MpvSetOption), "mpv_set_option");
-            _mpvSetOptionString = (MpvSetOptionString)GetDllType (typeof(MpvSetOptionString), "mpv_set_option_string");
-            _mpvGetPropertyString = (MpvGetPropertystring)GetDllType (typeof(MpvGetPropertystring), "mpv_get_property");
-            _mpvSetProperty = (MpvSetProperty)GetDllType (typeof(MpvSetProperty), "mpv_set_property");
-            _mpvFree = (MpvFree)GetDllType (typeof(MpvFree), "mpv_free");
-        }
+        private Mpv _mpv;
 
         // *******************************************
 
@@ -157,7 +45,7 @@ namespace LibMPlayerCommon
         private int _totalTime = 0;
 
         private string currentFilePath;
-        private string _libMpvPath;
+
 
 
         public event MplayerEventHandler VideoExited;
@@ -191,12 +79,14 @@ namespace LibMPlayerCommon
         /// <param name="positionUpdateInterval">Interval of periodical position updates</param>
         public MpvPlayer (long wid, string libMpvPath, bool loadMplayer, TimeSpan positionUpdateInterval)
         {
-            System.Environment.SetEnvironmentVariable ("LC_NUMERIC", "C");
-
+            
             this._wid = wid;
             this._fullscreen = false;
             this.MplayerRunning = false;
-            this._libMpvPath = libMpvPath;
+
+            _mpv = new Mpv (libMpvPath);
+            _mpv.Initialize ();
+
             this.CurrentStatus = MediaStatus.Stopped;
 
             // This timer will send an event every second with the current video postion when video
@@ -220,9 +110,7 @@ namespace LibMPlayerCommon
         {
             // Cleanup
 
-            if (_mpvHandle != IntPtr.Zero) {
-                _mpvTerminateDestroy (_mpvHandle);
-            }
+            _mpv.Dispose ();
 
         }
 
@@ -240,9 +128,7 @@ namespace LibMPlayerCommon
                 return;
 
             if (disposing) {
-                if (_mpvHandle != IntPtr.Zero) {
-                    _mpvTerminateDestroy (_mpvHandle);
-                }
+                _mpv.Dispose ();
             }
 
             disposed = true;
@@ -274,52 +160,12 @@ namespace LibMPlayerCommon
         public void Play (string filePath)
         {
             LoadFile (filePath);
-
-            if (_mpvHandle == IntPtr.Zero) {
-                return;
-            }
-
-            var bytes = GetUtf8Bytes ("no");
-            _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("pause"), MpvFormatString, ref bytes);
+           
+            _mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "no");
 
             this.CurrentStatus = MediaStatus.Playing;
         }
 
-
-
-        private void DoMpvCommand (params string[] args)
-        {
-            // https://github.com/mpv-player/mpv/blob/master/DOCS/man/input.rst
-
-            IntPtr[] byteArrayPointers;
-            var mainPtr = AllocateUtf8IntPtrArrayWithSentinel (args, out byteArrayPointers);
-            _mpvCommand (_mpvHandle, mainPtr);
-            foreach (var ptr in byteArrayPointers) {
-                Marshal.FreeHGlobal (ptr);
-            }
-            Marshal.FreeHGlobal (mainPtr);
-        }
-
-        public static IntPtr AllocateUtf8IntPtrArrayWithSentinel (string[] arr, out IntPtr[] byteArrayPointers)
-        {
-            int numberOfStrings = arr.Length + 1; // add extra element for extra null pointer last (sentinel)
-            byteArrayPointers = new IntPtr [numberOfStrings];
-            IntPtr rootPointer = Marshal.AllocCoTaskMem (IntPtr.Size * numberOfStrings);
-            for (int index = 0; index < arr.Length; index++) {
-                var bytes = GetUtf8Bytes (arr [index]);
-                IntPtr unmanagedPointer = Marshal.AllocHGlobal (bytes.Length);
-                Marshal.Copy (bytes, 0, unmanagedPointer, bytes.Length);
-                byteArrayPointers [index] = unmanagedPointer;
-            }
-            Marshal.Copy (byteArrayPointers, 0, rootPointer, numberOfStrings);
-            return rootPointer;
-        }
-
-
-        private static byte [] GetUtf8Bytes (string s)
-        {
-            return Encoding.UTF8.GetBytes (s + "\0");
-        }
 
         /// <summary>
         /// Starts a new video/audio file immediatly.  Requires that Play has been called.
@@ -329,22 +175,9 @@ namespace LibMPlayerCommon
         {
             this.currentFilePath = filePath;
 
-            if (_mpvHandle != IntPtr.Zero)
-                _mpvTerminateDestroy (_mpvHandle);
+            _mpv.SetOption ("wid", MpvFormat.MPV_FORMAT_INT64, _wid);
 
-            LoadMpvDynamic ();
-            if (_libMpvDll == IntPtr.Zero)
-                return;
-
-            _mpvHandle = _mpvCreate.Invoke ();
-            if (_mpvHandle == IntPtr.Zero)
-                return;
-
-            _mpvInitialize.Invoke (_mpvHandle);
-            _mpvSetOptionString (_mpvHandle, GetUtf8Bytes ("keep-open"), GetUtf8Bytes ("always"));
-            int mpvFormatInt64 = 4;
-            _mpvSetOption (_mpvHandle, GetUtf8Bytes ("wid"), mpvFormatInt64, ref _wid);
-            DoMpvCommand ("loadfile", filePath);
+            _mpv.DoMpvCommand ("loadfile", filePath);
 
             // HACK: wait for video to load
             System.Threading.Thread.Sleep (1000);
@@ -380,11 +213,7 @@ namespace LibMPlayerCommon
         /// <param name="timePosition">Seconds.  The position to seek move to.</param>
         public void MovePosition (int timePosition)
         {
-            if (_mpvHandle == IntPtr.Zero) {
-                return;
-            }
-
-            DoMpvCommand ("seek", timePosition.ToString (CultureInfo.InvariantCulture), "absolute");
+            _mpv.DoMpvCommand ("seek", timePosition.ToString (CultureInfo.InvariantCulture), "absolute");
         }
 
 
@@ -400,11 +229,7 @@ namespace LibMPlayerCommon
         /// <param name="type"></param>
         public void Seek (int value, Seek type)
         {
-            if (_mpvHandle == IntPtr.Zero) {
-                return;
-            }
-
-            DoMpvCommand ("seek", value.ToString (CultureInfo.InvariantCulture), type.ToString ().ToLower ());
+            _mpv.DoMpvCommand ("seek", value.ToString (CultureInfo.InvariantCulture), type.ToString ().ToLower ());
         }
 
         public void SetSize (int width, int height)
@@ -413,15 +238,8 @@ namespace LibMPlayerCommon
                 return;
             }
 
-            if (_mpvHandle == IntPtr.Zero) {
-                return;
-            }
-
-            var widthBytes = GetUtf8Bytes (width.ToString (CultureInfo.InvariantCulture));
-            _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("width"), MpvFormatString, ref widthBytes);
-
-            var heightBytes = GetUtf8Bytes (height.ToString (CultureInfo.InvariantCulture));
-            _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("height"), MpvFormatString, ref heightBytes);
+            _mpv.SetProperty ("width", MpvFormat.MPV_FORMAT_STRING, width.ToString (CultureInfo.InvariantCulture));
+            _mpv.SetProperty ("height", MpvFormat.MPV_FORMAT_STRING, height.ToString (CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -434,12 +252,7 @@ namespace LibMPlayerCommon
             }
 
             try {
-                if (_mpvHandle == IntPtr.Zero) {
-                    return;
-                }
-
-                var bytes = GetUtf8Bytes ("yes");
-                _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("pause"), MpvFormatString, ref bytes);
+                _mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "yes");
 
             } catch (Exception ex) {
                 Logging.Instance.WriteLine (ex);
@@ -476,24 +289,14 @@ namespace LibMPlayerCommon
         // Sets in motions events to set this._totalTime.  Is called as soon as the video starts.
         private void LoadCurrentPlayingFileLength ()
         {
-            var lpBuffer = IntPtr.Zero;
-            _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes ("duration"), MpvFormatString, ref lpBuffer);
-            var duration = Marshal.PtrToStringAuto (lpBuffer);
-            _mpvFree (lpBuffer);
-           
-            this._totalTime = (int)Globals.FloatParse (duration);
+            this._totalTime = (int)_mpv.GetPropertyFloat ("duration");
         }
 
         private void _currentPostionTimer_Elapsed (object sender, ElapsedEventArgs e)
         {
             if (this.CurrentStatus == MediaStatus.Playing) {
-                var lpBuffer = IntPtr.Zero;
-                _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes ("time-pos"), MpvFormatString, ref lpBuffer);
 
-                var pos = Marshal.PtrToStringAnsi (lpBuffer);
-                _mpvFree (lpBuffer);
-
-                this._currentPosition = Globals.FloatParse (pos);
+                this._currentPosition = _mpv.GetPropertyFloat ("time-pos");
 
                 this.CurrentPosition?.Invoke (this, new MplayerEvent (this._currentPosition));
             }
@@ -508,8 +311,8 @@ namespace LibMPlayerCommon
             set {
                 _fullscreen = value;
 
-                var bytes = _fullscreen == true ? GetUtf8Bytes ("yes") : GetUtf8Bytes ("no");
-                _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("fullscreen"), MpvFormatString, ref bytes);
+                var data = _fullscreen == true ? "yes" : "no";
+                _mpv.SetProperty ("fullscreen", MpvFormat.MPV_FORMAT_STRING, data);
             }
         }
 
@@ -520,17 +323,12 @@ namespace LibMPlayerCommon
         {
             if (this.MplayerRunning) {
                 var lpBuffer = IntPtr.Zero;
-                _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes ("fullscreen"), MpvFormatString, ref lpBuffer);
-
-                var isFullScreen = Marshal.PtrToStringAnsi (lpBuffer);
-                _mpvFree (lpBuffer);
+                string isFullScreen = _mpv.GetProperty ("fullscreen");
 
                 if (isFullScreen == "yes") {
-                    var bytes = GetUtf8Bytes ("no");
-                    _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("fullscreen"), MpvFormatString, ref bytes);
+                    _mpv.SetProperty ("fullscreen", MpvFormat.MPV_FORMAT_STRING, "no");
                 } else {
-                    var bytes = GetUtf8Bytes ("yes");
-                    _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("fullscreen"), MpvFormatString, ref bytes);
+                    _mpv.SetProperty ("fullscreen", MpvFormat.MPV_FORMAT_STRING, "yes");
                 }
 
             }
@@ -541,18 +339,12 @@ namespace LibMPlayerCommon
         /// </summary>
         public void Mute ()
         {
-            var lpBuffer = IntPtr.Zero;
-            _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes ("ao-mute"), MpvFormatString, ref lpBuffer);
-
-            var isMuted = Marshal.PtrToStringAnsi (lpBuffer);
-            _mpvFree (lpBuffer);
-
+            string isMuted = _mpv.GetProperty ("ao-mute");
+   
             if (isMuted == "yes") {
-                var bytes = GetUtf8Bytes ("no");
-                _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("ao-mute"), MpvFormatString, ref bytes);
+                _mpv.SetProperty ("ao-mute", MpvFormat.MPV_FORMAT_STRING, "no");
             } else {
-                var bytes = GetUtf8Bytes ("yes");
-                _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("ao-mute"), MpvFormatString, ref bytes);
+                _mpv.SetProperty ("ao-mute", MpvFormat.MPV_FORMAT_STRING, "yes");
             }
 
         }
@@ -566,29 +358,24 @@ namespace LibMPlayerCommon
         {
             Debug.Assert (volume >= 0 && volume <= 100);
 
-
-            var bytes = GetUtf8Bytes (volume.ToString ());
-            _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("ao-volume"), MpvFormatString, ref bytes);
-
+            _mpv.SetProperty ("ao-volume", MpvFormat.MPV_FORMAT_STRING, volume.ToString ());
         }
 
         public void SwitchAudioTrack (int track)
         {
-            var bytes = GetUtf8Bytes (track.ToString ());
-            _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("audio-reload"), MpvFormatString, ref bytes);
+            _mpv.SetProperty ("ao-reload", MpvFormat.MPV_FORMAT_STRING, track.ToString ());
         }
 
         public void SwitchSubtitle (int sub)
         {
-            var bytes = GetUtf8Bytes (sub.ToString ());
-            _mpvSetProperty (_mpvHandle, GetUtf8Bytes ("sub-reload"), MpvFormatString, ref bytes);
+            _mpv.SetProperty ("sub-reload", MpvFormat.MPV_FORMAT_STRING, sub.ToString ());
         }
 
     }
 
 
     // from https://github.com/mpv-player/mpv/blob/master/libmpv/client.h
-    enum MpvFormat
+    public enum MpvFormat
     {
         /**
      * Invalid. Sometimes used for empty values.

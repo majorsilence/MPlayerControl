@@ -30,10 +30,16 @@ namespace LibMPlayerCommon
     /// <summary>
     /// This class is used to discover information about a media file.
     /// </summary>
-    public class Discover : IDiscover
+    public class MpvDiscover : IDiscover
     {
-        private Discover ()
+        private MpvDiscover ()
         {
+        }
+
+        public MpvDiscover (string filePath, string libmpvPath)
+        {
+            this.filePath = filePath;
+            this.mplayerPath = mplayerPath;
         }
 
         private int _VideoBitrate = 0;
@@ -177,22 +183,7 @@ namespace LibMPlayerCommon
         private readonly string filePath;
         private readonly string mplayerPath;
 
-        public Discover (string filePath)
-            : this (filePath, "")
-        {
-        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="mplayerPath">If mplayerPath is left empty it will search for mplayer.exe in 
-        /// "current directory\backend\mplayer.exe" on windows and mplayer in the path on linux.</param>
-        public Discover (string filePath, string mplayerPath)
-        {
-            this.filePath = filePath;
-            this.mplayerPath = mplayerPath;
-        }
 
         public Task ExecuteAsync ()
         {
@@ -240,9 +231,7 @@ namespace LibMPlayerCommon
                 string line = "";
                 StringReader strReader = new StringReader (handle.StandardOutput.ReadToEnd ());
 
-                while ((line = strReader.ReadLine ()) != null)
-                //while (handle.HasExited == false)
-                {
+                while ((line = strReader.ReadLine ()) != null) {                //while (handle.HasExited == false)
 
                     if (line.Trim () == "") {
                         continue;
@@ -332,23 +321,5 @@ namespace LibMPlayerCommon
 
 
     }
-
-    public class AudioTrackInfo
-    {
-        public int ID { get; set; }
-
-        public string Language { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    public class SubtitlesInfo
-    {
-        public int ID { get; set; }
-
-        public string Language { get; set; }
-
-        public string Name { get; set; }
-    }
-
+        
 }
