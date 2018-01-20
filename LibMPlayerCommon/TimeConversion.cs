@@ -33,12 +33,11 @@ namespace LibMPlayerCommon
         /// </summary>
         /// <param name="timeInSeconds"></param>
         /// <returns></returns>
-        public static string ConvertTimeHHMMSS(int timeInSeconds)
+        public static string ConvertTimeHHMMSS (int timeInSeconds)
         {
 
-            if (timeInSeconds < 0)
-            {
-                throw new Exception("Invalid time.  Seconds must be greated then >= 0.  Seconds passed in was: " + timeInSeconds.ToString());
+            if (timeInSeconds < 0) {
+                throw new MPlayerControlException ("Invalid time.  Seconds must be greated then >= 0.  Seconds passed in was: " + timeInSeconds.ToString ());
             }
 
             int hours = 0;
@@ -46,14 +45,12 @@ namespace LibMPlayerCommon
             int seconds = 0;
             string time_string = "";
 
-            if (timeInSeconds >= 3600)
-            {
+            if (timeInSeconds >= 3600) {
                 hours = timeInSeconds / 3600;
                 timeInSeconds = timeInSeconds - (hours * 3600);
             }
 
-            if (timeInSeconds >= 60)
-            {
+            if (timeInSeconds >= 60) {
                 minutes = timeInSeconds / 60;
                 timeInSeconds = timeInSeconds - (minutes * 60);
             }
@@ -61,12 +58,12 @@ namespace LibMPlayerCommon
             //remaining time is seconds
             seconds = timeInSeconds;
 
-            time_string = time_string + hours.ToString().PadLeft(2, '0') + ":" + 
-                minutes.ToString().PadLeft(2, '0') + ":" + seconds.ToString().PadLeft(2, '0');
+            time_string = time_string + hours.ToString ().PadLeft (2, '0') + ":" +
+            minutes.ToString ().PadLeft (2, '0') + ":" + seconds.ToString ().PadLeft (2, '0');
 
             //return time in Hours:Minutes:Seconds format 
             return time_string;
-      }
+        }
 
     }
 }

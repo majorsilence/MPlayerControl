@@ -212,7 +212,8 @@ namespace LibMPlayerCommon
             _mpv = new Mpv (libmpvPath);
             _mpv.Initialize ();
             //_mpv.SetProperty ("vo", MpvFormat.MPV_FORMAT_STRING, "null");
-            _mpv.DoMpvCommand ("loadfile", filePath, "vo", "null");
+            //_mpv.DoMpvCommand ("loadfile", filePath, "vo", "null");
+            _mpv.DoMpvCommand ("loadfile", filePath);
             _mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "yes");
 
             // HACK: wait for video to load

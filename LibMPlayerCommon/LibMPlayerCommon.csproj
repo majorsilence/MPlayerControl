@@ -92,6 +92,7 @@
     <Compile Include="DiscoverFactory.cs" />
     <Compile Include="MPlayerDiscover.cs" />
     <Compile Include="Discover.cs" />
+    <Compile Include="Exceptions\MPlayerControlException.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -131,4 +132,7 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
 </Project>
