@@ -34,7 +34,7 @@ namespace MediaPlayer
     public partial class Player : Form
     {
 
-        private Discover _videoSettings;
+        private LibMPlayerCommon.Discover _videoSettings;
         private LibMPlayerCommon.Player _play;
         private string _filePath;
         private bool _trackBarMousePushedDown = false;
@@ -189,7 +189,7 @@ namespace MediaPlayer
                 }
             }
 
-            _videoSettings = new Discover(this._filePath, MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            _videoSettings = LibMPlayerCommon.DiscoverFactory.Get(this._filePath, MediaPlayer.Properties.Settings.Default.MPlayerPath);
             await _videoSettings.ExecuteAsync();
             this._play.Play(this._filePath);
             lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(_videoSettings.Length);

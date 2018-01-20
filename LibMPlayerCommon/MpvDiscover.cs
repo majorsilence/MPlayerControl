@@ -24,14 +24,19 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace LibMPlayerCommon
 {
     /// <summary>
     /// This class is used to discover information about a media file.
     /// </summary>
-    public class MpvDiscover : IDiscover
+    public class MpvDiscover : Discover
     {
+        private Mpv _mpv;
+        private readonly string filePath;
+        private readonly string libmpvPath;
+
         private MpvDiscover ()
         {
         }
@@ -39,7 +44,15 @@ namespace LibMPlayerCommon
         public MpvDiscover (string filePath, string libmpvPath)
         {
             this.filePath = filePath;
-            this.mplayerPath = mplayerPath;
+            this.libmpvPath = libmpvPath;
+        }
+
+        ~MpvDiscover ()
+        {
+            // Cleanup
+
+            _mpv.Dispose ();
+
         }
 
         private int _VideoBitrate = 0;
@@ -179,12 +192,7 @@ namespace LibMPlayerCommon
             }
         }
 
-
-        private readonly string filePath;
-        private readonly string mplayerPath;
-
-
-
+      
         public Task ExecuteAsync ()
         {
             return Task.Run (() => Execute ());
@@ -201,115 +209,66 @@ namespace LibMPlayerCommon
 		 	
              Returns (True,0) if the file is a right video file 
              */
+            _mpv = new Mpv (libmpvPath);
+            _mpv.Initialize ();
+            //_mpv.SetProperty ("vo", MpvFormat.MPV_FORMAT_STRING, "null");
+            _mpv.DoMpvCommand ("loadfile", filePath, "vo", "null");
+            _mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "yes");
 
-            BackendPrograms mplayerLocation = new BackendPrograms (mplayerPath);
+            // HACK: wait for video to load
+            System.Threading.Thread.Sleep (1000);
 
-            int audio = 0;
-            int video = 0;
-            int nframes = 1;
+           
+            _Width = _mpv.GetPropertyInt ("width");
+            _Height = _mpv.GetPropertyInt ("height");
+            _AspectRatio = _mpv.GetPropertyFloat ("video-aspect");
 
-            int minimum_audio = 10000;
+            _AudioBitrate = _mpv.GetPropertyInt ("audio-bitrate");
+            _AudioRate = _mpv.GetPropertyInt ("audio-params/samplerate");
+            _Length = _mpv.GetPropertyInt ("duration");
+
+            _fps = _mpv.GetPropertyInt ("container-fps");
+            _VideoBitrate = _mpv.GetPropertyInt ("video-bitrate");
+            string videoFormat = _mpv.GetProperty ("video-format");
+            if (!string.IsNullOrWhiteSpace (videoFormat)) {
+                _Video = true;
+            }
+
+
             _AudioList = new List<int> ();
             _AudioTracks = new List<AudioTrackInfo> ();
             _SubtitleList = new List<SubtitlesInfo> ();
-            // if CHECK_AUDIO is TRUE, we just check if it's an audio file
 
-            //if check_audio:
-            //    nframes=0
-            //else:
-            //    nframes=1
+            int trackCount = _mpv.GetPropertyInt ("track-list/count");
+            foreach (int i in Enumerable.Range (0, trackCount)) {
+                string trackType = _mpv.GetProperty ($"track-list/{i}/type");
+                int trackId = _mpv.GetPropertyInt ($"track-list/{i}/id");
+                string name = _mpv.GetProperty ($"track-list/{i}/title");
+                string language = _mpv.GetProperty ($"track-list/{i}/lang");
 
-            using (var handle = new System.Diagnostics.Process ()) {
-                handle.StartInfo.UseShellExecute = false;
-                handle.StartInfo.CreateNoWindow = true;
-                handle.StartInfo.RedirectStandardOutput = true;
-                handle.StartInfo.RedirectStandardError = true;
+                if (trackType == "audio") {
+                    _AudioList.Add (trackId);
 
-                handle.StartInfo.FileName = mplayerLocation.MPlayer;
-                handle.StartInfo.Arguments = string.Format ("-loop 1 -identify -ao null -vo null -frames 0 {0} \"{1}\"", nframes.ToString (), filePath);
-                handle.Start ();
-                string line = "";
-                StringReader strReader = new StringReader (handle.StandardOutput.ReadToEnd ());
+                    var info = new AudioTrackInfo () {
+                        ID = trackId,
+                        Name = name,
+                        Language = language
+                    };
 
-                while ((line = strReader.ReadLine ()) != null) {                //while (handle.HasExited == false)
+                    _AudioTracks.Add (info);
+                } else if (trackType == "sub") {
+                    var info = new SubtitlesInfo () {
+                        ID = trackId,
+                        Name = name,
+                        Language = language
+                    };
 
-                    if (line.Trim () == "") {
-                        continue;
-                    }
-                    int position = line.IndexOf ("ID_");
-                    if (position == -1) {
-                        continue;
-                    }
-                    line = line.Substring (position);
-                    if (line.StartsWith ("ID_VIDEO_BITRATE")) {
-                        _VideoBitrate = Globals.IntParse (line.Substring (17)) / 1000; // kilobits per second
-                    } else if (line.StartsWith ("ID_VIDEO_WIDTH")) {
-                        _Width = Globals.IntParse (line.Substring (15));
-                    } else if (line.StartsWith ("ID_VIDEO_HEIGHT")) {
-                        _Height = Globals.IntParse (line.Substring (16));
-                    } else if (line.StartsWith ("ID_VIDEO_ASPECT")) {
-                        _AspectRatio = Globals.FloatParse (line.Substring (16));
-                    } else if (line.StartsWith ("ID_VIDEO_FPS")) {
-                        _fps = (int)Globals.FloatParse (line.Substring (13));
-                    } else if (line.StartsWith ("ID_AUDIO_BITRATE")) {
-                        _AudioBitrate = Globals.IntParse (line.Substring (17)) / 1000; // kilobits per second
-                    } else if (line.StartsWith ("ID_AUDIO_RATE")) {
-                        _AudioRate = Globals.IntParse (line.Substring (14));
-                    } else if (line.StartsWith ("ID_LENGTH")) {
-                        _Length = (int)Globals.FloatParse (line.Substring (10));
-                    } else if (line.StartsWith ("ID_VIDEO_ID")) {
-                        video += 1;
-                        _Video = true;
-                    } else if (line.StartsWith ("ID_AUDIO_ID")) {
-                        audio += 1;
-                        _Audio = true;
-                        int audio_track = Globals.IntParse (line.Substring (12));
-                        if (minimum_audio > audio_track) {
-                            minimum_audio = audio_track;
-                        }
-                        _AudioList.Add (audio_track);
-
-                        AudioTrackInfo info = new AudioTrackInfo ();
-                        info.ID = audio_track;
-                        _AudioTracks.Add (info);
-
-                    } else if (line.StartsWith ("ID_AID_") && line.Substring (9, 4) == "LANG") {
-                        if (_AudioTracks.Count > 0) {
-                            string value = line.Substring (14);
-
-                            _AudioTracks [_AudioTracks.Count - 1].Language = value;
-                        }
-                    } else if (line.StartsWith ("ID_AID_") && line.Substring (9, 4) == "NAME") {
-                        if (_AudioTracks.Count > 0) {
-                            string value = line.Substring (14);
-
-                            _AudioTracks [_AudioTracks.Count - 1].Name = value;
-                        }
-                    } else if (line.StartsWith ("ID_SUBTITLE_ID")) {
-                        int value = Globals.IntParse (line.Substring (15));
-
-                        SubtitlesInfo info = new SubtitlesInfo ();
-                        info.ID = value;
-                        _SubtitleList.Add (info);
-
-                    } else if (line.StartsWith ("ID_SID_") && line.Substring (9, 4) == "LANG") {
-                        if (_SubtitleList.Count > 0) {
-                            string value = line.Substring (14);
-
-                            _SubtitleList [_SubtitleList.Count - 1].Language = value;
-                        }
-                    } else if (line.StartsWith ("ID_SID_") && line.Substring (9, 4) == "NAME") {
-                        if (_SubtitleList.Count > 0) {
-                            string value = line.Substring (14);
-
-                            _SubtitleList [_SubtitleList.Count - 1].Name = value;
-                        }
-                    }
+                    _SubtitleList.Add (info);
                 }
-
-                handle.WaitForExit ();
-                handle.Close ();
+                    
             }
+                
+
             if (_AspectRatio == 0.0) {
                 _AspectRatio = ((float)_Width / (float)_Height);
                 if (_AspectRatio <= 1.5) {

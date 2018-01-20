@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="AspectRatio.cs" />
     <Compile Include="BackendPrograms.cs" />
-    <Compile Include="Discover.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="MediaStatus.cs" />
@@ -88,9 +87,11 @@
     <Compile Include="MpvPlayer.cs" />
     <Compile Include="PlatformCheck.cs" />
     <Compile Include="PlayerFactory.cs" />
-    <Compile Include="IDiscover.cs" />
     <Compile Include="MpvDiscover.cs" />
     <Compile Include="Mpv.cs" />
+    <Compile Include="DiscoverFactory.cs" />
+    <Compile Include="MPlayerDiscover.cs" />
+    <Compile Include="Discover.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

@@ -176,7 +176,6 @@ namespace LibMPlayerCommon
             this.currentFilePath = filePath;
 
             _mpv.SetOption ("wid", MpvFormat.MPV_FORMAT_INT64, _wid);
-
             _mpv.DoMpvCommand ("loadfile", filePath);
 
             // HACK: wait for video to load

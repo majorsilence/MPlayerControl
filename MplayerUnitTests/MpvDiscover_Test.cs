@@ -9,7 +9,7 @@ namespace MplayerUnitTests
 {
 
     [TestFixture()]
-    public class Discover_Test
+    public class MpvDiscover_Test
     {
 
         #region Test Video1
@@ -17,7 +17,7 @@ namespace MplayerUnitTests
         [Test()]
         public void AudioBitrate_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(8, a.AudioBitrate);
         }
@@ -25,7 +25,7 @@ namespace MplayerUnitTests
         [Test()]
         public void IsAudio_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(true, a.Audio);
         }
@@ -34,7 +34,7 @@ namespace MplayerUnitTests
         [Test()]
         public void IsVideo_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(true, a.Video);
         }
@@ -42,7 +42,7 @@ namespace MplayerUnitTests
         [Test()]
         public void AspectRatio_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(1.33333337f, a.AspectRatio);
         }
@@ -50,14 +50,14 @@ namespace MplayerUnitTests
         [Test()]
         public void AudioList_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             Assert.AreEqual(1, a.AudioList.Count);
         }
 
         [Test()]
         public void AudioSampleRate_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(22050, a.AudioSampleRate);
         }
@@ -65,7 +65,7 @@ namespace MplayerUnitTests
         [Test()]
         public void FPS_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             Assert.AreEqual(29, a.FPS);
         }
 
@@ -73,7 +73,7 @@ namespace MplayerUnitTests
         [Test()]
         public void Height_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(240, a.Height);
         }
@@ -81,7 +81,7 @@ namespace MplayerUnitTests
         [Test()]
         public void Width_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(320, a.Width);
         }
@@ -89,7 +89,7 @@ namespace MplayerUnitTests
         [Test()]
         public void Length_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(208, a.Length);
         }
@@ -97,7 +97,7 @@ namespace MplayerUnitTests
         [Test()]
         public void VideoBitrate_Test1()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video1Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(339, a.VideoBitrate);
         }
@@ -110,7 +110,7 @@ namespace MplayerUnitTests
         [Test()]
         public void AudioBitrate_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(8, a.AudioBitrate);
         }
@@ -118,7 +118,7 @@ namespace MplayerUnitTests
         [Test()]
         public void IsAudio_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(true, a.Audio);
         }
@@ -127,14 +127,14 @@ namespace MplayerUnitTests
         [Test()]
         public void IsVideo_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             Assert.AreEqual(true, a.Video);
         }
 
         [Test()]
         public void AspectRatio_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(1.33333337f, a.AspectRatio);
         }
@@ -142,7 +142,7 @@ namespace MplayerUnitTests
         [Test()]
         public void AudioList_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(1, a.AudioList.Count);
         }
@@ -150,7 +150,7 @@ namespace MplayerUnitTests
         [Test()]
         public void AudioSampleRate_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(22050, a.AudioSampleRate);
         }
@@ -158,7 +158,7 @@ namespace MplayerUnitTests
         [Test()]
         public void FPS_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             Assert.AreEqual(29, a.FPS);
         }
 
@@ -166,7 +166,7 @@ namespace MplayerUnitTests
         [Test()]
         public void Height_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(240, a.Height);
         }
@@ -174,7 +174,7 @@ namespace MplayerUnitTests
         [Test()]
         public void Width_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(320, a.Width);
         }
@@ -182,7 +182,7 @@ namespace MplayerUnitTests
         [Test()]
         public void Length_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(255, a.Length);
         }
@@ -190,7 +190,7 @@ namespace MplayerUnitTests
         [Test()]
         public void VideoBitrate_Test2()
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MpvDiscover(GlobalVariables.Video2Path, GlobalVariables.LibMpvPath);
             a.Execute();
             Assert.AreEqual(330, a.VideoBitrate);
         }

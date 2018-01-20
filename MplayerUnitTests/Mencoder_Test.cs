@@ -75,7 +75,7 @@ namespace MplayerUnitTests
 
         private void a_ConversionComplete(object sender, LibMPlayerCommon.MplayerEvent e)
         {
-            var a = new LibMPlayerCommon.Discover(GlobalVariables.OutputVideoDvdMpegNtsc, GlobalVariables.MplayerPath);
+            var a = new LibMPlayerCommon.MPlayerDiscover(GlobalVariables.OutputVideoDvdMpegNtsc, GlobalVariables.MplayerPath);
             Assert.AreEqual(192, a.AudioBitrate);
             Assert.AreEqual(720, a.Width);
             Assert.AreEqual(480, a.Height);

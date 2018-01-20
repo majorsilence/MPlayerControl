@@ -4,13 +4,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MplayerUnitTests</RootNamespace>
     <AssemblyName>MplayerUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <StartupObject>MplayerUnitTests.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,12 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LC_NUMERIC" value="C" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +35,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LC_NUMERIC" value="C" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +50,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LC_NUMERIC" value="C" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -50,6 +67,11 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
     <WarningLevel>4</WarningLevel>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LC_NUMERIC" value="C" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,13 +86,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Discover_Test.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="ImageResize_Test.cs" />
     <Compile Include="Mencoder_Test.cs" />
     <Compile Include="SetupInitialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlideShow_Test.cs" />
+    <Compile Include="MPlayerDiscover_Test.cs" />
+    <Compile Include="MpvDiscover_Test.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibImages\LibImages.csproj">

@@ -38,16 +38,16 @@ fi
 
 if [ "$osversion" = 'windows' ];
 then
-	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.dll" -result:"nunit-result.xml;format=nunit2"
+	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2"
 else
-	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.dll" -result:"nunit-result.xml;format=nunit2"
+	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2"
 fi
 CURRENTPATH=`pwd`
-PACKAGEDIR="MPlayerControl-dot-net-4.5-AnyCPU"
+PACKAGEDIR="MPlayerControl-dot-net-4.7-AnyCPU"
 
-rm -rf ./build-output/MPlayerControl-dot-net-4.5-AnyCPU
+rm -rf ./build-output/MPlayerControl-dot-net-4.7-AnyCPU
 rm -rf "./build-output/$PACKAGEDIR.zip"
-mkdir -p ./build-output/MPlayerControl-dot-net-4.5-AnyCPU
+mkdir -p ./build-output/MPlayerControl-dot-net-4.7-AnyCPU
 
 cp ../MediaPlayer/bin/Release/LibImages.dll "./build-output/$PACKAGEDIR/LibImages.dll"
 cp ../MediaPlayer/bin/Release/LibMplayerCommon.dll "./build-output/$PACKAGEDIR/LibMplayerCommon.dll"

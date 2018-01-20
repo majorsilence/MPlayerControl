@@ -53,6 +53,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <WarningLevel>4</WarningLevel>
     <Commandlineparameters>-path "/usr/lib/x86_64-linux-gnu/libmpv.so.1"</Commandlineparameters>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LC_NUMERIC" value="C" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <WarningLevel>4</WarningLevel>

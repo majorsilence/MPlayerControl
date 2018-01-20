@@ -40,7 +40,7 @@ namespace MplayerUnitTests
             }
                 
             finalPath = Path.Combine(path, "TestVideos");
-            GlobalVariables.InitPath(finalPath, "mplayer");
+            GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
 
         }
 
@@ -59,7 +59,7 @@ namespace MplayerUnitTests
 
             string programPath = zipProgramPath;
             Console.WriteLine(string.Format("7za Path: {0}", programPath));
-            var p = new Process()
+            using (var p = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
@@ -67,17 +67,19 @@ namespace MplayerUnitTests
                     UseShellExecute = false,
                     Arguments = string.Format("-y x \"{0}\" -o\"{1}\"", currentZipFile, extractFolder)
                 }
-            };
-            p.Start();
-            p.WaitForExit();
-
-            Debug.Assert(p.ExitCode == 0);
-            if (p.ExitCode > 0)
+            })
             {
-                Console.WriteLine(string.Format("Error unzipping file {0}", currentZipFile));
-                Environment.Exit(1);
+                p.Start();
+                p.WaitForExit();
+
+                Debug.Assert(p.ExitCode == 0);
+                if (p.ExitCode > 0)
+                {
+                    Console.WriteLine(string.Format("Error unzipping file {0}", currentZipFile));
+                    Environment.Exit(1);
+                }
+                p.Close();
             }
-            p.Close();
         }
 
     }

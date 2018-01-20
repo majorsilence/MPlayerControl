@@ -142,6 +142,16 @@ namespace LibMPlayerCommon
             return Globals.FloatParse (data);
         }
 
+
+        public int GetPropertyInt (string name)
+        {
+            var lpBuffer = IntPtr.Zero;
+            _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes (name), (int)MpvFormat.MPV_FORMAT_STRING, ref lpBuffer);
+            var data = Marshal.PtrToStringAuto (lpBuffer);
+            _mpvFree (lpBuffer);
+            return (int)Globals.FloatParse (data);
+        }
+
         public int SetOption (string name, MpvFormat format, long data)
         {
             return _mpvSetOption (_mpvHandle, GetUtf8Bytes (name), (int)format, ref data);
@@ -149,7 +159,6 @@ namespace LibMPlayerCommon
 
         public void Initialize ()
         {
-            System.Environment.SetEnvironmentVariable ("LC_NUMERIC", "C");
             if (_mpvHandle != IntPtr.Zero)
                 _mpvTerminateDestroy (_mpvHandle);
 

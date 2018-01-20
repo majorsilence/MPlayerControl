@@ -16,11 +16,13 @@ namespace MplayerUnitTests
 
         private static string _basePath;
         private static string _mplayerPath;
+        private static string _libMpvPath;
 
-        public static void InitPath(string basePath, string mplayerPath)
+        public static void InitPath(string basePath, string mplayerPath, string libMpvPath)
         {
             _basePath = basePath;
             _mplayerPath = mplayerPath;
+            _libMpvPath = libMpvPath;
         }
 
         public static string BasePath
@@ -31,6 +33,11 @@ namespace MplayerUnitTests
         public static string MplayerPath
         {
             get { return _mplayerPath; }
+        }
+
+        public static string LibMpvPath
+        {
+            get { return _libMpvPath; }
         }
 
         public static string Video1Path
