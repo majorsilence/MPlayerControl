@@ -38,8 +38,9 @@ namespace MplayerUnitTests
             mpvDiscover.Length_Test2();
             mpvDiscover.VideoBitrate_Test1();
             mpvDiscover.VideoBitrate_Test2();
-            */
+           
             mpvDiscover.Width_Test1();
+             */
             mpvDiscover.Width_Test2();
 
         }

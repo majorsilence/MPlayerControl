@@ -200,6 +200,11 @@ namespace LibMPlayerCommon
 
         public void Execute ()
         {
+            // As work around can run mpv commandline and parse output
+            // mpv video_name.mp4 --vo null -ao null --frames 1 -v
+
+
+
             /*
              Reads the values of the video (width, heigth, fps...) and stores them
              into file_values.
@@ -210,15 +215,21 @@ namespace LibMPlayerCommon
              Returns (True,0) if the file is a right video file 
              */
             _mpv = new Mpv (libmpvPath);
+
+            // Must be set before initializeation
+            _mpv.SetOption ("frames", MpvFormat.MPV_FORMAT_INT64, 148);
+
             _mpv.Initialize ();
-            //_mpv.SetProperty ("vo", MpvFormat.MPV_FORMAT_STRING, "null");
-            //_mpv.DoMpvCommand ("loadfile", filePath, "vo", "null");
+
+            _mpv.SetOption ("wid", MpvFormat.MPV_FORMAT_INT64, -1);
+            _mpv.SetOption ("vo", MpvFormat.MPV_FORMAT_STRING, "null");
+            _mpv.SetOption ("ao", MpvFormat.MPV_FORMAT_STRING, "null");
+
             _mpv.DoMpvCommand ("loadfile", filePath);
-            _mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "yes");
 
             // HACK: wait for video to load
             System.Threading.Thread.Sleep (1000);
-
+            //_mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "yes");
            
             _Width = _mpv.GetPropertyInt ("width");
             _Height = _mpv.GetPropertyInt ("height");
@@ -228,8 +239,12 @@ namespace LibMPlayerCommon
             _AudioRate = _mpv.GetPropertyInt ("audio-params/samplerate");
             _Length = _mpv.GetPropertyInt ("duration");
 
-            _fps = _mpv.GetPropertyInt ("container-fps");
-            _VideoBitrate = _mpv.GetPropertyInt ("video-bitrate");
+            //_fps = _mpv.GetPropertyInt ("container-fps");
+            _fps = _mpv.GetPropertyInt ("fps");
+            //_VideoBitrate = _mpv.GetPropertyInt ("video-bitrate");
+            //_VideoBitrate = _mpv.GetPropertyInt ("packet-video-bitrate");
+
+
             string videoFormat = _mpv.GetProperty ("video-format");
             if (!string.IsNullOrWhiteSpace (videoFormat)) {
                 _Video = true;

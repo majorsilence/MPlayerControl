@@ -9,6 +9,35 @@ namespace LibMPlayerCommon
         public Mpv (string _libMpvPath)
         {
             this._libMpvPath = _libMpvPath;
+
+            if (_mpvHandle != IntPtr.Zero)
+                _mpvTerminateDestroy (_mpvHandle);
+
+            LoadMpvDynamic ();
+            if (_libMpvDll == IntPtr.Zero) {
+                Console.WriteLine ("libmpvdll null");
+                return;
+            }
+
+            _mpvHandle = _mpvCreate.Invoke ();
+            System.Threading.Thread.Sleep (1000);
+            if (_mpvHandle == IntPtr.Zero) {
+                Console.WriteLine ("mpvhandle null");
+                return;
+            }
+
+        }
+
+        public void Initialize ()
+        {
+
+            // long frames = 100;
+            //_mpvSetOption (_mpvHandle, GetUtf8Bytes ("frames"), (int)MpvFormat.MPV_FORMAT_INT64, ref frames);
+
+            _mpvInitialize.Invoke (_mpvHandle);
+
+            _mpvSetOptionString (_mpvHandle, GetUtf8Bytes ("keep-open"), GetUtf8Bytes ("always"));
+
         }
 
         ~Mpv ()
@@ -112,6 +141,14 @@ namespace LibMPlayerCommon
 
         private MpvFree _mpvFree;
 
+
+        [UnmanagedFunctionPointer (CallingConvention.Cdecl)]
+        private delegate int MpvObserveProperty (IntPtr mpvHandle, UInt64 reply_userdata, [MarshalAs (UnmanagedType.LPStr)] string name,
+            int format);
+
+        private MpvObserveProperty _mpvObserveProperty;
+
+       
      
         public int SetProperty (string name, MpvFormat format, string data)
         {
@@ -134,7 +171,7 @@ namespace LibMPlayerCommon
             if (returnValue < 0) {
                 // https://github.com/mpv-player/mpv/blob/master/libmpv/client.h
                 MpvError error = (MpvError)returnValue;
-                throw new MPlayerControlException ($"GetProperty ({name}) error {error.ToString()}");
+                throw new MPlayerControlException ($"GetProperty ({name}) error {error.ToString()}", returnValue);
             }
             return data;
         }
@@ -158,29 +195,22 @@ namespace LibMPlayerCommon
             return _mpvSetOption (_mpvHandle, GetUtf8Bytes (name), (int)format, ref data);
         }
 
-        public void Initialize ()
+        public int SetOption (string name, MpvFormat format, string data)
         {
-            if (_mpvHandle != IntPtr.Zero)
-                _mpvTerminateDestroy (_mpvHandle);
-
-            LoadMpvDynamic ();
-            if (_libMpvDll == IntPtr.Zero) {
-                Console.WriteLine ("libmpvdll null");
-                return;
-            }
-
-            _mpvHandle = _mpvCreate.Invoke ();
-            System.Threading.Thread.Sleep (1000);
-            if (_mpvHandle == IntPtr.Zero) {
-                Console.WriteLine ("mpvhandle null");
-                return;
-            }
-
-            _mpvInitialize.Invoke (_mpvHandle);
-
-            _mpvSetOptionString (_mpvHandle, GetUtf8Bytes ("keep-open"), GetUtf8Bytes ("always"));
-
+            return _mpvSetOptionString (_mpvHandle, GetUtf8Bytes (name), GetUtf8Bytes (data));
         }
+
+        /*
+        public int ObserveProperty (string name, Action<object> action)
+        {
+            // 
+            int returnValue = _mpvObserveProperty (_mpvHandle, (ulong)action.GetHashCode (), name, (int)MpvFormat.MPV_FORMAT_FLAG);
+            if (returnValue < 0) {
+                MpvError error = (MpvError)returnValue;
+                throw new MPlayerControlException ($"ObserveProperty ({name}) error {error.ToString()}", returnValue);
+            }
+        }
+*/
 
         private object GetDllType (Type type, string name)
         {
@@ -220,6 +250,7 @@ namespace LibMPlayerCommon
             _mpvGetPropertyString = (MpvGetPropertystring)GetDllType (typeof(MpvGetPropertystring), "mpv_get_property");
             _mpvSetProperty = (MpvSetProperty)GetDllType (typeof(MpvSetProperty), "mpv_set_property");
             _mpvFree = (MpvFree)GetDllType (typeof(MpvFree), "mpv_free");
+            _mpvObserveProperty = (MpvObserveProperty)GetDllType (typeof(MpvObserveProperty), "mpv_observe_property");
         }
 
         public void DoMpvCommand (params string[] args)
