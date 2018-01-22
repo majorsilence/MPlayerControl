@@ -55,6 +55,26 @@ namespace LibMPlayerCommon
 
         }
 
+        bool disposed = false;
+
+        public void Dispose ()
+        {
+            Dispose (true);
+            GC.SuppressFinalize (this);
+        }
+
+        protected virtual void Dispose (bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing) {
+                _mpv.Dispose ();
+            }
+
+            disposed = true;
+        }
+
         private int _VideoBitrate = 0;
 
         /// <summary>
@@ -241,9 +261,7 @@ namespace LibMPlayerCommon
 
             //_fps = _mpv.GetPropertyInt ("container-fps");
             _fps = _mpv.GetPropertyInt ("fps");
-            //_VideoBitrate = _mpv.GetPropertyInt ("video-bitrate");
-            //_VideoBitrate = _mpv.GetPropertyInt ("packet-video-bitrate");
-
+            _mpv.TryGetPropertyInt ("video-bitrate", out _VideoBitrate);
 
             string videoFormat = _mpv.GetProperty ("video-format");
             if (!string.IsNullOrWhiteSpace (videoFormat)) {
@@ -259,8 +277,11 @@ namespace LibMPlayerCommon
             foreach (int i in Enumerable.Range (0, trackCount)) {
                 string trackType = _mpv.GetProperty ($"track-list/{i}/type");
                 int trackId = _mpv.GetPropertyInt ($"track-list/{i}/id");
-                string name = _mpv.GetProperty ($"track-list/{i}/title");
-                string language = _mpv.GetProperty ($"track-list/{i}/lang");
+                string name;
+
+                _mpv.TryGetProperty ($"track-list/{i}/title", out name);
+                string language;
+                _mpv.TryGetProperty ($"track-list/{i}/lang", out language);
 
                 if (trackType == "audio") {
                     _AudioList.Add (trackId);

@@ -176,6 +176,17 @@ namespace LibMPlayerCommon
             return data;
         }
 
+        public bool TryGetProperty (string name, out string value)
+        {
+            value = "";
+            try {
+                value = GetProperty (name);
+            } catch {
+                return false;
+            }
+
+            return true;
+        }
 
         public float GetPropertyFloat (string name)
         {
@@ -183,11 +194,35 @@ namespace LibMPlayerCommon
             return Globals.FloatParse (data);
         }
 
+        public bool TryGetPropertyFloat (string name, out float value)
+        {
+            value = 0f;
+            try {
+                value = GetPropertyFloat (name);
+            } catch {
+                return false;
+            }
+
+            return true;
+        }
+
 
         public int GetPropertyInt (string name)
         {
             string data = GetProperty (name);
             return (int)Globals.FloatParse (data);
+        }
+
+        public bool TryGetPropertyInt (string name, out int value)
+        {
+            value = 0;
+            try {
+                value = GetPropertyInt (name);
+            } catch {
+                return false;
+            }
+
+            return true;
         }
 
         public int SetOption (string name, MpvFormat format, long data)

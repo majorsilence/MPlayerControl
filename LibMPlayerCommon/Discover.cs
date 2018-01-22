@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace LibMPlayerCommon
 {
-    public interface Discover
+    public interface Discover : IDisposable
     {
         int VideoBitrate { get; }
 
