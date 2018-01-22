@@ -42,7 +42,8 @@ namespace MplayerUnitTests
 
         public static string Video1Path
         {
-            get { return Path.Combine(_basePath, "TestVideo1-á.flv"); }
+            //get { return Path.Combine(_basePath, "TestVideo1-á.flv"); }
+            get { return Path.Combine(_basePath, "TestVideo1-\u00a0.flv"); }
         }
 
         public static string Video2Path
