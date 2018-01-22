@@ -163,10 +163,8 @@ namespace LibMPlayerCommon
 
         public string GetProperty (string name)
         {
-            var lpBuffer = IntPtr.Zero;
-            int returnValue = _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes (name), (int)MpvFormat.MPV_FORMAT_STRING, ref lpBuffer);
-            var data = Marshal.PtrToStringAuto (lpBuffer);
-            _mpvFree (lpBuffer);
+            string data;
+            int returnValue = InternalGetProperty (name, out data);
 
             if (returnValue < 0) {
                 // https://github.com/mpv-player/mpv/blob/master/libmpv/client.h
@@ -176,11 +174,29 @@ namespace LibMPlayerCommon
             return data;
         }
 
+        private int InternalGetProperty (string name, out string value)
+        {
+            var lpBuffer = IntPtr.Zero;
+            int returnValue = _mpvGetPropertyString (_mpvHandle, GetUtf8Bytes (name), (int)MpvFormat.MPV_FORMAT_STRING, ref lpBuffer);
+            var data = Marshal.PtrToStringAuto (lpBuffer);
+            _mpvFree (lpBuffer);
+
+            value = data;
+            return returnValue;
+        }
+
         public bool TryGetProperty (string name, out string value)
         {
             value = "";
             try {
-                value = GetProperty (name);
+                string data;
+                int returnValue = InternalGetProperty (name, out data);
+
+                if (returnValue < 0) {
+                    return false;
+                }
+
+                value = data;
             } catch {
                 return false;
             }
@@ -198,7 +214,16 @@ namespace LibMPlayerCommon
         {
             value = 0f;
             try {
-                value = GetPropertyFloat (name);
+
+                string data;
+                int returnValue = InternalGetProperty (name, out data);
+
+                if (returnValue < 0) {
+                    return false;
+                }
+
+                value = Globals.FloatParse (data);
+
             } catch {
                 return false;
             }
@@ -217,7 +242,16 @@ namespace LibMPlayerCommon
         {
             value = 0;
             try {
-                value = GetPropertyInt (name);
+
+                string data;
+                int returnValue = InternalGetProperty (name, out data);
+
+                if (returnValue < 0) {
+                    return false;
+                }
+
+                value = (int)Globals.FloatParse (data);
+
             } catch {
                 return false;
             }
