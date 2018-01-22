@@ -31,6 +31,9 @@ MPlayerControl is developed with the following work flow:
     * If it has a bug you need fixed, fix it
 
 
+## Linux
+Flatpak MonoDevelop currently does not support loading system libraries or executables.  Please use your repositories included MonoDevelop.
+
 # MPV Support
 Initial mpv support has been added.
 
