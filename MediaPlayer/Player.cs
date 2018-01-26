@@ -503,5 +503,14 @@ namespace MediaPlayer
             this._play.Mute();
         }
 
+        private void Player_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void Player_SizeChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

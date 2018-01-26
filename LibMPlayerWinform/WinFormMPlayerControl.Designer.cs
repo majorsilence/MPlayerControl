@@ -74,6 +74,7 @@
             this.Controls.Add(this.panelVideo);
             this.Name = "WinFormMPlayerControl";
             this.Size = new System.Drawing.Size(540, 255);
+            this.SizeChanged += new System.EventHandler(this.WinFormMPlayerControl_SizeChanged);
             this.ResumeLayout(false);
 
         }

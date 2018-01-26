@@ -48,7 +48,7 @@ namespace LibMPlayerWinform
             {
                 _play.Stop();
             }
-
+          
             if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MPlayer)
             {
                 throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
@@ -69,5 +69,10 @@ namespace LibMPlayerWinform
         public string MPlayerPath { get; set; }
 
         public string VideoPath { get; set; }
+
+        private void WinFormMPlayerControl_SizeChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
