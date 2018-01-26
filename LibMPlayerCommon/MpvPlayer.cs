@@ -128,6 +128,7 @@ namespace LibMPlayerCommon
                 return;
 
             if (disposing) {
+                _currentPostionTimer.Dispose ();
                 _mpv.Dispose ();
             }
 

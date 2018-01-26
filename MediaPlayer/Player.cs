@@ -71,6 +71,7 @@ namespace MediaPlayer
         
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.KeyPreview = true;
 
             LibMPlayerCommon.BackendPrograms b = new LibMPlayerCommon.BackendPrograms();
             if (System.IO.File.Exists(MediaPlayer.Properties.Settings.Default.MPlayerPath) == false
@@ -304,7 +305,7 @@ namespace MediaPlayer
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+            //Console.WriteLine("key press: " + e.KeyChar.ToString());
             if ((e.KeyChar.ToString().ToLower() == Keys.F.ToString().ToLower()) || (e.KeyChar == (char)Keys.F11))
             {
                 this.ToggleFormFullScreen();
@@ -505,7 +506,8 @@ namespace MediaPlayer
 
         private void Player_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            _videoSettings.Dispose();
+            _play.Dispose();
         }
 
         private void Player_SizeChanged(object sender, EventArgs e)

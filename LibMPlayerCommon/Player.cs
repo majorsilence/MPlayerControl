@@ -2,7 +2,7 @@
 
 namespace LibMPlayerCommon
 {
-    public interface Player
+    public interface Player : IDisposable
     {
         event MplayerEventHandler VideoExited;
         event MplayerEventHandler CurrentPosition;
@@ -11,35 +11,35 @@ namespace LibMPlayerCommon
 
         MediaStatus CurrentStatus { get; set; }
 
-        void ToggleFullScreen();
+        void ToggleFullScreen ();
 
-        void Stop();
+        void Stop ();
 
-        void Pause();
+        void Pause ();
 
-        void Mute();
+        void Mute ();
 
         /// <summary>
         /// The window id that the video will play in
         /// </summary>
         /// <param name="wid">Wid.</param>
-        void SetHandle(long wid);
+        void SetHandle (long wid);
 
-        void MovePosition(int timePosition);
+        void MovePosition (int timePosition);
 
-        void Play(string filePath);
+        void Play (string filePath);
 
-        void Seek(int value, Seek type);
+        void Seek (int value, Seek type);
 
-        void SetSize(int width, int height);
+        void SetSize (int width, int height);
 
-        void SwitchAudioTrack(int track);
+        void SwitchAudioTrack (int track);
 
-        void SwitchSubtitle(int sub);
+        void SwitchSubtitle (int sub);
 
-        int CurrentPlayingFileLength();
+        int CurrentPlayingFileLength ();
 
-        void Volume(int volume);
+        void Volume (int volume);
 
     }
 }
