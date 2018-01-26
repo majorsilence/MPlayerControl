@@ -19,7 +19,7 @@ getos()
 nuget restore ../MPlayerControl.sln -NonInteractive
 nuget restore ../MPlayerGtkWidget.sln -NonInteractive
 if [ ! -f ./packages/NUnit.Runners/tools/nunit3-console.exe ]; then
-	nuget "Install" "NUnit.Runners" "-OutputDirectory" "packages" "-Version" "3.2.1" "-ExcludeVersion"
+	nuget "Install" "NUnit.Console" "-OutputDirectory" "packages" "-Version" "3.7.0" "-ExcludeVersion"
 fi
 
 read osversion junk <<< $(getos; echo $?)
@@ -27,20 +27,21 @@ if [ "$osversion" = 'windows' ];
 then
 	nuget restore ../WpfMPlayer.sln -NonInteractive
 	MSBUILD="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
-	"$MSBUILD" "../MPlayerControl.sln" /toolsversion:4.0 /property:Configuration="Release";Platform="Any CPU"
-	"$MSBUILD" "../WpfMPlayer.sln" /toolsversion:4.0 /property:Configuration="Release";Platform="Any CPU"
-	"$MSBUILD" "../MPlayerGtkWidget.sln" /toolsversion:4.0 /property:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../MPlayerControl.sln" /property:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../WpfMPlayer.sln" /property:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../MPlayerGtkWidget.sln" /property:Configuration="Release";Platform="Any CPU"
 else
-	"$MSBUILD" "../MPlayerControl.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
-	"$MSBUILD" "../MPlayerGtkWidget.sln" /toolsversion:4.0 /p:Configuration="Release";Platform="Any CPU"
+	#echo "linux"
+	"$MSBUILD" "../MPlayerControl.sln" /p:Configuration="Release";Platform="Any CPU"
+	"$MSBUILD" "../MPlayerGtkWidget.sln" /p:Configuration="Release";Platform="Any CPU"
 fi
 
 
 if [ "$osversion" = 'windows' ];
 then
-	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2"
+	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2" -labels:All
 else
-	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2"
+	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2" -labels:All -workers=1 -inprocess
 fi
 CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.7-AnyCPU"

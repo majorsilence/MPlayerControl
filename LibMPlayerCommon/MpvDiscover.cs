@@ -255,7 +255,11 @@ namespace LibMPlayerCommon
             _Height = _mpv.GetPropertyInt ("height");
             _AspectRatio = _mpv.GetPropertyFloat ("video-aspect");
 
-            _AudioBitrate = _mpv.GetPropertyInt ("audio-bitrate");
+            int bits = _mpv.GetPropertyInt ("audio-bitrate");
+            //int bytes = Bits2Bytes (bits);
+            //int kb = Bytes2Kilobytes (bytes);
+            //_AudioBitrate = (int)Math.Round (bits / 1024m, 0);
+            _AudioBitrate = bits;           
             _AudioRate = _mpv.GetPropertyInt ("audio-params/samplerate");
             _Length = _mpv.GetPropertyInt ("duration");
 
@@ -314,8 +318,7 @@ namespace LibMPlayerCommon
             }
 
         }
-
-
+            
     }
         
 }

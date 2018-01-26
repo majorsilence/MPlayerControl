@@ -24,7 +24,7 @@ namespace Test
             playerControl.Dock = DockStyle.Fill;
 
             //playerControl.MPlayerPath = @"C:\path\to\mplayer.exe";
-            playerControl.VideoPath = @"C:\path\to\video\sintel_trailer-720p.mp4";
+            playerControl.VideoPath = @"/home/peter/Downloads/Die Hard 2 (1990) [1080p] {5.1}/Die.Hard.2.BluRay.1080p.x264.5.1.Judas.mp4";
 
             frm.Controls.Add(playerControl);
 
