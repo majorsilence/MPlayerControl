@@ -11,6 +11,8 @@ namespace LibMPlayerCommon
         /// <param name="path">Path to mplayer executable or mpv library</param>
         public static Player Get (long handle, string path)
         {
+            // -path "/usr/lib/x86_64-linux-gnu/libmpv.so.1"
+
             if (PlatformCheck.RunningPlatform () == Platform.Windows) {
                 return PlayerFactory.Windows (handle, path);
             } else if (PlatformCheck.RunningPlatform () == Platform.Linux) {
