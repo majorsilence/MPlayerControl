@@ -506,7 +506,9 @@ namespace MediaPlayer
 
         private void Player_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _videoSettings.Dispose();
+            if (_videoSettings != null) {
+                _videoSettings.Dispose ();
+            }
             _play.Dispose();
         }
 
