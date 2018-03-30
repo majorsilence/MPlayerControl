@@ -95,6 +95,7 @@
     <Compile Include="MPlayerDiscover_Test.cs" />
     <Compile Include="MpvDiscover_Test.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="MPlayer_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibImages\LibImages.csproj">
