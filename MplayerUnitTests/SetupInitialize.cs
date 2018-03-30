@@ -16,17 +16,23 @@ namespace MplayerUnitTests
         private static string finalPath;
 
         [OneTimeSetUp]
-        public void RunBeforeAnyTests()
+        public void RunBeforeAnyTests ()
         {
             //Startup s = new Startup();
             //s.Initialize();
 
+#if DEBUG
+            string path = Path.Combine ("../", "../", "../", "TestRun");
+#else
             var path = Path.Combine(Path.GetTempPath(), "MPlayerControl", "Tests");
+#endif
+
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
+            finalPath = Path.Combine (path, "TestVideos");
             var testVideos = Path.Combine(path, "TestVideos.zip");
             if (!File.Exists(testVideos))
             {
@@ -34,12 +40,10 @@ namespace MplayerUnitTests
                 {
                     client.DownloadFile("http://files.majorsilence.com/TestVideos.zip", 
                         testVideos);
-
-                    ExtractZip(path, testVideos);
                 }
             }
-                
-            finalPath = Path.Combine(path, "TestVideos");
+            ExtractZip (path, testVideos);
+
             GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
 
         }
@@ -48,6 +52,7 @@ namespace MplayerUnitTests
         public void RunAfterAnyTests()
         {
             // TODO, delete output files
+            System.IO.Directory.Delete (finalPath, true);
         }
 
         public void ExtractZip(string extractFolder, string currentZipFile, string zipProgramPath = "")
