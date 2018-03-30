@@ -173,7 +173,10 @@ namespace LibMPlayerCommon
 
             if (disposing)
             {
+                this._currentPostionTimer.Elapsed -= _currentPostionTimer_Elapsed;
+                this._currentPostionTimer.Enabled = false;
                 MediaPlayer.Dispose();
+                MediaPlayer = null;
             }
                 
             disposed = true;
