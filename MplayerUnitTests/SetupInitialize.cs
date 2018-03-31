@@ -22,7 +22,7 @@ namespace MplayerUnitTests
             //s.Initialize();
 
 #if DEBUG
-            string path = Path.Combine ("../", "../", "../", "TestRun");
+            string path = Path.Combine (Environment.CurrentDirectory, "../", "../", "../", "TestRun");
 #else
             var path = Path.Combine(Path.GetTempPath(), "MPlayerControl", "Tests");
 #endif

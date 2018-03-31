@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MplayerUnitTests</RootNamespace>
     <AssemblyName>MplayerUnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <StartupObject>MplayerUnitTests.Program</StartupObject>
@@ -96,6 +96,7 @@
     <Compile Include="MpvDiscover_Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MPlayer_Test.cs" />
+    <Compile Include="Mencoder2_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibImages\LibImages.csproj">

@@ -29,8 +29,7 @@ using System.Threading.Tasks;
 
 namespace LibMPlayerCommon
 {
-    [ObsoleteAttribute ("This class is obsolete. Use Mencoder2 instead.", false)]
-    public class Mencoder : IDisposable
+    public class Mencoder2 : IDisposable
     {
         private BackendPrograms _backendProgram;
 
@@ -47,19 +46,19 @@ namespace LibMPlayerCommon
         /// <summary>
         /// The process that is running mencoder. 
         /// </summary>
-        private System.Diagnostics.Process MencoderInstance { get; set; }
+  
 
 
         private int _currentPercent = 0;
 
 
-        public Mencoder ()
+        public Mencoder2 ()
         {
 
             _backendProgram = new BackendPrograms ();
         }
 
-        public Mencoder (string mencoderPath)
+        public Mencoder2 (string mencoderPath)
         {
 
             _backendProgram = new BackendPrograms ("", mencoderPath);
@@ -80,17 +79,6 @@ namespace LibMPlayerCommon
                 return; 
 
             if (disposing) {
-                if (MencoderInstance != null) {
-                    try {
-                        if (MencoderInstance.HasExited == false) {
-                            MencoderInstance.Kill ();
-                        }
-                    } catch (Exception ex) {
-                        Logging.Instance.WriteLine (ex);
-                    }
-                    MencoderInstance.Dispose ();
-                    MencoderInstance = null;
-                }
             }
 
             disposed = true;
@@ -104,80 +92,68 @@ namespace LibMPlayerCommon
 
         public void Convert (string cmd)
         {
-
-            MencoderInstance = new System.Diagnostics.Process ();
-            MencoderInstance.StartInfo.CreateNoWindow = true;
-            MencoderInstance.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            MencoderInstance.StartInfo.UseShellExecute = false;
-            MencoderInstance.StartInfo.ErrorDialog = false;
-            MencoderInstance.StartInfo.RedirectStandardOutput = true;
-            MencoderInstance.StartInfo.RedirectStandardInput = true;
-            MencoderInstance.StartInfo.RedirectStandardError = true;
-
+            using (var MencoderInstance = new System.Diagnostics.Process ()) {
+                MencoderInstance.StartInfo.CreateNoWindow = true;
+                MencoderInstance.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                MencoderInstance.StartInfo.UseShellExecute = false;
+                MencoderInstance.StartInfo.ErrorDialog = false;
+                MencoderInstance.StartInfo.RedirectStandardOutput = true;
+                MencoderInstance.StartInfo.RedirectStandardInput = true;
+                MencoderInstance.StartInfo.RedirectStandardError = true;
 
 
-            MencoderInstance.StartInfo.Arguments = cmd;
-            MencoderInstance.StartInfo.FileName = this._backendProgram.MEncoder;
+                MencoderInstance.StartInfo.Arguments = cmd;
+                MencoderInstance.StartInfo.FileName = this._backendProgram.MEncoder;
 
-            MencoderInstance.Start ();
+                MencoderInstance.Start ();
 
+                MencoderInstance.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler (MencoderInstance_OutputDataReceived);
+                MencoderInstance.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler (MencoderInstance_ErrorDataReceived);
+                MencoderInstance.BeginErrorReadLine ();
+                MencoderInstance.BeginOutputReadLine ();
+                MencoderInstance.EnableRaisingEvents = true;
+                bool called = false;
+                MencoderInstance.Exited += (s, e) =>{
+                    // hack around mono bug where when Process is disposed it sometimes retriggers the Exited event.
+                    if(called){
+                        return;
+                    }
+                    called = true;
+                    if (this.ConversionComplete != null) {
+                        this.ConversionComplete (this, new MplayerEvent ("Exiting File"));
+                    }
+                };
 
-            MencoderInstance.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler (MencoderInstance_OutputDataReceived);
-            MencoderInstance.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler (MencoderInstance_ErrorDataReceived);
-            MencoderInstance.BeginErrorReadLine ();
-            MencoderInstance.BeginOutputReadLine ();
-            MencoderInstance.EnableRaisingEvents = true;
-            MencoderInstance.Exited += new EventHandler (MencoderInstance_Exited);
-            
-        }
-
-        public enum VideoType
-        {
-            xvid,
-            webm,
-            x264,
-            wmv1,
-            wmv2,
-            mpeg4
-        }
-
-        public enum AudioType
-        {
-            ac3,
-            mp3,
-            mp2,
-            vorbis,
-            flac,
-            wmav1,
-            wmav2
+                MencoderInstance.WaitForExit ();
+            }
         }
 
         public Task Convert2WebMAsync (string videoToConvertFilePath, string outputFilePath)
         {
-            return Task.Run (() => Convert2WebMAsync (videoToConvertFilePath, outputFilePath));
+            return Task.Run (() => Convert2WebM (videoToConvertFilePath, outputFilePath));
         }
 
         public void Convert2WebM (string videoToConvertFilePath, string outputFilePath)
         {
-            Convert (VideoType.webm, AudioType.vorbis, videoToConvertFilePath, outputFilePath);
+            Convert (Mencoder.VideoType.webm, Mencoder.AudioType.vorbis, videoToConvertFilePath, outputFilePath);
         }
 
         public Task Convert2X264Async (string videoToConvertFilePath, string outputFilePath)
         {
-            return Task.Run (() => Convert2X264Async (videoToConvertFilePath, outputFilePath));
+            return Task.Run (() => Convert2X264 (videoToConvertFilePath, outputFilePath));
         }
 
         public void Convert2X264 (string videoToConvertFilePath, string outputFilePath)
         {
-            Convert (VideoType.x264, AudioType.mp3, videoToConvertFilePath, outputFilePath);
+            Convert (Mencoder.VideoType.x264, Mencoder.AudioType.mp3, videoToConvertFilePath, outputFilePath);
         }
 
-        public Task ConvertAsync (VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath)
+        public Task ConvertAsync (Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath)
         {
             return Task.Run (() => Convert (vidType, audType, videoToConvertFilePath, outputFilePath));
         }
 
-        public void Convert (VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath)
+        public void Convert (Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath)
         {
             // http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-selecting-codec.html
 
@@ -191,9 +167,9 @@ namespace LibMPlayerCommon
             bool lavcVideoSelected = false;
             bool lavcAudioSelected = false;
 
-            if (vidType == VideoType.x264) {
+            if (vidType == Mencoder.VideoType.x264) {
                 cmd.Append ("x264");  
-            } else if (vidType == VideoType.xvid) {
+            } else if (vidType == Mencoder.VideoType.xvid) {
                 cmd.Append ("xvid");
             } else {
                 lavcVideoSelected = true;
@@ -204,7 +180,7 @@ namespace LibMPlayerCommon
             cmd.Append ("-oac"); // audio codec for encoding 
             cmd.Append (" ");
 
-            if (audType == AudioType.mp3) {
+            if (audType == Mencoder.AudioType.mp3) {
                 cmd.Append ("mp3lame"); 
             } else {
                 lavcAudioSelected = true;
@@ -216,7 +192,7 @@ namespace LibMPlayerCommon
             cmd.Append ('"' + videoToConvertFilePath + '"');
             cmd.Append (" ");
 
-            if (vidType == VideoType.webm) {
+            if (vidType == Mencoder.VideoType.webm) {
                 cmd.Append ("-ffourcc");
                 cmd.Append (" ");
                 cmd.Append ("VP80");
@@ -232,13 +208,13 @@ namespace LibMPlayerCommon
             if (lavcVideoSelected) { // Using builtin codes from lavc
 
                 // setup the selected video format
-                if (vidType == VideoType.webm) {
+                if (vidType == Mencoder.VideoType.webm) {
                     cmd.Append ("vcodec=libvpx");
-                } else if (vidType == VideoType.mpeg4) {
+                } else if (vidType == Mencoder.VideoType.mpeg4) {
                     cmd.Append ("vcodec=mpeg4");
-                } else if (vidType == VideoType.wmv1) {
+                } else if (vidType == Mencoder.VideoType.wmv1) {
                     cmd.Append ("vcodec=wmv1");
-                } else if (vidType == VideoType.wmv2) {
+                } else if (vidType == Mencoder.VideoType.wmv2) {
                     cmd.Append ("vcodec=wmv2");
                 }
                 cmd.Append (" ");
@@ -246,17 +222,17 @@ namespace LibMPlayerCommon
 
             if (lavcAudioSelected) {
                 // setup the selected audio format
-                if (audType == AudioType.vorbis) {
+                if (audType == Mencoder.AudioType.vorbis) {
                     cmd.Append ("acodec=libvorbis");
-                } else if (audType == AudioType.ac3) {
+                } else if (audType == Mencoder.AudioType.ac3) {
                     cmd.Append ("acodec=ac3");
-                } else if (audType == AudioType.flac) {
+                } else if (audType == Mencoder.AudioType.flac) {
                     cmd.Append ("acodec=flac");
-                } else if (audType == AudioType.mp2) {
+                } else if (audType == Mencoder.AudioType.mp2) {
                     cmd.Append ("acodec=mp2");
-                } else if (audType == AudioType.wmav1) {
+                } else if (audType == Mencoder.AudioType.wmav1) {
                     cmd.Append ("acodec=wmav1");
-                } else if (audType == AudioType.wmav2) {
+                } else if (audType == Mencoder.AudioType.wmav2) {
                     cmd.Append ("acodec=wmav2");
                 }
                 cmd.Append (" ");
@@ -273,21 +249,12 @@ namespace LibMPlayerCommon
 
         }
 
-        /// <summary>
-        /// The region type used in the video.
-        /// </summary>
-        public enum RegionType
-        {
-            NTSC,
-            PAL
-        }
-
-        public Task Convert2DvdMpegAsync (RegionType regType, string videoToConvertFilePath, string outputFilePath)
+        public Task Convert2DvdMpegAsync (Mencoder.RegionType regType, string videoToConvertFilePath, string outputFilePath)
         {
             return Task.Run (() => Convert2DvdMpeg (regType, videoToConvertFilePath, outputFilePath));
         }
 
-        public void Convert2DvdMpeg (RegionType regType, string videoToConvertFilePath, string outputFilePath)
+        public void Convert2DvdMpeg (Mencoder.RegionType regType, string videoToConvertFilePath, string outputFilePath)
         {
             // http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-vcd-dvd.html
 
@@ -334,18 +301,18 @@ namespace LibMPlayerCommon
 
             cmd.Append ("-ofps");
             cmd.Append (" ");
-            if (regType == RegionType.PAL) {
+            if (regType == Mencoder.RegionType.PAL) {
                 cmd.Append ("25");
-            } else if (regType == RegionType.NTSC) {
+            } else if (regType == Mencoder.RegionType.NTSC) {
                 cmd.Append ("30000/1001");
             }
             cmd.Append (" ");
 
             cmd.Append ("-vf");
             cmd.Append (" ");
-            if (regType == RegionType.PAL) {
+            if (regType == Mencoder.RegionType.PAL) {
                 cmd.Append ("scale=720:576,harddup");
-            } else if (regType == RegionType.NTSC) {
+            } else if (regType == Mencoder.RegionType.NTSC) {
                 cmd.Append ("scale=720:480,harddup");
             }
             cmd.Append (" ");
@@ -353,9 +320,9 @@ namespace LibMPlayerCommon
             cmd.Append ("-lavcopts");
             cmd.Append (" ");
            
-            if (regType == RegionType.PAL) {
+            if (regType == Mencoder.RegionType.PAL) {
                 cmd.Append ("vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=15:vstrict=0:acodec=ac3:abitrate=192:aspect=16/9");
-            } else if (regType == RegionType.NTSC) {
+            } else if (regType == Mencoder.RegionType.NTSC) {
                 cmd.Append ("vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=18:vstrict=0:acodec=ac3:abitrate=192:aspect=16/9");
             }
             cmd.Append (" ");
@@ -414,15 +381,6 @@ namespace LibMPlayerCommon
             }
         }
 
-
-        private void MencoderInstance_Exited (object sender, EventArgs e)
-        {
-            MencoderInstance.Close ();
-
-            if (this.ConversionComplete != null) {
-                this.ConversionComplete (this, new MplayerEvent ("Exiting File"));
-            }
-        }
 
     }
 
