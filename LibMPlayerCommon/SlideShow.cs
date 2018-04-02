@@ -25,6 +25,7 @@ using System.Linq;
 using System.Text;
 
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace LibMPlayerCommon
 {
@@ -47,7 +48,13 @@ namespace LibMPlayerCommon
     /// b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water lilies.jpg",  LibMPlayerCommon.SlideShowEffect.Normal));
     /// b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Winter.jpg",  LibMPlayerCommon.SlideShowEffect.Normal));
     /// 
+    /// // Synchronous
     /// a.CreateSlideShow(b, @"C:\Documents and Settings\Peter\Desktop\hellworld.mpg", 
+    ///    @"C:\Documents and Settings\All Users\Documents\My Music\Magnatune Compilation\Rock\16. TranceVision_ Alpha.mp3", 
+    ///    15);
+    /// 
+    /// // asynchronous
+    /// await a.CreateSlideShowAsync(b, @"C:\Documents and Settings\Peter\Desktop\hellworld.mpg", 
     ///    @"C:\Documents and Settings\All Users\Documents\My Music\Magnatune Compilation\Rock\16. TranceVision_ Alpha.mp3", 
     ///    15);
     /// </code>
@@ -77,8 +84,13 @@ namespace LibMPlayerCommon
             _workingDirectory = System.IO.Path.Combine (Globals.MajorSilenceMEncoderLocalAppDataDirectory, "SlideShow");
             _imageDirectory = System.IO.Path.Combine (_workingDirectory, "Images");
             _videoDirectory = System.IO.Path.Combine (_workingDirectory, "Videos");
-        }
+        } 
 
+        public Task CreateSlideShowAsync(List<SlideShowInfo> files, string outputFilePath, string audioFile,
+                                                                 int secondsBetweenImages)
+        {
+            return Task.Run (() => CreateSlideShow(files, outputFilePath, audioFile, secondsBetweenImages));
+        }
         public void CreateSlideShow (List<SlideShowInfo> files, string outputFilePath, string audioFile, 
                                      int secondsBetweenImages)
         {
@@ -230,26 +242,20 @@ namespace LibMPlayerCommon
 
         private void CreateVideo (string videoName)
         {
-            using (var mencod = new Mencoder (mencoderPath)) {
-                bool finished = false;
+            using (var mencod = new Mencoder2 (mencoderPath)) {
                 mencod.ConversionComplete += (object sender, MplayerEvent e) => {
                     System.IO.File.Move (System.IO.Path.Combine (System.Environment.CurrentDirectory, videoName),
                         System.IO.Path.Combine (_videoDirectory, videoName));
-                    finished = true;
                 };
 
                 mencod.Convert (string.Format ("mf://*.jpg -mf fps={0} -ovc lavc harddup -lavcopts vcodec=mpeg4:mbd=2:trell scale=1920:1080 -o {1}", 
                     SlideShow.FPS, videoName));
-
-                while (!finished) {
-                    System.Threading.Thread.Sleep (200);
-                }
             } 
         }
 
         private void AppendVideo ()
         {
-            using (var mencod = new Mencoder (mencoderPath)) {
+            using (var mencod = new Mencoder2 (mencoderPath)) {
 
                 // -oac copy -ovc copy -o 'combined_clip.avi' 'clip1.avi' 'clip2.avi'
                 var cmd = new StringBuilder ();
@@ -259,18 +265,11 @@ namespace LibMPlayerCommon
                     cmd.Append (string.Format (" \"{0}\"", file));
                 }
 
-                bool finished = false;
                 mencod.ConversionComplete += (object sender, MplayerEvent e) => {
                     System.IO.File.Move (System.IO.Path.Combine (_videoDirectory, "output.avi"),
                         System.IO.Path.Combine ("../", "output.avi"));
-
-                    finished = true;
                 };
                 mencod.Convert (cmd.ToString ());
-
-                while (!finished) {
-                    System.Threading.Thread.Sleep (200);
-                }
             }
 
         }
@@ -283,18 +282,10 @@ namespace LibMPlayerCommon
                 return;
             }
 
-            using (var mencod = new Mencoder (mencoderPath)) {
-                bool finished = false;
-                mencod.ConversionComplete += (object sender, MplayerEvent e) => {
-                    finished = true;
-                };
+            using (var mencod = new Mencoder2 (mencoderPath)) {
                 // -vf harddup is needed to keep duplicates of the video when adding the audio.  Else you are going to have a huge audio/video sync problem.
 
                 mencod.Convert ("\"" + System.IO.Path.Combine (_workingDirectory, "output.avi") + "\" -o \"" + this._outputFilePath + "\" -vf harddup -ovc copy -oac mp3lame -audiofile \"" + this._audioFile + '"');
-
-                while (!finished) {
-                    System.Threading.Thread.Sleep (200);
-                }
             }
         }
 
