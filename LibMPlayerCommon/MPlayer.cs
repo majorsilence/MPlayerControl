@@ -406,8 +406,11 @@ namespace LibMPlayerCommon
         /// </remarks>
         private string PrepareFilePath(string filePath)
         {
+            string preparedPath = filePath;
 
-            string preparedPath = filePath.Replace("" + System.IO.Path.DirectorySeparatorChar, "" + System.IO.Path.DirectorySeparatorChar + System.IO.Path.DirectorySeparatorChar);
+            if (Environment.OSVersion.ToString ().IndexOf ("Windows") > -1) {
+               preparedPath = filePath.Replace ("" + System.IO.Path.DirectorySeparatorChar, "" + System.IO.Path.DirectorySeparatorChar + System.IO.Path.DirectorySeparatorChar);
+            }
 
             return preparedPath;
         }
