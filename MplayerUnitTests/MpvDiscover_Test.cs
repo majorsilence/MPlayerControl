@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace MplayerUnitTests
 {
 
+    [Ignore("temp ignore until travis ci setup with libmpv")]
     [TestFixture()]
     public class MpvDiscover_Test
     {
