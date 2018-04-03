@@ -900,6 +900,8 @@ namespace LibMPlayerCommon
 
         #endregion
 
+        public EventHandler<DataReceivedEventArgs> MplayerOutput;
+
         /// <summary>
         /// All mplayer standard output is read through this function.
         /// </summary>
@@ -908,7 +910,9 @@ namespace LibMPlayerCommon
         private void HandleMediaPlayerOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             if (e.Data != null)
-            {
+            {   
+                MplayerOutput?.Invoke(sender, e); 
+
                 string line = e.Data.ToString();
 
                 if (line.StartsWith("EOF code:", StringComparison.Ordinal))
