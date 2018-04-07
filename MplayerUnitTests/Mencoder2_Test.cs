@@ -19,7 +19,7 @@ namespace MplayerUnitTests
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
                 a.PercentCompleted += (s, e) => {
-                    Console.WriteLine ($"Convert2WebMTest Percent: {e.Value}");
+                   // Console.WriteLine ($"Convert2WebMTest Percent: {e.Value}");
                 };
                 a.Convert2WebM(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
             }
@@ -30,7 +30,7 @@ namespace MplayerUnitTests
         {
             var a = new LibMPlayerCommon.Mencoder2();
             a.PercentCompleted += (s, e) => {
-                Console.WriteLine ($"Convert2WebMAsyncTest Percent: {e.Value}");
+               // Console.WriteLine ($"Convert2WebMAsyncTest Percent: {e.Value}");
             };
             await a.Convert2WebMAsync(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
         }
