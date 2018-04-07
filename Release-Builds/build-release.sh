@@ -2,7 +2,7 @@
 set -e # exit on first error
 set -u # exit on using unset variable
 
-MSBUILD="xbuild"
+MSBUILD="msbuild"
 
 getos()
 {
@@ -18,8 +18,8 @@ getos()
 
 nuget restore ../MPlayerControl.sln -NonInteractive
 nuget restore ../MPlayerGtkWidget.sln -NonInteractive
-if [ ! -f ./packages/NUnit.Runners/tools/nunit3-console.exe ]; then
-	nuget "Install" "NUnit.Console" "-OutputDirectory" "packages" "-Version" "3.7.0" "-ExcludeVersion"
+if [ ! -f ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe ]; then
+	nuget "Install" "NUnit.Console" "-OutputDirectory" "packages" "-Version" "3.8.0" "-ExcludeVersion"
 fi
 
 read osversion junk <<< $(getos; echo $?)
@@ -36,14 +36,14 @@ else
 	"$MSBUILD" "../MPlayerGtkWidget.sln" /p:Configuration="Release";Platform="Any CPU"
 fi
 
-
+CURRENTPATH=`pwd`
 if [ "$osversion" = 'windows' ];
 then
-	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2" -labels:All
+	./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml" -labels:All
 else
-	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"nunit-result.xml;format=nunit2" -labels:All -workers=1 -inprocess
+	# for some reason --x86 is need with mono/linux even when built as Any CPU.
+	mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/MplayerUnitTests.exe" -result:"$CURRENTPATH/nunit-result.xml" -labels:All -workers=1 --x86 #-inprocess
 fi
-CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.7-AnyCPU"
 
 rm -rf ./build-output/MPlayerControl-dot-net-4.7-AnyCPU
