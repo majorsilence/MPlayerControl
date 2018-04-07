@@ -75,16 +75,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibMplayerCommon">
-      <HintPath>..\LibMPlayerCommon\bin\Debug\LibMplayerCommon.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -125,6 +121,10 @@
     <ProjectReference Include="..\LibMPlayerWinform\LibMPlayerWinform.csproj">
       <Project>{994F562F-B694-4799-B1D6-C90A290FEF2B}</Project>
       <Name>LibMPlayerWinform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibMPlayerCommon\LibMPlayerCommon.csproj">
+      <Project>{5D3616D0-160D-4601-AB67-E1ED9111C676}</Project>
+      <Name>LibMPlayerCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
