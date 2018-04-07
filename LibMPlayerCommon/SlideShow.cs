@@ -177,7 +177,8 @@ namespace LibMPlayerCommon
 
             // Always make sure to clean up conversion files
             System.IO.Directory.Delete (this._workingDirectory, true);  
-            
+
+            System.IO.Directory.SetCurrentDirectory (currentDirectory);
         }
 
         private void SetupImageDirectory ()
