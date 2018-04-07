@@ -46,7 +46,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2X264AsyncTest()
+        public async Task Convert2X264AsyncTest()
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
@@ -64,7 +64,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2DvdMpegPalAsyncTest()
+        public async Task Convert2DvdMpegPalAsyncTest()
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
@@ -84,7 +84,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2DvdMpegNtscAsyncTest()
+        public async Task Convert2DvdMpegNtscAsyncTest()
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {

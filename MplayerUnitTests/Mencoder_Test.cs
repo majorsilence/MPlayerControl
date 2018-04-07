@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace MplayerUnitTests
@@ -23,7 +23,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2WebMAsyncTest()
+        public async Task Convert2WebMAsyncTest()
         {
             var a = new LibMPlayerCommon.Mencoder();
             await a.Convert2WebMAsync(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
@@ -40,7 +40,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2X264AsyncTest()
+        public async Task Convert2X264AsyncTest()
         {
             using (var a = new LibMPlayerCommon.Mencoder())
             {
@@ -58,7 +58,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2DvdMpegPalAsyncTest()
+        public async Task Convert2DvdMpegPalAsyncTest()
         {
             using (var a = new LibMPlayerCommon.Mencoder())
             {
@@ -78,7 +78,7 @@ namespace MplayerUnitTests
         }
 
         [Test()]
-        public async void Convert2DvdMpegNtscAsyncTest()
+        public async Task Convert2DvdMpegNtscAsyncTest()
         {
             using (var a = new LibMPlayerCommon.Mencoder())
             {

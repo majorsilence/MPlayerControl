@@ -154,7 +154,7 @@ namespace LibMPlayerCommon
 
         public Task Convert2WebMAsync (string videoToConvertFilePath, string outputFilePath)
         {
-            return Task.Run (() => Convert2WebMAsync (videoToConvertFilePath, outputFilePath));
+            return Task.Run (() => Convert2WebM (videoToConvertFilePath, outputFilePath));
         }
 
         public void Convert2WebM (string videoToConvertFilePath, string outputFilePath)
@@ -164,7 +164,7 @@ namespace LibMPlayerCommon
 
         public Task Convert2X264Async (string videoToConvertFilePath, string outputFilePath)
         {
-            return Task.Run (() => Convert2X264Async (videoToConvertFilePath, outputFilePath));
+            return Task.Run (() => Convert2X264 (videoToConvertFilePath, outputFilePath));
         }
 
         public void Convert2X264 (string videoToConvertFilePath, string outputFilePath)
