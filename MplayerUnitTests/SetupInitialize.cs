@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
+using System.Net.Http;
 
 namespace MplayerUnitTests
 {
@@ -33,14 +34,28 @@ namespace MplayerUnitTests
             }
 
             finalPath = Path.Combine (path, "TestVideos");
-            var testVideos = Path.Combine(path, "TestVideos.zip");
+            var testVideos = Path.Combine(path, "TestVideos2.zip");
             if (!File.Exists(testVideos))
             {
+                var page = "http://files.majorsilence.com/TestVideos2.zip";
+
+                using (var client = new HttpClient ()) {
+                    using (var response = client.GetAsync (page).Result) {
+                        using (FileStream fileStream = new FileStream (testVideos, FileMode.Create, FileAccess.Write, FileShare.None)) {
+                            //copy the content from response to filestream
+                            response.Content.CopyToAsync (fileStream).Wait();
+                        }
+                    }
+                }
+            
+                /*
                 using (var client = new WebClient())
                 {
-                    client.DownloadFile("http://files.majorsilence.com/TestVideos.zip", 
+                    client.Headers.Add ("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0; mplayercontrol tests");
+                    client.DownloadFile("http://files.majorsilence.com/TestVideos2.zip", 
                         testVideos);
                 }
+                */
             }
             ExtractZip (path, testVideos);
 

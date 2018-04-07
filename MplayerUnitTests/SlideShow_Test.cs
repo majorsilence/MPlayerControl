@@ -31,7 +31,7 @@ namespace MplayerUnitTests
                     LibMPlayerCommon.SlideShowEffect.RandomJitter));
             a.CreateSlideShow(b, 
                 Path.Combine(GlobalVariables.BasePath, "helloworld.mpg"),
-                @"C:\Documents and Settings\All Users\Documents\My Music\Magnatune Compilation\Rock\16. TranceVision_ Alpha.mp3",
+                Path.Combine (GlobalVariables.BasePath,@"Ghost_k_-_Stop_(blue_mix).mp3"),
                 5);
         }
 
@@ -55,7 +55,7 @@ namespace MplayerUnitTests
                     LibMPlayerCommon.SlideShowEffect.RandomJitter));
             await a.CreateSlideShowAsync (b,
                 Path.Combine (GlobalVariables.BasePath, "helloworld_async_test.mpg"),
-                @"C:\Documents and Settings\All Users\Documents\My Music\Magnatune Compilation\Rock\16. TranceVision_ Alpha.mp3",
+                Path.Combine (GlobalVariables.BasePath, @"Ghost_k_-_Stop_(blue_mix).mp3"),
                 5);
         }
 
