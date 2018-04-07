@@ -90,7 +90,7 @@ namespace LibMPlayerCommon
         }
 
 
-        public void Convert (string cmd)
+        public void Convert (string cmd, string workingDirectory="")
         {
             using (var MencoderInstance = new System.Diagnostics.Process ()) {
                 MencoderInstance.StartInfo.CreateNoWindow = true;
@@ -100,7 +100,9 @@ namespace LibMPlayerCommon
                 MencoderInstance.StartInfo.RedirectStandardOutput = true;
                 MencoderInstance.StartInfo.RedirectStandardInput = true;
                 MencoderInstance.StartInfo.RedirectStandardError = true;
-
+                if (!string.IsNullOrWhiteSpace (workingDirectory)) {
+                    MencoderInstance.StartInfo.WorkingDirectory = workingDirectory;
+                }
 
                 MencoderInstance.StartInfo.Arguments = cmd;
                 MencoderInstance.StartInfo.FileName = this._backendProgram.MEncoder;

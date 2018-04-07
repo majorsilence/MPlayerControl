@@ -145,17 +145,9 @@ namespace LibMPlayerCommon
                 }
 
                 // Create video of current images
-
-                System.IO.Directory.SetCurrentDirectory (_imageDirectory);
-                //System.Environment.CurrentDirectory = _imageDirectory;
-
                 // output-temp.avi
                 string videoName = string.Format ("output-temp{0}.avi", _fileCounter.ToString ().PadLeft (6, '0'));
                 CreateVideo (videoName);     
-
-                System.IO.Directory.SetCurrentDirectory (currentDirectory);
-                //System.Environment.CurrentDirectory = currentDirectory;
-
 
                 // delete temporary images
                 DeleteImageDirectory ();
@@ -165,20 +157,15 @@ namespace LibMPlayerCommon
 
             }
 
-            System.IO.Directory.SetCurrentDirectory (_videoDirectory);
             AppendVideo ();
-            System.IO.Directory.SetCurrentDirectory (currentDirectory);
 
             DeleteVideoDirectory ();
-
-            System.IO.Directory.SetCurrentDirectory (_workingDirectory);
 
             AddAudio ();
 
             // Always make sure to clean up conversion files
             System.IO.Directory.Delete (this._workingDirectory, true);  
 
-            System.IO.Directory.SetCurrentDirectory (currentDirectory);
         }
 
         private void SetupImageDirectory ()
@@ -245,12 +232,12 @@ namespace LibMPlayerCommon
         {
             using (var mencod = new Mencoder2 (mencoderPath)) {
                 mencod.ConversionComplete += (object sender, MplayerEvent e) => {
-                    System.IO.File.Move (System.IO.Path.Combine (System.Environment.CurrentDirectory, videoName),
+                    System.IO.File.Move (System.IO.Path.Combine (_imageDirectory, videoName),
                         System.IO.Path.Combine (_videoDirectory, videoName));
                 };
 
-                mencod.Convert (string.Format ("mf://*.jpg -mf fps={0} -ovc lavc harddup -lavcopts vcodec=mpeg4:mbd=2:trell scale=1920:1080 -o {1}", 
-                    SlideShow.FPS, videoName));
+                mencod.Convert ($"mf://*.jpg -mf fps={SlideShow.FPS} -ovc lavc harddup -lavcopts vcodec=mpeg4:mbd=2:trell scale=1920:1080 -o {videoName}",
+                               _imageDirectory);
             } 
         }
 
@@ -262,15 +249,15 @@ namespace LibMPlayerCommon
                 var cmd = new StringBuilder ();
                 cmd.Append ("-oac copy -ovc copy -idx -o output.avi");
 
-                foreach (string file in System.IO.Directory.GetFiles(System.Environment.CurrentDirectory, "*.avi")) {
+                foreach (string file in System.IO.Directory.GetFiles(_videoDirectory, "*.avi")) {
                     cmd.Append (string.Format (" \"{0}\"", file));
                 }
 
                 mencod.ConversionComplete += (object sender, MplayerEvent e) => {
                     System.IO.File.Move (System.IO.Path.Combine (_videoDirectory, "output.avi"),
-                        System.IO.Path.Combine ("../", "output.avi"));
+                        System.IO.Path.Combine (_workingDirectory, "output.avi"));
                 };
-                mencod.Convert (cmd.ToString ());
+                mencod.Convert (cmd.ToString (), _videoDirectory);
             }
 
         }
@@ -279,7 +266,7 @@ namespace LibMPlayerCommon
         {
 
             if (System.IO.File.Exists (this._audioFile) == false) {
-                System.IO.File.Copy ("output.avi", this._outputFilePath);
+                System.IO.File.Copy (System.IO.Path.Combine(_workingDirectory,"output.avi"), this._outputFilePath);
                 return;
             }
 
