@@ -200,3 +200,6 @@ Release-Builds/nuget/MPlayerControl-Gtk/lib
 Release-Builds/nunit-result.xml
 TestRun
 /.vs/MPlayerControl/v15/Server/sqlite3
+/.vs/WpfMPlayer/v15/Server/sqlite3
+/.vs/WpfMPlayer/DesignTimeBuild
+/.vs/MPlayerControl/DesignTimeBuild
