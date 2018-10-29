@@ -17,7 +17,6 @@ getos()
 
 
 nuget restore ../MPlayerControl.sln -NonInteractive
-nuget restore ../MPlayerGtkWidget.sln -NonInteractive
 if [ ! -f ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe ]; then
 	nuget "Install" "NUnit.Console" "-OutputDirectory" "packages" "-Version" "3.8.0" "-ExcludeVersion"
 fi
@@ -25,15 +24,11 @@ fi
 read osversion junk <<< $(getos; echo $?)
 if [ "$osversion" = 'windows' ];
 then
-	nuget restore ../WpfMPlayer.sln -NonInteractive
 	MSBUILD="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 	"$MSBUILD" "../MPlayerControl.sln" /property:Configuration="Release";Platform="Any CPU"
-	"$MSBUILD" "../WpfMPlayer.sln" /property:Configuration="Release";Platform="Any CPU"
-	"$MSBUILD" "../MPlayerGtkWidget.sln" /property:Configuration="Release";Platform="Any CPU"
 else
 	#echo "linux"
 	"$MSBUILD" "../MPlayerControl.sln" /p:Configuration="Release";Platform="Any CPU"
-	"$MSBUILD" "../MPlayerGtkWidget.sln" /p:Configuration="Release";Platform="Any CPU"
 fi
 
 CURRENTPATH=`pwd`
@@ -56,12 +51,7 @@ cp ../MediaPlayer/bin/Release/LibMplayerCommon.xml "./build-output/$PACKAGEDIR/L
 cp ../MediaPlayer/bin/Release/MediaPlayer.exe "./build-output/$PACKAGEDIR/MediaPlayer.exe"
 cp ../LibMPlayerWinform/bin/Release/LibMPlayerWinform.dll "./build-output/$PACKAGEDIR/LibMPlayerWinform.dll"
 cp ../LibMPlayerWinform/bin/Release/LibMPlayerWinform.xml "./build-output/$PACKAGEDIR/LibMPlayerWinform.xml"
-cp ../MPlayerGtkWidget/bin/Release/MPlayerGtkWidget.dll "./build-output/$PACKAGEDIR/MPlayerGtkWidget.dll"
 cp ../SlideShow/bin/Release/SlideShow.exe "./build-output/$PACKAGEDIR/SlideShow.exe"
-if [ "$osversion" = 'windows' ];
-then
-	cp ../WpfMPlayer/bin/Release/WpfMPlayer.exe "./build-output/$PACKAGEDIR/WpfMPlayer.exe"
-fi
 
 
 cd build-output
@@ -83,10 +73,6 @@ cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibImages.dll" lib/net45/LibImages.dll
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibMplayerCommon.dll" lib/net45/LibMplayerCommon.dll
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/LibMplayerCommon.xml" lib/net45/LibMplayerCommon.xml
 cp "$CURRENTPATH/build-output/$PACKAGEDIR/MediaPlayer.exe" content/MediaPlayer.exe
-if [ "$osversion" = 'windows' ];
-then
-	cp "$CURRENTPATH/build-output/$PACKAGEDIR/WpfMPlayer.exe" content/WpfMPlayer.exe
-fi
 
 nuget pack "$CURRENTPATH/nuget/MPlayerControl/MPlayerControl.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
 
@@ -107,15 +93,3 @@ nuget pack "$CURRENTPATH/nuget/MPlayerControl-Winform/MPlayerControl-Winform.nus
 cd "$CURRENTPATH"
 # End winform Nuget Package
 
-
-# Begin winform Nuget Package
-cd nuget
-cd MPlayerControl-Gtk
-rm -rf lib/net45
-mkdir -p lib/net45
-
-cp "$CURRENTPATH/build-output/$PACKAGEDIR/MPlayerGtkWidget.dll" lib/net45/MPlayerGtkWidget.dll
-
-nuget pack "$CURRENTPATH/nuget/MPlayerControl-Gtk/MPlayerControl-Gtk.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
-cd "$CURRENTPATH"
-# End winform Nuget Package
