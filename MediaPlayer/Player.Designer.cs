@@ -72,10 +72,14 @@ namespace MediaPlayer
             // 
             // panelVideo
             // 
+            this.panelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelVideo.BackColor = System.Drawing.Color.Black;
-            this.panelVideo.Location = new System.Drawing.Point(-7, 1);
+            this.panelVideo.Location = new System.Drawing.Point(-10, 2);
+            this.panelVideo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelVideo.Name = "panelVideo";
-            this.panelVideo.Size = new System.Drawing.Size(826, 344);
+            this.panelVideo.Size = new System.Drawing.Size(1239, 529);
             this.panelVideo.TabIndex = 3;
             this.panelVideo.DoubleClick += new System.EventHandler(this.panelVideo_DoubleClick);
             this.panelVideo.Resize += new System.EventHandler(this.panelVideo_Resize);
@@ -91,9 +95,10 @@ namespace MediaPlayer
             this.lblVideoLength.AutoSize = true;
             this.lblVideoLength.BackColor = System.Drawing.Color.Transparent;
             this.lblVideoLength.ForeColor = System.Drawing.Color.White;
-            this.lblVideoLength.Location = new System.Drawing.Point(766, 11);
+            this.lblVideoLength.Location = new System.Drawing.Point(1149, 17);
+            this.lblVideoLength.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVideoLength.Name = "lblVideoLength";
-            this.lblVideoLength.Size = new System.Drawing.Size(49, 13);
+            this.lblVideoLength.Size = new System.Drawing.Size(71, 20);
             this.lblVideoLength.TabIndex = 6;
             this.lblVideoLength.Text = "00:00:00";
             // 
@@ -101,10 +106,11 @@ namespace MediaPlayer
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(66, 7);
+            this.trackBar1.Location = new System.Drawing.Point(99, 11);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(700, 45);
+            this.trackBar1.Size = new System.Drawing.Size(1050, 69);
             this.trackBar1.TabIndex = 3;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
@@ -128,9 +134,10 @@ namespace MediaPlayer
             this.panel1.Controls.Add(this.lblVideoLength);
             this.panel1.Controls.Add(this.trackBar1);
             this.panel1.Controls.Add(this.lblVideoPosition);
-            this.panel1.Location = new System.Drawing.Point(1, 351);
+            this.panel1.Location = new System.Drawing.Point(2, 540);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(818, 83);
+            this.panel1.Size = new System.Drawing.Size(1227, 128);
             this.panel1.TabIndex = 2;
             // 
             // comboBoxSubtitles
@@ -138,9 +145,10 @@ namespace MediaPlayer
             this.comboBoxSubtitles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSubtitles.DropDownWidth = 200;
             this.comboBoxSubtitles.FormattingEnabled = true;
-            this.comboBoxSubtitles.Location = new System.Drawing.Point(402, 53);
+            this.comboBoxSubtitles.Location = new System.Drawing.Point(603, 82);
+            this.comboBoxSubtitles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxSubtitles.Name = "comboBoxSubtitles";
-            this.comboBoxSubtitles.Size = new System.Drawing.Size(92, 21);
+            this.comboBoxSubtitles.Size = new System.Drawing.Size(136, 28);
             this.comboBoxSubtitles.TabIndex = 12;
             this.toolTip1.SetToolTip(this.comboBoxSubtitles, "Subtitles");
             this.comboBoxSubtitles.SelectedIndexChanged += new System.EventHandler(this.comboBoxSubtitles_SelectedIndexChanged);
@@ -150,9 +158,10 @@ namespace MediaPlayer
             this.comboBoxAudioTracks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAudioTracks.DropDownWidth = 200;
             this.comboBoxAudioTracks.FormattingEnabled = true;
-            this.comboBoxAudioTracks.Location = new System.Drawing.Point(402, 32);
+            this.comboBoxAudioTracks.Location = new System.Drawing.Point(603, 49);
+            this.comboBoxAudioTracks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBoxAudioTracks.Name = "comboBoxAudioTracks";
-            this.comboBoxAudioTracks.Size = new System.Drawing.Size(92, 21);
+            this.comboBoxAudioTracks.Size = new System.Drawing.Size(136, 28);
             this.comboBoxAudioTracks.TabIndex = 11;
             this.toolTip1.SetToolTip(this.comboBoxAudioTracks, "Audio tracks");
             this.comboBoxAudioTracks.SelectedIndexChanged += new System.EventHandler(this.comboBoxAudioTracks_SelectedIndexChanged);
@@ -166,9 +175,10 @@ namespace MediaPlayer
             this.btnLoadFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnLoadFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoadFile.Image = global::MediaPlayer.Properties.Resources.document_open;
-            this.btnLoadFile.Location = new System.Drawing.Point(500, 32);
+            this.btnLoadFile.Location = new System.Drawing.Point(750, 49);
+            this.btnLoadFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnLoadFile.Name = "btnLoadFile";
-            this.btnLoadFile.Size = new System.Drawing.Size(75, 42);
+            this.btnLoadFile.Size = new System.Drawing.Size(112, 65);
             this.btnLoadFile.TabIndex = 5;
             this.btnLoadFile.UseVisualStyleBackColor = false;
             this.btnLoadFile.Click += new System.EventHandler(this.btnLoadFile_Click);
@@ -184,9 +194,10 @@ namespace MediaPlayer
             this.buttonMute.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.buttonMute.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonMute.Image = global::MediaPlayer.Properties.Resources.audio_volume_medium;
-            this.buttonMute.Location = new System.Drawing.Point(581, 32);
+            this.buttonMute.Location = new System.Drawing.Point(872, 49);
+            this.buttonMute.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonMute.Name = "buttonMute";
-            this.buttonMute.Size = new System.Drawing.Size(41, 44);
+            this.buttonMute.Size = new System.Drawing.Size(62, 68);
             this.buttonMute.TabIndex = 13;
             this.buttonMute.UseVisualStyleBackColor = false;
             this.buttonMute.Click += new System.EventHandler(this.buttonMute_Click);
@@ -200,9 +211,10 @@ namespace MediaPlayer
             this.btnRewind.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnRewind.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRewind.Image = global::MediaPlayer.Properties.Resources.rewind;
-            this.btnRewind.Location = new System.Drawing.Point(621, 31);
+            this.btnRewind.Location = new System.Drawing.Point(932, 48);
+            this.btnRewind.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnRewind.Name = "btnRewind";
-            this.btnRewind.Size = new System.Drawing.Size(45, 44);
+            this.btnRewind.Size = new System.Drawing.Size(68, 68);
             this.btnRewind.TabIndex = 9;
             this.btnRewind.UseVisualStyleBackColor = false;
             this.btnRewind.Click += new System.EventHandler(this.btnRewind_Click);
@@ -218,9 +230,10 @@ namespace MediaPlayer
             this.btnFastforward.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnFastforward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFastforward.Image = global::MediaPlayer.Properties.Resources.fastforward;
-            this.btnFastforward.Location = new System.Drawing.Point(670, 31);
+            this.btnFastforward.Location = new System.Drawing.Point(1005, 48);
+            this.btnFastforward.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnFastforward.Name = "btnFastforward";
-            this.btnFastforward.Size = new System.Drawing.Size(45, 44);
+            this.btnFastforward.Size = new System.Drawing.Size(68, 68);
             this.btnFastforward.TabIndex = 8;
             this.btnFastforward.UseVisualStyleBackColor = false;
             this.btnFastforward.Click += new System.EventHandler(this.btnFastforward_Click);
@@ -236,9 +249,10 @@ namespace MediaPlayer
             this.btnPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlay.Image = global::MediaPlayer.Properties.Resources.play;
-            this.btnPlay.Location = new System.Drawing.Point(770, 31);
+            this.btnPlay.Location = new System.Drawing.Point(1155, 48);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(45, 44);
+            this.btnPlay.Size = new System.Drawing.Size(68, 68);
             this.btnPlay.TabIndex = 0;
             this.btnPlay.UseVisualStyleBackColor = false;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
@@ -254,9 +268,10 @@ namespace MediaPlayer
             this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Image = global::MediaPlayer.Properties.Resources.stop;
-            this.btnStop.Location = new System.Drawing.Point(721, 31);
+            this.btnStop.Location = new System.Drawing.Point(1082, 48);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(45, 44);
+            this.btnStop.Size = new System.Drawing.Size(68, 68);
             this.btnStop.TabIndex = 1;
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -270,9 +285,10 @@ namespace MediaPlayer
             this.btnPlayerProperties.FlatAppearance.BorderSize = 0;
             this.btnPlayerProperties.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlayerProperties.Image = global::MediaPlayer.Properties.Resources.config;
-            this.btnPlayerProperties.Location = new System.Drawing.Point(11, 31);
+            this.btnPlayerProperties.Location = new System.Drawing.Point(16, 48);
+            this.btnPlayerProperties.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPlayerProperties.Name = "btnPlayerProperties";
-            this.btnPlayerProperties.Size = new System.Drawing.Size(34, 40);
+            this.btnPlayerProperties.Size = new System.Drawing.Size(51, 62);
             this.btnPlayerProperties.TabIndex = 10;
             this.btnPlayerProperties.UseVisualStyleBackColor = false;
             this.btnPlayerProperties.Click += new System.EventHandler(this.btnPlayerProperties_Click);
@@ -282,22 +298,24 @@ namespace MediaPlayer
             this.lblVideoPosition.AutoSize = true;
             this.lblVideoPosition.BackColor = System.Drawing.Color.Transparent;
             this.lblVideoPosition.ForeColor = System.Drawing.Color.White;
-            this.lblVideoPosition.Location = new System.Drawing.Point(11, 11);
+            this.lblVideoPosition.Location = new System.Drawing.Point(16, 17);
+            this.lblVideoPosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVideoPosition.Name = "lblVideoPosition";
-            this.lblVideoPosition.Size = new System.Drawing.Size(49, 13);
+            this.lblVideoPosition.Size = new System.Drawing.Size(71, 20);
             this.lblVideoPosition.TabIndex = 2;
             this.lblVideoPosition.Text = "00:00:00";
             // 
             // Player
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(823, 428);
+            this.ClientSize = new System.Drawing.Size(1234, 658);
             this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.panel1);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Player";
             this.Text = "MediaPlayer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Player_FormClosing);
