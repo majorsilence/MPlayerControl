@@ -12,8 +12,6 @@ It currently supports play, pause, stop. seek and some other basic functionality
 
 See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wiki.
 
-Commercial support available from http://mplayercontrol.majorsilence.com.
-
 # Downloads
 Download using nuget https://www.nuget.org/packages?q=mplayercontrol.
 
