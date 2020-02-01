@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <StartupObject>SlideShow.Program</StartupObject>
     <AssemblyTitle>SlideShow</AssemblyTitle>
     <Product>SlideShow</Product>
