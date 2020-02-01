@@ -5,7 +5,7 @@
     <version>1.3</version>
     <authors>Peter Gill</authors>
     <owners>Peter Gill</owners>
-    <licenseUrl>https://raw.github.com/majorsilence/MPlayerControl/master/lgpl-2.1.txt</licenseUrl>
+    <license type="expression">LGPL-2.1-or-later</license>
     <projectUrl>https://github.com/majorsilence/MPlayerControl</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>A mplayer and mencoder c# wrapper library.  This package includes the winform control.</summary>
@@ -16,11 +16,11 @@ This is a .NET 4.5 wrapper library for MPlayer.  It has been tested on Windows X
     <releaseNotes>See https://github.com/majorsilence/My-FyiReporting/releases</releaseNotes>
     <copyright>Copyright 2014 Majorsilence Solutions Inc.</copyright>
     <tags>Media</tags>
-
     <dependencies>
-      <dependency id="MPlayerControl" version="1.3" />
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="MPlayerControl" version="1.3" />
+      </group>
     </dependencies>
-
   </metadata>
 
 </package>
