@@ -39,8 +39,9 @@ namespace LibMPlayerCommon
         {
             input = input.Trim();
             if (input.Equals("nan", StringComparison.OrdinalIgnoreCase) || input.Equals("-nan", StringComparison.OrdinalIgnoreCase)) { return float.NaN; }
-
-            return float.Parse(input.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+            float outValue = 0f;
+            float.TryParse(input.Replace(",", "."), out outValue);
+            return outValue;
         }
 
         public static string MajorSilenceLocalAppDataDirectory

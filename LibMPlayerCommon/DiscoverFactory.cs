@@ -26,7 +26,7 @@ namespace LibMPlayerCommon
         {
             if (path.Contains ("mplayer")) {
                 return new MPlayerDiscover (file, path);
-            } else if (path.Contains ("libmpv")) {
+            } else if (path.Contains ("mpv")) {
                 return new MpvDiscover (file, path);
             }
 

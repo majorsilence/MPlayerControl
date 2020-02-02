@@ -28,7 +28,7 @@ namespace LibMPlayerCommon
         {
             if (path.Contains ("mplayer")) {
                 return new MPlayer (handle, MplayerBackends.Direct3D, path);
-            } else if (path.Contains ("libmpv")) {
+            } else if (path.Contains ("mpv")) {
                 return new MpvPlayer (handle, path);
             }
 
