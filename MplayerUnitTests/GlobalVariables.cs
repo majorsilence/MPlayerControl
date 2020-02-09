@@ -40,20 +40,14 @@ namespace MplayerUnitTests
             get { return _libMpvPath; }
         }
 
-        public static string Video1Path
-        {
-            //get { return Path.Combine(_basePath, "TestVideo1-á.flv"); }
-            get { return Path.Combine(_basePath, "TestVideo1-\u00a0.flv"); }
-        }
-
         public static string Video2Path
         {
-            get { return Path.Combine(_basePath, "TestVideo2.flv"); }
+            get { return Path.Combine(_basePath, "video2.mp4"); }
         }
 
-        public static string Video8Path
+        public static string Video1Path
         {
-            get { return Path.Combine(_basePath, "TestVideo8.flv"); }
+            get { return Path.Combine(_basePath, "video1.mp4"); }
         }
 
         public static string OutputVideoWebM

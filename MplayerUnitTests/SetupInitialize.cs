@@ -17,89 +17,55 @@ namespace MplayerUnitTests
         private static string finalPath;
 
         [OneTimeSetUp]
-        public void RunBeforeAnyTests ()
+        public void RunBeforeAnyTests()
         {
-            //Startup s = new Startup();
-            //s.Initialize();
-
-#if DEBUG
-            string path = Path.Combine (Environment.CurrentDirectory, "../", "../", "../", "TestRun");
-#else
+            
             var path = Path.Combine(Path.GetTempPath(), "MPlayerControl", "Tests");
-#endif
+            finalPath = Path.Combine(path, "TestVideos");
 
+            FinalTearDown();
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-
-            finalPath = Path.Combine (path, "TestVideos");
-            var testVideos = Path.Combine(path, "TestVideos2.zip");
-            if (!File.Exists(testVideos))
+            if (!Directory.Exists(finalPath))
             {
-                var page = "http://files.majorsilence.com/TestVideos2.zip";
-
-                using (var client = new HttpClient ()) {
-                    using (var response = client.GetAsync (page).Result) {
-                        using (FileStream fileStream = new FileStream (testVideos, FileMode.Create, FileAccess.Write, FileShare.None)) {
-                            //copy the content from response to filestream
-                            response.Content.CopyToAsync (fileStream).Wait();
-                        }
-                    }
-                }
-            
-                /*
-                using (var client = new WebClient())
-                {
-                    client.Headers.Add ("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:59.0) Gecko/20100101 Firefox/59.0; mplayercontrol tests");
-                    client.DownloadFile("http://files.majorsilence.com/TestVideos2.zip", 
-                        testVideos);
-                }
-                */
+                Directory.CreateDirectory(finalPath);
             }
-            ExtractZip (path, testVideos);
 
-            GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
 
+            var files = Directory.GetFiles(Path.Combine(ExecutingDirectory(), "TestVideos"));
+            foreach (var file in files)
+            {
+                File.Copy(file, Path.Combine(finalPath, Path.GetFileName(file)));
+            }
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                GlobalVariables.InitPath(finalPath,
+                    @"C:\Users\peter\Downloads\MPlayer-x86_64-r38154+g9fe07908c3\mplayer.exe",
+                    @"C:\Users\peter\Downloads\mpv-dev-x86_64-20200202-git-77a74d9\mpv-1.dll");
+            }
+            else
+            {
+                GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
+            }
         }
 
         [OneTimeTearDown]
-        public void RunAfterAnyTests()
+        public void FinalTearDown()
         {
-            // TODO, delete output files
-            System.IO.Directory.Delete (finalPath, true);
+            if (Directory.Exists(finalPath))
+            {
+                Directory.Delete(finalPath, true);
+            }
         }
 
-        public void ExtractZip(string extractFolder, string currentZipFile, string zipProgramPath = "")
+        private static string ExecutingDirectory()
         {
-            if (zipProgramPath.Trim() == "")
-            {
-                zipProgramPath = "7za";
-            }
-
-            string programPath = zipProgramPath;
-            Console.WriteLine(string.Format("7za Path: {0}", programPath));
-            using (var p = new Process()
-            {
-                StartInfo = new ProcessStartInfo()
-                {
-                    FileName = programPath,
-                    UseShellExecute = false,
-                    Arguments = string.Format("-y x \"{0}\" -o\"{1}\"", currentZipFile, extractFolder)
-                }
-            })
-            {
-                p.Start();
-                p.WaitForExit();
-
-                Debug.Assert(p.ExitCode == 0);
-                if (p.ExitCode > 0)
-                {
-                    Console.WriteLine(string.Format("Error unzipping file {0}", currentZipFile));
-                    Environment.Exit(1);
-                }
-                p.Close();
-            }
+            string location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            location = Path.GetDirectoryName(location);
+            return location;
         }
 
     }

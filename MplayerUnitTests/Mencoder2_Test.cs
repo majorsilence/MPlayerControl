@@ -21,7 +21,7 @@ namespace MplayerUnitTests
                 a.PercentCompleted += (s, e) => {
                    // Console.WriteLine ($"Convert2WebMTest Percent: {e.Value}");
                 };
-                a.Convert2WebM(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
+                a.Convert2WebM(GlobalVariables.Video1Path, GlobalVariables.OutputVideoWebM);
             }
         }
 
@@ -32,7 +32,7 @@ namespace MplayerUnitTests
             a.PercentCompleted += (s, e) => {
                // Console.WriteLine ($"Convert2WebMAsyncTest Percent: {e.Value}");
             };
-            await a.Convert2WebMAsync(GlobalVariables.Video8Path, GlobalVariables.OutputVideoWebM);
+            await a.Convert2WebMAsync(GlobalVariables.Video1Path, GlobalVariables.OutputVideoWebM);
         }
 
 
@@ -41,7 +41,7 @@ namespace MplayerUnitTests
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
-                a.Convert2X264(GlobalVariables.Video8Path, GlobalVariables.OutputVideoX264);
+                a.Convert2X264(GlobalVariables.Video1Path, GlobalVariables.OutputVideoX264);
             }
         }
 
@@ -50,7 +50,7 @@ namespace MplayerUnitTests
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
-                await a.Convert2X264Async(GlobalVariables.Video8Path, GlobalVariables.OutputVideoX264);
+                await a.Convert2X264Async(GlobalVariables.Video1Path, GlobalVariables.OutputVideoX264);
             }
         }
 
@@ -59,7 +59,7 @@ namespace MplayerUnitTests
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
-                a.Convert2DvdMpeg(LibMPlayerCommon.Mencoder.RegionType.PAL, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegPal);
+                a.Convert2DvdMpeg(LibMPlayerCommon.Mencoder.RegionType.PAL, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegPal);
             }
         }
 
@@ -68,7 +68,7 @@ namespace MplayerUnitTests
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
-                await a.Convert2DvdMpegAsync(LibMPlayerCommon.Mencoder.RegionType.PAL, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegPal);
+                await a.Convert2DvdMpegAsync(LibMPlayerCommon.Mencoder.RegionType.PAL, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegPal);
             }
         }
 
@@ -77,7 +77,7 @@ namespace MplayerUnitTests
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
-                a.Convert2DvdMpeg(LibMPlayerCommon.Mencoder.RegionType.NTSC, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegNtsc);
+                a.Convert2DvdMpeg(LibMPlayerCommon.Mencoder.RegionType.NTSC, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegNtsc);
 
                 a.ConversionComplete += a_ConversionComplete;
             }
@@ -88,7 +88,7 @@ namespace MplayerUnitTests
         {
             using (var a = new LibMPlayerCommon.Mencoder2())
             {
-                await a.Convert2DvdMpegAsync(LibMPlayerCommon.Mencoder.RegionType.NTSC, GlobalVariables.Video8Path, GlobalVariables.OutputVideoDvdMpegNtsc);
+                await a.Convert2DvdMpegAsync(LibMPlayerCommon.Mencoder.RegionType.NTSC, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegNtsc);
             }
         }
 
