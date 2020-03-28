@@ -509,7 +509,7 @@ namespace MediaPlayer
             if (_videoSettings != null) {
                 _videoSettings.Dispose ();
             }
-            _play.Dispose();
+            _play?.Dispose();
         }
 
         private void Player_SizeChanged(object sender, EventArgs e)
