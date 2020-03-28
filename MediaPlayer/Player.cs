@@ -108,17 +108,15 @@ namespace MediaPlayer
             this._play.Stop();
             this.ResetTime();
 
-            if (this._playOnceAndClose == true)
+            if (this._playOnceAndClose != true) return;
+            try
             {
-                try
-                {
 
-                    this.Invoke(new MethodInvoker(Close));
-                }
-                catch (Exception ex)
-                {
-                    Logging.Instance.WriteLine(ex);
-                }
+                this.Invoke(new MethodInvoker(Close));
+            }
+            catch (Exception ex)
+            {
+                Logging.Instance.WriteLine(ex);
             }
 
         }
