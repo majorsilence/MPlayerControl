@@ -174,7 +174,7 @@ namespace MediaPlayer
                 
             }
 
-            if (this._filePath == String.Empty || this._filePath == null)
+            if (string.IsNullOrEmpty(this._filePath))
             {
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -208,15 +208,12 @@ namespace MediaPlayer
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            if (this._play != null)
-            {
-                btnPlay.Image = MediaPlayer.Properties.Resources.play;
+            if (this._play == null) return;
+            btnPlay.Image = MediaPlayer.Properties.Resources.play;
 
-                this._play.Stop();
+            this._play.Stop();
 
-                this.ResetTime();
-
-            }
+            this.ResetTime();
         }
 
 
@@ -377,12 +374,10 @@ namespace MediaPlayer
 
         private void btnLoadFile_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                btnStop_Click(sender, e);
-                btnPlay.Image = MediaPlayer.Properties.Resources.play;
-                this._filePath = openFileDialog1.FileName;
-            }
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
+            btnStop_Click(sender, e);
+            btnPlay.Image = MediaPlayer.Properties.Resources.play;
+            this._filePath = openFileDialog1.FileName;
         }
 
         private void MainForm_DragDrop(object sender, DragEventArgs e)
@@ -390,13 +385,11 @@ namespace MediaPlayer
             
             string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
-            if (s.Length > 0)
-            {
-                // Stop current playing and start new file.
-                btnStop_Click(sender, e);
-                this._filePath = s[0];
-                btnPlay_Click(sender, e);
-            }
+            if (s.Length <= 0) return;
+            // Stop current playing and start new file.
+            btnStop_Click(sender, e);
+            this._filePath = s[0];
+            btnPlay_Click(sender, e);
 
         }
 
@@ -466,11 +459,7 @@ namespace MediaPlayer
 
         private void panelVideo_Resize(object sender, EventArgs e)
         {
-            if (this._play == null)
-            {
-                return;
-            }
-            this._play.SetSize(this.panelVideo.Width, this.panelVideo.Height);
+            _play?.SetSize(this.panelVideo.Width, this.panelVideo.Height);
         }
 
         private void comboBoxAudioTracks_SelectedIndexChanged(object sender, EventArgs e)
@@ -504,9 +493,7 @@ namespace MediaPlayer
 
         private void Player_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_videoSettings != null) {
-                _videoSettings.Dispose ();
-            }
+            _videoSettings?.Dispose ();
             _play?.Dispose();
         }
 
