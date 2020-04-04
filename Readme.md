@@ -29,8 +29,11 @@ MPlayerControl is developed with the following work flow:
     * If it has a bug you need fixed, fix it
 
 
-## Linux
-Flatpak MonoDevelop currently does not support loading system libraries or executables.  Please use your repositories included MonoDevelop.
+## Linux and Mac
+Use [Rider](https://www.jetbrains.com/rider/).
+
+## Windows
+Use [Visual Studio](https://visualstudio.microsoft.com/vs/) 2019 or newer.
 
 # MPV Support
 Initial mpv support has been added.
@@ -51,3 +54,21 @@ In mono develop right click the executable __Project -> Options -> Run -> Genera
 ```
 LC_NUMERIC=C
 ```
+
+
+# Ubuntu Setup
+
+Core requirements
+
+```bash
+sudo apt-get install mplayer mencoder libmpv1
+```
+
+
+Maybe required
+
+```bash
+ sudo apt-get install xvfb libgtk2.0-cil libpoppler-cil p7zip-full
+ ```
+
+

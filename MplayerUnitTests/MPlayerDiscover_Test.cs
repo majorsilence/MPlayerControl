@@ -20,7 +20,7 @@ namespace MplayerUnitTests
             using (var a = new LibMPlayerCommon.MPlayerDiscover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath))
             {
                 a.Execute();
-                Assert.AreEqual(8, a.AudioBitrate);
+                Assert.AreEqual(128, a.AudioBitrate);
             }
         }
 
@@ -122,7 +122,7 @@ namespace MplayerUnitTests
             using (var a = new LibMPlayerCommon.MPlayerDiscover(GlobalVariables.Video1Path, GlobalVariables.MplayerPath))
             {
                 a.Execute();
-                Assert.AreEqual(339, a.VideoBitrate);
+                Assert.AreEqual(3964, a.VideoBitrate);
             }
         }
 
@@ -137,7 +137,7 @@ namespace MplayerUnitTests
             using (var a = new LibMPlayerCommon.MPlayerDiscover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath))
             {
                 a.Execute();
-                Assert.AreEqual(8, a.AudioBitrate);
+                Assert.AreEqual(128, a.AudioBitrate);
             }
         }
 
@@ -239,7 +239,7 @@ namespace MplayerUnitTests
             using (var a = new LibMPlayerCommon.MPlayerDiscover(GlobalVariables.Video2Path, GlobalVariables.MplayerPath))
             {
                 a.Execute();
-                Assert.AreEqual(330, a.VideoBitrate);
+                Assert.AreEqual(4650, a.VideoBitrate);
             }
         }
 

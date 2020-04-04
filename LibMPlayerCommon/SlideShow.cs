@@ -215,7 +215,8 @@ namespace LibMPlayerCommon
 
         private short EffectValue (int imageCountPerImage, int loopCountPosition)
         {
-            return (short)((imageCountPerImage / 2) - loopCountPosition);
+            float x = (imageCountPerImage / 2.0f) - loopCountPosition;
+            return (short)(Math.Round(x, MidpointRounding.AwayFromZero));
         }
 
 

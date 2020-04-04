@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnitLite;
 
 
 namespace MplayerUnitTests
@@ -7,36 +8,38 @@ namespace MplayerUnitTests
     internal sealed class Program
     {
         [STAThread]
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
+            return new AutoRun().Execute(args);
+
             // setup
-            var init = new SetupInitialize();
-            try
-            {
-                init.RunBeforeAnyTests();
-
-
-                /*
-                var instSlide = new SlideShow_Test();
-                instSlide.Test1();
-    */
-                // tests that you want to manually run
-
-                //var inst = new MPlayer_Test();
-                //inst.MemoryLeak_Test();
-
-
-                // DebugMpvTests ();
-
-                DebugMencoderTests();
-                DebugMplayerTests();
-
-            }
-            catch (Exception)
-            {
-                init.FinalTearDown();
-            }
-
+    //         var init = new SetupInitialize();
+    //         try
+    //         {
+    //             init.RunBeforeAnyTests();
+    //             
+    //             /*
+    //             var instSlide = new SlideShow_Test();
+    //             instSlide.Test1();
+    // */
+    //             // tests that you want to manually run
+    //
+    //             //var inst = new MPlayer_Test();
+    //             //inst.MemoryLeak_Test();
+    //
+    //
+    //             // DebugMpvTests ();
+    //
+    //             DebugMencoderTests();
+    //             DebugMplayerTests();
+    //
+    //         }
+    //         catch (Exception)
+    //         {
+    //             init.FinalTearDown();
+    //         }
+    //
+    //         return 1;
         }
 
         private static void DebugMencoderTests()

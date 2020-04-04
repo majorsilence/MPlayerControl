@@ -17,9 +17,6 @@ getos()
 
 
 nuget restore ../MPlayerControl.sln -NonInteractive
-if [ ! -f ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe ]; then
-	nuget "Install" "NUnit.Console" "-OutputDirectory" "packages" "-Version" "3.10.0" "-ExcludeVersion"
-fi
 
 read osversion junk <<< $(getos; echo $?)
 if [ "$osversion" = 'windows' ];
@@ -32,15 +29,19 @@ else
 fi
 
 CURRENTPATH=`pwd`
+cd "../MplayerUnitTests/bin/Release/net48/"
 if [ "$osversion" = 'windows' ];
 then
 	echo "disable until new test videos are added"
-	#./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/net48/MplayerUnitTests.exe" -result:"nunit-result.xml" -labels:All
+	".MplayerUnitTests.exe" -result:"nunit-result.xml" -labels:All
 else
-	echo "disable until new test videos are added"
+	#echo "disable until new test videos are added"
 	# for some reason --x86 is need with mono/linux even when built as Any CPU.
-	#mono ./packages/NUnit.ConsoleRunner/tools/nunit3-console.exe "../MplayerUnitTests/bin/Release/net48/MplayerUnitTests.exe" -result:"$CURRENTPATH/nunit-result.xml" -labels:All -workers=1 --x86 #-inprocess
+	echo "start linux tests"
+	mono "./MplayerUnitTests.exe" -result:"$CURRENTPATH/nunit-result.xml" -labels:All -workers=1
 fi
+cd "$CURRENTPATH"
+echo "tests finished"
 
 PACKAGEDIR="MPlayerControl-dot-net-4.8-AnyCPU"
 
