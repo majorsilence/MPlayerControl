@@ -50,8 +50,8 @@ rm -rf "./build-output/$PACKAGEDIR.7z"
 mkdir -p "./build-output/$PACKAGEDIR"
 
 cp ../LibImages/bin/Release/net45/LibImages.dll "./build-output/$PACKAGEDIR/LibImages.dll"
-cp ../LibMplayerCommon/bin/Release/net45/LibMplayerCommon.dll "./build-output/$PACKAGEDIR/LibMplayerCommon.dll"
-cp ../LibMplayerCommon/bin/Release/net45/LibMplayerCommon.xml "./build-output/$PACKAGEDIR/LibMplayerCommon.xml"
+cp ../LibMPlayerCommon/bin/Release/net45/LibMplayerCommon.dll "./build-output/$PACKAGEDIR/LibMplayerCommon.dll"
+cp ../LibMPlayerCommon/bin/Release/net45/LibMplayerCommon.xml "./build-output/$PACKAGEDIR/LibMplayerCommon.xml"
 cp ../MediaPlayer/bin/Release/net48/MediaPlayer.exe "./build-output/$PACKAGEDIR/MediaPlayer.exe"
 cp ../LibMPlayerWinform/bin/Release/net45/LibMPlayerWinform.dll "./build-output/$PACKAGEDIR/LibMPlayerWinform.dll"
 cp ../LibMPlayerWinform/bin/Release/net45/LibMPlayerWinform.xml "./build-output/$PACKAGEDIR/LibMPlayerWinform.xml"
@@ -76,12 +76,12 @@ mkdir -p lib/netstandard2.0
 mkdir content
 
 cp "$CURRENTPATH/../LibImages/bin/Release/net45/LibImages.dll" lib/net45/LibImages.dll
-cp "$CURRENTPATH/../LibMplayerCommon/bin/Release/net45/LibMplayerCommon.dll" lib/net45/LibMplayerCommon.dll
-cp "$CURRENTPATH/../LibMplayerCommon/bin/Release/LibMplayerCommon.xml" lib/net45/LibMplayerCommon.xml
+cp "$CURRENTPATH/../LibMPlayerCommon/bin/Release/net45/LibMplayerCommon.dll" lib/net45/LibMplayerCommon.dll
+cp "$CURRENTPATH/../LibMPlayerCommon/bin/Release/LibMplayerCommon.xml" lib/net45/LibMplayerCommon.xml
 cp "$CURRENTPATH/../MediaPlayer/bin/Release/net48/MediaPlayer.exe" content/MediaPlayer.exe
 cp "$CURRENTPATH/../LibImages/bin/Release/netstandard2.0/LibImages.dll" lib/netstandard2.0/LibImages.dll
-cp "$CURRENTPATH/../LibMplayerCommon/bin/Release/netstandard2.0/LibMplayerCommon.dll" lib/netstandard2.0/LibMplayerCommon.dll
-cp "$CURRENTPATH/../LibMplayerCommon/bin/Release/LibMplayerCommon.xml" lib/netstandard2.0/LibMplayerCommon.xml
+cp "$CURRENTPATH/../LibMPlayerCommon/bin/Release/netstandard2.0/LibMplayerCommon.dll" lib/netstandard2.0/LibMplayerCommon.dll
+cp "$CURRENTPATH/../LibMPlayerCommon/bin/Release/LibMplayerCommon.xml" lib/netstandard2.0/LibMplayerCommon.xml
 #cp "$CURRENTPATH/../lgpl-2.1.txt" files/lgpl-2.1.txt
 
 nuget pack "$CURRENTPATH/nuget/MPlayerControl/MPlayerControl.nuspec" -OutputDirectory "$CURRENTPATH/build-output"
