@@ -72,3 +72,23 @@ Maybe required
  ```
 
 
+
+# Release build
+
+```bash
+cd Release-Builds
+./build-release.sh
+./build-release-gtk.sh
+./build-release-wpf.sh
+```
+
+Upload nuget packages to nuget.org.
+
+
+bump version number.
+
+```
+./prepare-files-for-release.sh
+```
+
+Commit and push new version number for future developments
