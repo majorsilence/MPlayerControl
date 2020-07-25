@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MPlayerControl</id>
-    <version>1.4</version>
+    <version>1.5</version>
     <authors>Peter Gill</authors>
     <owners>Peter Gill</owners>
     <license type="expression">LGPL-2.1-or-later</license>
