@@ -34,15 +34,15 @@ fi
 CURRENTPATH=`pwd`
 PACKAGEDIR="MPlayerControl-dot-net-4.7-AnyCPU-gtk"
 
-rm -rf ./build-output/MPlayerControl-dot-net-4.7-AnyCPU
+rm -rf "./build-output/$PACKAGEDIR"
 rm -rf "./build-output/$PACKAGEDIR.zip"
-mkdir -p ./build-output/MPlayerControl-dot-net-4.7-AnyCPU
+mkdir -p "./build-output/$PACKAGEDIR"
 
 cp ../MPlayerGtkWidget/bin/Release/MPlayerGtkWidget.dll "./build-output/$PACKAGEDIR/MPlayerGtkWidget.dll"
 
 
 cd build-output
-zip -r "$PACKAGEDIR.zip" "$PACKAGEDIR"
+7za a -t7z "$PACKAGEDIR.7z" -r $PACKAGEDIR -bd
 cd ..
 
 
