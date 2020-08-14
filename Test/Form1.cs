@@ -18,8 +18,10 @@ namespace Test
 
         private void winFormMPlayerControl1_Load(object sender, EventArgs e)
         {
-            winFormMPlayerControl1.MPlayerPath = @"C:\Users\Peter\Desktop\mplayer.exe";
-            winFormMPlayerControl1.VideoPath = @"C:\Users\Peter\Downloads\big_buck_bunny_480p_surround-fix.avi";
+            var player = LibMPlayerCommon.PlayerFactory.Get(winFormMPlayerControl1.Handle, "/usr/bin/mplayer");
+            winFormMPlayerControl1.SetPlayer(player);
+            winFormMPlayerControl1.MPlayerPath = @"/usr/bin/mplayer";
+            winFormMPlayerControl1.VideoPath = @"/home/peter/Downloads/20200717_183033.mp4";
         }
     }
 }

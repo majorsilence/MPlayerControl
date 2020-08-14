@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -26,6 +27,11 @@ namespace LibMPlayerWinform
             _play = play;
         }
 
+        public void SetPlayer(Player play)
+        {
+            _play = play;
+        }
+        
         public long Handle
         {
             get
@@ -48,21 +54,26 @@ namespace LibMPlayerWinform
             {
                 _play.Stop();
             }
-          
-            if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MPlayer)
+
+            if (_play == null)
+            {
+                throw new InvalidDataException("The player is not set.  You must set it with the constructor or through the SetPlayer method.");
+            }
+            else if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MPlayer)
             {
                 throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
             }
+            else if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MpvPlayer)
+            {
+                throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
+            }
+
 
             if (System.IO.File.Exists(VideoPath) == false && VideoPath.StartsWith("http") == false)
             {
                 throw new System.IO.FileNotFoundException("File not found", VideoPath);
             }
-
-            if (_play == null)
-            {
-                //_play = new MPlayer(Handle, MplayerBackends.Direct3D, MPlayerPath);
-            }
+            
             _play.Play(VideoPath);
         }
 
