@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MPlayerControl-Winform</id>
-    <version>1.6</version>
+    <version>1.7</version>
     <authors>Peter Gill</authors>
     <owners>Peter Gill</owners>
     <license type="expression">LGPL-2.1-or-later</license>
@@ -18,7 +18,7 @@ This is a .NET 4.5 wrapper library for MPlayer.  It has been tested on Windows X
     <tags>Media</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="MPlayerControl" version="1.6" />
+        <dependency id="MPlayerControl" version="1.7" />
       </group>
     </dependencies>
   </metadata>
