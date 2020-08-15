@@ -44,7 +44,7 @@ namespace LibMPlayerCommon
         // The total length that the video is in seconds.
         private int _totalTime = 0;
 
-        private string currentFilePath;
+        public string CurrentFilePath { get; private set; }
 
 
 
@@ -174,7 +174,7 @@ namespace LibMPlayerCommon
         /// <param name="filePath">string</param>
         public void LoadFile (string filePath)
         {
-            this.currentFilePath = filePath;
+            this.CurrentFilePath = filePath;
 
             _mpv.SetOption ("wid", MpvFormat.MPV_FORMAT_INT64, _wid);
             _mpv.DoMpvCommand ("loadfile", filePath);

@@ -44,7 +44,7 @@ namespace LibMPlayerCommon
         // The total length that the video is in seconds.
         private int _totalTime = 0;
        
-        private string currentFilePath;
+        public string CurrentFilePath { get; private set; }
         private string _mplayerPath;
 
         private BackendPrograms _backendProgram;
@@ -368,7 +368,7 @@ namespace LibMPlayerCommon
         /// <param name="filePath"></param>
         public void Play(string filePath)
         {
-            this.currentFilePath = filePath;
+            this.CurrentFilePath = filePath;
 
 
             if (this.MplayerRunning == false)
@@ -560,7 +560,7 @@ namespace LibMPlayerCommon
         private void LoadCurrentPlayingFileLength()
         {
             // This works even with streaming.
-            MPlayerDiscover file = new MPlayerDiscover(this.currentFilePath, this._backendProgram.MPlayer);
+            MPlayerDiscover file = new MPlayerDiscover(this.CurrentFilePath, this._backendProgram.MPlayer);
             file.Execute();
             this._totalTime = file.Length;
         }

@@ -10,6 +10,8 @@ namespace LibMPlayerCommon
         bool FullScreen { get; set; }
 
         MediaStatus CurrentStatus { get; set; }
+        
+        string CurrentFilePath { get; }
 
         void ToggleFullScreen ();
 
