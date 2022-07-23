@@ -18,7 +18,7 @@ namespace WpfMPlayer
     /// <summary>
     /// Interaction logic for WpfMPlayerControl.xaml
     /// </summary>
-    public partial class WpfMPlayerControl : UserControl
+    public partial class WpfMPlayerControl : System.Windows.Controls.UserControl
     {
         MPlayer _play;
 
