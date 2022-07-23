@@ -1,137 +1,133 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net48</TargetFramework>
-    <FileUpgradeFlags />
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <StartupObject>MediaPlayer.Program</StartupObject>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AssemblyTitle>MediaPlayer</AssemblyTitle>
-    <Product>MediaPlayer</Product>
-    <Copyright>Copyright 2010</Copyright>
-    <Deterministic>false</Deterministic>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <DebugType>Full</DebugType>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <DebugType>None</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Commandlineparameters>-path "/usr/bin/mplayer"</Commandlineparameters>
-    <EnvironmentVariables>
-      <EnvironmentVariables>
-        <Variable name="LC_NUMERIC" value="C" />
-      </EnvironmentVariables>
-    </EnvironmentVariables>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Commandlineparameters>-path "/usr/bin/mplayer"</Commandlineparameters>
-    <EnvironmentVariables>
-      <EnvironmentVariables>
-        <Variable name="LC_NUMERIC" value="C" />
-      </EnvironmentVariables>
-    </EnvironmentVariables>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="PlayerProperties.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="PlayerProperties.Designer.cs">
-      <DependentUpon>PlayerProperties.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Player.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Player.Designer.cs">
-      <DependentUpon>Player.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Player.resx">
-      <DependentUpon>Player.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="PlayerProperties.resx">
-      <DependentUpon>PlayerProperties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Resources\play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fastforward.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\rewind.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\audio-volume-medium.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\audio-volume-muted.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document-open.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LibMPlayerCommon\LibMPlayerCommon.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\config.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Remove="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Remove="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-    <Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<StartupObject>MediaPlayer.Program</StartupObject>
+		<PublishUrl>publish\</PublishUrl>
+		<Install>true</Install>
+		<InstallFrom>Disk</InstallFrom>
+		<UpdateEnabled>false</UpdateEnabled>
+		<UpdateMode>Foreground</UpdateMode>
+		<UpdateInterval>7</UpdateInterval>
+		<UpdateIntervalUnits>Days</UpdateIntervalUnits>
+		<UpdatePeriodically>false</UpdatePeriodically>
+		<UpdateRequired>false</UpdateRequired>
+		<MapFileExtensions>true</MapFileExtensions>
+		<ApplicationRevision>0</ApplicationRevision>
+		<ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+		<UseApplicationTrust>false</UseApplicationTrust>
+		<BootstrapperEnabled>true</BootstrapperEnabled>
+		<AssemblyTitle>MediaPlayer</AssemblyTitle>
+		<Product>MediaPlayer</Product>
+		<Copyright>Copyright 2010</Copyright>
+		<Deterministic>false</Deterministic>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DebugType>Full</DebugType>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DebugType>None</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<Commandlineparameters>-path "/usr/bin/mplayer"</Commandlineparameters>
+		<EnvironmentVariables>
+			<EnvironmentVariables>
+				<Variable name="LC_NUMERIC" value="C" />
+			</EnvironmentVariables>
+		</EnvironmentVariables>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<Commandlineparameters>-path "/usr/bin/mplayer"</Commandlineparameters>
+		<EnvironmentVariables>
+			<EnvironmentVariables>
+				<Variable name="LC_NUMERIC" value="C" />
+			</EnvironmentVariables>
+		</EnvironmentVariables>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Update="PlayerProperties.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="PlayerProperties.Designer.cs">
+			<DependentUpon>PlayerProperties.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Player.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Player.Designer.cs">
+			<DependentUpon>Player.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Player.resx">
+			<DependentUpon>Player.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="PlayerProperties.resx">
+			<DependentUpon>PlayerProperties.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+		<None Include="Resources\play.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\fastforward.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\pause.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\rewind.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\stop.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\audio-volume-medium.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\audio-volume-muted.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\document-open.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\LibMPlayerCommon\LibMPlayerCommon.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\config.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+		<Compile Remove="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+		<Compile Remove="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+		<Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+		<Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+		<Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+	</ItemGroup>
 </Project>

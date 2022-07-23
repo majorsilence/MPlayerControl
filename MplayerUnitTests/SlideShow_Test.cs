@@ -31,9 +31,6 @@ namespace MplayerUnitTests
                     LibMPlayerCommon.SlideShowEffect.RandomJitter));
             b.Add(new LibMPlayerCommon.SlideShowInfo(Path.Combine(GlobalVariables.BasePath,
                     "5.jpg"),
-                LibMPlayerCommon.SlideShowEffect.Flip));
-            b.Add(new LibMPlayerCommon.SlideShowInfo(Path.Combine(GlobalVariables.BasePath,
-                    "6.jpg"),
                 LibMPlayerCommon.SlideShowEffect.Pixelate));
             a.CreateSlideShow(b, 
                 Path.Combine(GlobalVariables.BasePath, "helloworld.mpg"),
@@ -61,9 +58,6 @@ namespace MplayerUnitTests
                 LibMPlayerCommon.SlideShowEffect.RandomJitter));
             b.Add(new LibMPlayerCommon.SlideShowInfo(Path.Combine(GlobalVariables.BasePath,
                     "5.jpg"),
-                LibMPlayerCommon.SlideShowEffect.Flip));
-            b.Add(new LibMPlayerCommon.SlideShowInfo(Path.Combine(GlobalVariables.BasePath,
-                    "6.jpg"),
                 LibMPlayerCommon.SlideShowEffect.Pixelate));
             await a.CreateSlideShowAsync (b,
                 Path.Combine (GlobalVariables.BasePath, "helloworld_async_test.mpg"),

@@ -32,7 +32,6 @@ namespace SlideShow
 {
     public partial class MainForm : Form
     {
-        delegate void SlideShowRun(string outputMpeg, string audioFilePath, int lengthInSecondsBetweenPhotos, List<string> photoList);
         private List<string> _photoList;
 
         public MainForm()
@@ -74,7 +73,7 @@ namespace SlideShow
         {
             string extentionType = System.IO.Path.GetExtension(filepath).ToLower();
 
-            if (extentionType == ".jpg" || extentionType == ".bmp" || extentionType == ".png")
+            if (extentionType == ".jpg" || extentionType == ".jpeg" || extentionType == ".bmp" || extentionType == ".png")
             {
                 return true;
             }
@@ -86,7 +85,7 @@ namespace SlideShow
 
             if (_photoList.Count <= 0)
             {
-                MessageBox.Show("Please add photos to Lowercase");
+                MessageBox.Show("Please add photos");
                 return;
             }
 
@@ -125,7 +124,7 @@ namespace SlideShow
             }
         }
 
-        private void CreateVideo_Click(object sender, EventArgs e)
+        private async void CreateVideo_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
             {
@@ -145,8 +144,8 @@ namespace SlideShow
 
             DisableControls();
 
-            SlideShowRun runner = StartConversion;
-            runner.BeginInvoke(saveFile, AudioFile.Text, (int)numericUpDown1.Value, _photoList, Callback, runner);
+            await StartConversionAsync(saveFile, AudioFile.Text, (int)numericUpDown1.Value, _photoList);
+            EnableControls();
         }
 
         private void EnableControls()
@@ -165,12 +164,12 @@ namespace SlideShow
             toolStripStatusLabel2.Visible = true; 
        }
 
-        private void StartConversion(string outputMpeg, string audioFilePath, int lengthInSecondsBetweenPhotos, List<string> photoList)
+        private async Task StartConversionAsync(string outputMpeg, string audioFilePath, int lengthInSecondsBetweenPhotos, List<string> photoList)
         {
             LibMPlayerCommon.SlideShow a = new LibMPlayerCommon.SlideShow();
             List<LibMPlayerCommon.SlideShowInfo> b = new List<LibMPlayerCommon.SlideShowInfo>();
 
-            var options = LibMPlayerCommon.SlideShowEffect.Flip | LibMPlayerCommon.SlideShowEffect.Moire | LibMPlayerCommon.SlideShowEffect.Normal |
+            var options = LibMPlayerCommon.SlideShowEffect.Moire | LibMPlayerCommon.SlideShowEffect.Normal |
                 LibMPlayerCommon.SlideShowEffect.Pixelate | LibMPlayerCommon.SlideShowEffect.RandomJitter | LibMPlayerCommon.SlideShowEffect.Swirl |
                 LibMPlayerCommon.SlideShowEffect.TimeWarp | LibMPlayerCommon.SlideShowEffect.Water;
 
@@ -192,12 +191,7 @@ namespace SlideShow
                 }
             }
 
-            a.CreateSlideShow(b , outputMpeg, audioFilePath, lengthInSecondsBetweenPhotos);
-        }
-
-        private void Callback (IAsyncResult r)
-        {
-            this.BeginInvoke(new Action(EnableControls), null);
+            await a.CreateSlideShowAsync(b , outputMpeg, audioFilePath, lengthInSecondsBetweenPhotos);
         }
 
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.IO;
+using SixLabors.ImageSharp;
 
 namespace MplayerUnitTests
 {
@@ -17,8 +18,10 @@ namespace MplayerUnitTests
             var a = LibImages.ImageResize.ResizeBlackBar(
                         Path.Combine(GlobalVariables.BasePath,
                             "1.jpg"), 720, 480);
-            a.Save(Path.Combine(GlobalVariables.BasePath, 
-                    "test.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            var jpgEncoder = new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder();
+            a.SaveAsJpeg(Path.Combine(GlobalVariables.BasePath, 
+                    "test.jpg"),jpgEncoder);
         }
 
     }
