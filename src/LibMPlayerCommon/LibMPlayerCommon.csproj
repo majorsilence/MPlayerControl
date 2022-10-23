@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>LibMplayerCommon</AssemblyName>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <FileUpgradeFlags />
     <UpgradeBackupLocation />
     <PublishUrl>publish\</PublishUrl>
@@ -22,8 +22,12 @@
     <AssemblyTitle>MPlayerControl</AssemblyTitle>
     <Product>MPlayerControl</Product>
     <Copyright>Copyright 2010</Copyright>
-    <Deterministic>false</Deterministic>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>true</Deterministic>
+	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <AssemblyVersion>1.8.0</AssemblyVersion>
+	  <Version>1.8.0</Version>
+	  <PackageVersion>1.8.0</PackageVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
@@ -43,5 +47,8 @@
     <PackageReference Include="System.Drawing.Common">
       <Version>4.7.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

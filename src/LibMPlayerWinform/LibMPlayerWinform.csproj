@@ -7,8 +7,12 @@
 		<AssemblyTitle>LibMPlayerWinform</AssemblyTitle>
 		<Product>LibMPlayerWinform</Product>
 		<Copyright>Copyright ©  2012</Copyright>
-		<Deterministic>false</Deterministic>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Deterministic>true</Deterministic>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<AssemblyVersion>1.8.0</AssemblyVersion>
+		<Version>1.8.0</Version>
+		<PackageVersion>1.8.0</PackageVersion>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>full</DebugType>
@@ -56,5 +60,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\LibImages\LibImages.csproj" />
 		<ProjectReference Include="..\LibMPlayerCommon\LibMPlayerCommon.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 </Project>
