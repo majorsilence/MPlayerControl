@@ -3,15 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPlayerGtkWidget", "MPlayerGtkWidget\MPlayerGtkWidget.csproj", "{47923683-28D4-487C-A214-0F292EB5DBBE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibImages", "LibImages\LibImages.csproj", "{C859FA27-7882-4814-9202-9C9D807C2CE5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibMPlayerCommon", "LibMPlayerCommon\LibMPlayerCommon.csproj", "{5D3616D0-160D-4601-AB67-E1ED9111C676}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GtkTestGui", "GtkTestGui\GtkTestGui.csproj", "{F1C6FF07-C7FD-4405-B739-C82BA4620B0F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsilence.MPlayer.GtkWidget", "Majorsilence.MPlayer.GtkWidget\Majorsilence.MPlayer.GtkWidget.csproj", "{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsilence.Mplayer.UI", "Majorsilence.Mplayer.UI\Majorsilence.Mplayer.UI.csproj", "{39B2C523-7644-491A-9D46-4D4C948150B4}"
 EndProject
@@ -21,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{47923683-28D4-487C-A214-0F292EB5DBBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47923683-28D4-487C-A214-0F292EB5DBBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47923683-28D4-487C-A214-0F292EB5DBBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47923683-28D4-487C-A214-0F292EB5DBBE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,14 +23,6 @@ Global
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1C6FF07-C7FD-4405-B739-C82BA4620B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1C6FF07-C7FD-4405-B739-C82BA4620B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1C6FF07-C7FD-4405-B739-C82BA4620B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1C6FF07-C7FD-4405-B739-C82BA4620B0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39B2C523-7644-491A-9D46-4D4C948150B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39B2C523-7644-491A-9D46-4D4C948150B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39B2C523-7644-491A-9D46-4D4C948150B4}.Release|Any CPU.ActiveCfg = Release|Any CPU

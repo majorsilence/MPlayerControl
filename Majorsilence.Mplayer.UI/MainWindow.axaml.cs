@@ -9,8 +9,8 @@ namespace Majorsilence.Mplayer.UI
     {
         LibMPlayerCommon.Player _play;
         //public string MPlayerPath { get; set; } = @"mplayer";
-        public string MPlayerPath { get; set; } = "/opt/homebrew/bin/mpv";
-        public string VideoPath { get; set; } = @"/Users/petergill/Downloads/test.mp4";
+        public string MPlayerPath { get; set; } = "mplayer";
+        public string VideoPath { get; set; } = @"/home/peter/Downloads/disc1-2.m4v";
 
         public MainWindow()
         {
