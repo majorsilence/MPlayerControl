@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GtkTestGui", "GtkTestGui\Gt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsilence.MPlayer.GtkWidget", "Majorsilence.MPlayer.GtkWidget\Majorsilence.MPlayer.GtkWidget.csproj", "{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Majorsilence.Mplayer.UI", "Majorsilence.Mplayer.UI\Majorsilence.Mplayer.UI.csproj", "{39B2C523-7644-491A-9D46-4D4C948150B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0A3D03A-5AF9-4F1B-B950-6E52F55EDC17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B2C523-7644-491A-9D46-4D4C948150B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B2C523-7644-491A-9D46-4D4C948150B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B2C523-7644-491A-9D46-4D4C948150B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B2C523-7644-491A-9D46-4D4C948150B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

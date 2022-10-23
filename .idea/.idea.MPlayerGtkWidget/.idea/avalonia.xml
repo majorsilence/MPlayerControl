@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Majorsilence.Mplayer.UI/App.axaml" value="Majorsilence.Mplayer.UI/Majorsilence.Mplayer.UI.csproj" />
+        <entry key="Majorsilence.Mplayer.UI/MainWindow.axaml" value="Majorsilence.Mplayer.UI/Majorsilence.Mplayer.UI.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
