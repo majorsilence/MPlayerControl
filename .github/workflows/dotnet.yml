@@ -17,9 +17,8 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: cd Release-Builds && ./build-release.sh
     - name: Build
-      run: dotnet build TownSuite.Web.SSV3Facade.sln --no-restore
+      run: cd src && dotnet build Majorsilence.Winforms.MPlayerControl.sln
     - name: Test
-      run: dotnet test TownSuite.Web.SSV3Facade.sln --no-build --verbosity normal
+      run: dotnet vstest "src/MplayerUnitTests/bin/Release/net6.0/MplayerUnitTests.dll" --logger:"nunit;LogFileName=src/MplayerUnitTests/bin/Release/net6.0/nunit-result.xml"
+
