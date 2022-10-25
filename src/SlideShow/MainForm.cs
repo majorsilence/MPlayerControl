@@ -166,12 +166,12 @@ namespace SlideShow
 
         private async Task StartConversionAsync(string outputMpeg, string audioFilePath, int lengthInSecondsBetweenPhotos, List<string> photoList)
         {
-            LibMPlayerCommon.SlideShow a = new LibMPlayerCommon.SlideShow();
-            List<LibMPlayerCommon.SlideShowInfo> b = new List<LibMPlayerCommon.SlideShowInfo>();
+            Majorsilence.Media.Videos.SlideShow a = new Majorsilence.Media.Videos.SlideShow();
+            List<Majorsilence.Media.Videos.SlideShowInfo> b = new List<Majorsilence.Media.Videos.SlideShowInfo>();
 
-            var options = LibMPlayerCommon.SlideShowEffect.Moire | LibMPlayerCommon.SlideShowEffect.Normal |
-                LibMPlayerCommon.SlideShowEffect.Pixelate | LibMPlayerCommon.SlideShowEffect.RandomJitter | LibMPlayerCommon.SlideShowEffect.Swirl |
-                LibMPlayerCommon.SlideShowEffect.TimeWarp | LibMPlayerCommon.SlideShowEffect.Water;
+            var options = Majorsilence.Media.Videos.SlideShowEffect.Moire | Majorsilence.Media.Videos.SlideShowEffect.Normal |
+                Majorsilence.Media.Videos.SlideShowEffect.Pixelate | Majorsilence.Media.Videos.SlideShowEffect.RandomJitter | Majorsilence.Media.Videos.SlideShowEffect.Swirl |
+                Majorsilence.Media.Videos.SlideShowEffect.TimeWarp | Majorsilence.Media.Videos.SlideShowEffect.Water;
 
             // Add each photo in the list with a random picture change effect.
             foreach (string filePath in photoList)
@@ -180,14 +180,14 @@ namespace SlideShow
                 if (System.IO.File.Exists(filePath))
                 {
 
-                    var matching = Enum.GetValues(typeof(LibMPlayerCommon.SlideShowEffect))
-                           .Cast<LibMPlayerCommon.SlideShowEffect>()
+                    var matching = Enum.GetValues(typeof(Majorsilence.Media.Videos.SlideShowEffect))
+                           .Cast<Majorsilence.Media.Videos.SlideShowEffect>()
                            .Where(c => (options & c) == c)
                            .ToArray();
 
-                    LibMPlayerCommon.SlideShowEffect randomEffect = matching[new Random().Next(matching.Length)];
+                    Majorsilence.Media.Videos.SlideShowEffect randomEffect = matching[new Random().Next(matching.Length)];
 
-                    b.Add(new LibMPlayerCommon.SlideShowInfo(filePath, randomEffect));
+                    b.Add(new Majorsilence.Media.Videos.SlideShowInfo(filePath, randomEffect));
                 }
             }
 

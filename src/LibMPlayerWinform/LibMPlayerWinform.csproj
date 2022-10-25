@@ -58,8 +58,8 @@
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\LibImages\LibImages.csproj" />
-		<ProjectReference Include="..\LibMPlayerCommon\LibMPlayerCommon.csproj" />
+		<ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj" />
+		<ProjectReference Include="..\Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Properties\" />

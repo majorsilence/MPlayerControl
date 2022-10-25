@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using LibMPlayerCommon;
+using Majorsilence.Media.Videos;
 
 namespace LibMPlayerWinform
 {
@@ -59,11 +59,11 @@ namespace LibMPlayerWinform
             {
                 throw new InvalidDataException("The player is not set.  You must set it with the constructor or through the SetPlayer method.");
             }
-            else if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MPlayer)
+            else if (System.IO.File.Exists(MPlayerPath) == false && _play is Majorsilence.Media.Videos.MPlayer)
             {
                 throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
             }
-            else if (System.IO.File.Exists(MPlayerPath) == false && _play is LibMPlayerCommon.MpvPlayer)
+            else if (System.IO.File.Exists(MPlayerPath) == false && _play is Majorsilence.Media.Videos.MpvPlayer)
             {
                 throw new System.IO.FileNotFoundException("File not found", MPlayerPath);
             }

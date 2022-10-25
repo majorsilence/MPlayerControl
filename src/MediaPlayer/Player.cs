@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-using LibMPlayerCommon;
+using Majorsilence.Media.Videos;
 
 namespace MediaPlayer
 {
@@ -34,8 +34,8 @@ namespace MediaPlayer
     public partial class Player : Form
     {
 
-        private LibMPlayerCommon.Discover _videoSettings;
-        private LibMPlayerCommon.Player _play;
+        private Majorsilence.Media.Videos.Discover _videoSettings;
+        private Majorsilence.Media.Videos.Player _play;
         private string _filePath;
         private bool _trackBarMousePushedDown = false;
         private int _currentTime = 0;
@@ -73,7 +73,7 @@ namespace MediaPlayer
         {
             this.KeyPreview = true;
 
-            LibMPlayerCommon.BackendPrograms b = new LibMPlayerCommon.BackendPrograms();
+            Majorsilence.Media.Videos.BackendPrograms b = new Majorsilence.Media.Videos.BackendPrograms();
             if (System.IO.File.Exists(MediaPlayer.Properties.Settings.Default.MPlayerPath) == false
                 && System.IO.File.Exists(b.MPlayer) == false)
             {
@@ -81,7 +81,7 @@ namespace MediaPlayer
                 btnPlayerProperties_Click(sender, e);
             }
 
-            this._play = LibMPlayerCommon.PlayerFactory.Get(panelVideo.Handle.ToInt64(), MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            this._play = Majorsilence.Media.Videos.PlayerFactory.Get(panelVideo.Handle.ToInt64(), MediaPlayer.Properties.Settings.Default.MPlayerPath);
             //this._play = new MPlayer(panelVideo.Handle.ToInt64(), backend, MediaPlayer.Properties.Settings.Default.MPlayerPath);
             this._play.VideoExited += new MplayerEventHandler(play_VideoExited);
             this._play.CurrentPosition += new MplayerEventHandler(_play_CurrentPosition);
@@ -188,7 +188,7 @@ namespace MediaPlayer
                 }
             }
 
-            _videoSettings = LibMPlayerCommon.DiscoverFactory.Get(this._filePath, MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            _videoSettings = Majorsilence.Media.Videos.DiscoverFactory.Get(this._filePath, MediaPlayer.Properties.Settings.Default.MPlayerPath);
             await _videoSettings.ExecuteAsync();
             this._play.Play(this._filePath);
             lblVideoLength.Text = TimeConversion.ConvertTimeHHMMSS(_videoSettings.Length);

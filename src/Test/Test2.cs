@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Windows.Forms;
-using LibMPlayerCommon;
+using Majorsilence.Media.Videos;
 
 
 namespace Test
@@ -12,7 +12,7 @@ namespace Test
         static void Main()
         {
 
-            var player = LibMPlayerCommon.PlayerFactory.Get(-1, "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
+            var player = Majorsilence.Media.Videos.PlayerFactory.Get(-1, "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
 
 
             System.Windows.Forms.Form frm = new System.Windows.Forms.Form();

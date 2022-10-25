@@ -18,7 +18,7 @@ namespace Test
 
         private void winFormMPlayerControl1_Load(object sender, EventArgs e)
         {
-            var player = LibMPlayerCommon.PlayerFactory.Get(winFormMPlayerControl1.Handle, "/usr/bin/mplayer");
+            var player = Majorsilence.Media.Videos.PlayerFactory.Get(winFormMPlayerControl1.Handle, "/usr/bin/mplayer");
             winFormMPlayerControl1.SetPlayer(player);
             winFormMPlayerControl1.MPlayerPath = @"/usr/bin/mplayer";
             winFormMPlayerControl1.VideoPath = @"/home/peter/Downloads/20200717_183033.mp4";
