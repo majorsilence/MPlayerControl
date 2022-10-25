@@ -1,5 +1,0 @@
-#!/bin/bash
-
-dpkg -b MediaPlayer/ MediaPlayer.deb
-
-

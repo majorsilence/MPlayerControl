@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsilence.Media.Videos", "Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj", "{5D3616D0-160D-4601-AB67-E1ED9111C676}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsilence.Media.NunitTests", "Majorsilence.Media.NunitTests\Majorsilence.Media.NunitTests.csproj", "{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlayer", "MediaPlayer\MediaPlayer.csproj", "{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlideShow", "SlideShow\SlideShow.csproj", "{6B5C1B79-1CDF-409C-8CAF-B3D2F25E27B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsilence.Media.Images", "Majorsilence.Media.Images\Majorsilence.Media.Images.csproj", "{C859FA27-7882-4814-9202-9C9D807C2CE5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibMPlayerWinform", "LibMPlayerWinform\LibMPlayerWinform.csproj", "{994F562F-B694-4799-B1D6-C90A290FEF2B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{FAF8DCB0-403C-4120-A70C-89DD942564A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Majorsilence.Media.Desktop.UI", "Majorsilence.Media.Desktop.UI\Majorsilence.Media.Desktop.UI.csproj", "{E8077661-DF84-4373-8D69-32F1684EEFA3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3616D0-160D-4601-AB67-E1ED9111C676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A7EE08-6BEA-4CB4-A0BA-22169133289A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFF738E9-1179-4E9D-A803-1CA5CB5499D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B5C1B79-1CDF-409C-8CAF-B3D2F25E27B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B5C1B79-1CDF-409C-8CAF-B3D2F25E27B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B5C1B79-1CDF-409C-8CAF-B3D2F25E27B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B5C1B79-1CDF-409C-8CAF-B3D2F25E27B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C859FA27-7882-4814-9202-9C9D807C2CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994F562F-B694-4799-B1D6-C90A290FEF2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994F562F-B694-4799-B1D6-C90A290FEF2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994F562F-B694-4799-B1D6-C90A290FEF2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994F562F-B694-4799-B1D6-C90A290FEF2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAF8DCB0-403C-4120-A70C-89DD942564A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF8DCB0-403C-4120-A70C-89DD942564A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF8DCB0-403C-4120-A70C-89DD942564A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF8DCB0-403C-4120-A70C-89DD942564A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8077661-DF84-4373-8D69-32F1684EEFA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8077661-DF84-4373-8D69-32F1684EEFA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8077661-DF84-4373-8D69-32F1684EEFA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8077661-DF84-4373-8D69-32F1684EEFA3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {581875EC-8089-45E4-853B-789F5E7991E9}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MediaPlayer\MediaPlayer.csproj
+	EndGlobalSection
+EndGlobal

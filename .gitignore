@@ -200,3 +200,4 @@ Release-Builds/nuget/MPlayerControl-Gtk/lib
 Release-Builds/nunit-result.xml
 TestRun
 /.vs
+/src/.vs
