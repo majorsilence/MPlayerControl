@@ -2,14 +2,14 @@
 
 Copyright 2012 (C) Peter Gill <peter@majorsilence.com>
 
-This file is part of LibMPlayerCommon.
+This file is part of Majorsilence.Media.Videos.
 
-LibMPlayerCommon is free software; you can redistribute it and/or modify
+Majorsilence.Media.Videos is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 
-LibMPlayerCommon is distributed in the hope that it will be useful,
+Majorsilence.Media.Videos is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
@@ -39,13 +39,13 @@ namespace Majorsilence.Media.Videos
     /// 
     /// If you do not want any audio then leave the audio parameter as an empty string.
     /// <code>
-    /// LibMPlayerCommon.SlideShow a = new LibMPlayerCommon.SlideShow();
+    /// Majorsilence.Media.Videos.SlideShow a = new Majorsilence.Media.Videos.SlideShow();
     /// 
-    /// List<LibMPlayerCommon.SlideShowInfo> b = new  List<LibMPlayerCommon.SlideShowInfo>();
-    /// b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Blue hills.jpg",  LibMPlayerCommon.SlideShowEffect.Swirl));
-    /// b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Sunset.jpg",  LibMPlayerCommon.SlideShowEffect.Normal));
-    /// b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water lilies.jpg",  LibMPlayerCommon.SlideShowEffect.Normal));
-    /// b.Add(new LibMPlayerCommon.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Winter.jpg",  LibMPlayerCommon.SlideShowEffect.Normal));
+    /// List<Majorsilence.Media.Videos.SlideShowInfo> b = new  List<Majorsilence.Media.Videos.SlideShowInfo>();
+    /// b.Add(new Majorsilence.Media.Videos.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Blue hills.jpg",  Majorsilence.Media.Videos.SlideShowEffect.Swirl));
+    /// b.Add(new Majorsilence.Media.Videos.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Sunset.jpg",  Majorsilence.Media.Videos.SlideShowEffect.Normal));
+    /// b.Add(new Majorsilence.Media.Videos.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water lilies.jpg",  Majorsilence.Media.Videos.SlideShowEffect.Normal));
+    /// b.Add(new Majorsilence.Media.Videos.SlideShowInfo(@"C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Winter.jpg",  Majorsilence.Media.Videos.SlideShowEffect.Normal));
     /// 
     /// // Synchronous
     /// a.CreateSlideShow(b, @"C:\Documents and Settings\Peter\Desktop\hellworld.mpg", 
@@ -249,7 +249,7 @@ namespace Majorsilence.Media.Videos
 
         private void CreateVideo(string videoName)
         {
-            using (var mencod = new Mencoder2(mencoderPath))
+            using (var mencod = new Mencoder(mencoderPath))
             {
                 mencod.ConversionComplete += (object sender, MplayerEvent e) =>
                 {
@@ -264,7 +264,7 @@ namespace Majorsilence.Media.Videos
 
         private void AppendVideo()
         {
-            using (var mencod = new Mencoder2(mencoderPath))
+            using (var mencod = new Mencoder(mencoderPath))
             {
 
                 // -oac copy -ovc copy -o 'combined_clip.avi' 'clip1.avi' 'clip2.avi'
@@ -295,7 +295,7 @@ namespace Majorsilence.Media.Videos
                 return;
             }
 
-            using (var mencod = new Mencoder2(mencoderPath))
+            using (var mencod = new Mencoder(mencoderPath))
             {
                 // -vf harddup is needed to keep duplicates of the video when adding the audio.  Else you are going to have a huge audio/video sync problem.
 

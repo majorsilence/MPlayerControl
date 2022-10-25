@@ -36,7 +36,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>bin\Release\LibMplayerCommon.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Majorsilence.Media.Videos.xml</DocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
