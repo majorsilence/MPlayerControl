@@ -20,5 +20,5 @@ jobs:
     - name: Build
       run: cd src && dotnet build Majorsilence.Winforms.MPlayerControl.sln
     - name: Test
-      run: dotnet vstest "src/MplayerUnitTests/bin/Release/net6.0/MplayerUnitTests.dll" --logger:"nunit;LogFileName=src/MplayerUnitTests/bin/Release/net6.0/nunit-result.xml"
+      run: dotnet vstest "src\\MplayerUnitTests\\bin\\Release\\net6.0\\MplayerUnitTests.dll" --logger:"nunit;LogFileName=src\\MplayerUnitTests\\bin\\Release\\net6.0\\nunit-result.xml"
 
