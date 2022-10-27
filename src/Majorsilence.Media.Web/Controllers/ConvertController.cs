@@ -1,4 +1,3 @@
-using Majorsilence.Media.Videos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Majorsilence.Media.Web.Controllers
@@ -11,14 +10,12 @@ namespace Majorsilence.Media.Web.Controllers
     {
 
         private readonly ILogger<ConvertController> _logger;
-        private readonly IVideoEncoder _videoEncoder;
         private readonly Settings _settings;
 
-        public ConvertController(ILogger<ConvertController> logger, IVideoEncoder videoEncoder,
+        public ConvertController(ILogger<ConvertController> logger,
             Settings settings)
         {
             _logger = logger;
-            _videoEncoder = videoEncoder;
             _settings = settings;
         }
 

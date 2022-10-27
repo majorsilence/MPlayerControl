@@ -48,8 +48,6 @@ namespace Majorsilence.Media.WorkerService
         {
             var foundFiles = System.IO.Directory.GetFiles(_settings.UploadFolder, "*.txt");
 
-            string vidId;
-            string vidExt;
             foreach (var uploadDetailFile in foundFiles)
             {
                 if (string.IsNullOrWhiteSpace(uploadDetailFile))

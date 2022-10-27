@@ -1,4 +1,3 @@
-using Majorsilence.Media.Videos;
 using Majorsilence.Media.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
