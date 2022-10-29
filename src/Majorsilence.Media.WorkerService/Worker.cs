@@ -1,3 +1,4 @@
+using System.Globalization;
 using Majorsilence.Media.Videos;
 using System.Text;
 
@@ -29,10 +30,12 @@ namespace Majorsilence.Media.WorkerService
                     continue;
                 }
 
-                string processingStartTime = DateTime.UtcNow.ToString();
-                await System.IO.File.AppendAllTextAsync(fileDetails.DetailFilePath, processingStartTime, stoppingToken);
+                string processingStartTime = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+                await System.IO.File.AppendAllTextAsync(fileDetails.DetailFilePath,
+                    $"{Environment.NewLine}{processingStartTime}", stoppingToken);
 
-                string srcVideo = System.IO.Path.Combine(_settings.UploadFolder, $"{fileDetails.VideoId}{fileDetails.VideoExt}");
+                string srcVideo = System.IO.Path.Combine(_settings.UploadFolder,
+                    $"{fileDetails.VideoId}{fileDetails.VideoExt}");
                 string destVideoWebm = System.IO.Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}.webm");
                 string destVideoMp4 = System.IO.Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}.mp4");
 
@@ -44,7 +47,8 @@ namespace Majorsilence.Media.WorkerService
             }
         }
 
-        private async Task<(string VideoId, string VideoExt, string DetailFilePath)> FindFileToProcess(CancellationToken stoppingToken)
+        private async Task<(string VideoId, string VideoExt, string DetailFilePath)> FindFileToProcess(
+            CancellationToken stoppingToken)
         {
             var foundFiles = System.IO.Directory.GetFiles(_settings.UploadFolder, "*.txt");
 

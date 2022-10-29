@@ -379,7 +379,15 @@ namespace Majorsilence.Media.Videos
         }
 
 
+        public void Convert2X265(string videoToConvertFilePath, string outputFilePath)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void Convert2Av1(string videoToConvertFilePath, string outputFilePath)
+        {
+            throw new NotImplementedException();
+        }
 
 
         /// <summary>
@@ -434,11 +442,14 @@ namespace Majorsilence.Media.Videos
         public enum VideoType
         {
             xvid,
+            av1,
             webm,
             x264,
+            x265,
             wmv1,
             wmv2,
             mpeg4
+            
         }
 
         public enum AudioType
@@ -449,7 +460,8 @@ namespace Majorsilence.Media.Videos
             vorbis,
             flac,
             wmav1,
-            wmav2
+            wmav2,
+            implementation_detail
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IVideoEncoder>((s) =>
         {
-            return new Mencoder(s.GetService<Settings>().MEncoderPath);
+            return new Ffmpeg(s.GetService<Settings>().FfmpegPath);
         });
 
         services.AddHostedService<Worker>();

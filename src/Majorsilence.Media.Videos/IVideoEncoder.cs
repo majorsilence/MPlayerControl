@@ -27,13 +27,11 @@ namespace Majorsilence.Media.Videos
     {
         void Convert(string cmd, string workingDirectory = "");
         void Convert(Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath);
-        void Convert2DvdMpeg(Mencoder.RegionType regType, string videoToConvertFilePath, string outputFilePath);
-        Task Convert2DvdMpegAsync(Mencoder.RegionType regType, string videoToConvertFilePath, string outputFilePath);
         void Convert2WebM(string videoToConvertFilePath, string outputFilePath);
-        Task Convert2WebMAsync(string videoToConvertFilePath, string outputFilePath);
         void Convert2X264(string videoToConvertFilePath, string outputFilePath);
-        Task Convert2X264Async(string videoToConvertFilePath, string outputFilePath);
-        Task ConvertAsync(string cmd);
-        Task ConvertAsync(Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath);
+        void Convert2X265(string videoToConvertFilePath, string outputFilePath);
+        void Convert2Av1(string videoToConvertFilePath, string outputFilePath);
+
+
     }
 }
