@@ -144,7 +144,7 @@ namespace Majorsilence.Media.Videos
 
         public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
         {
-            Convert(VideoType.webm, AudioType.vorbis, videoToConvertFilePath, outputFilePath);
+            Convert(VideoType.vp9, AudioType.vorbis, videoToConvertFilePath, outputFilePath);
         }
 
         public Task Convert2X264Async(string videoToConvertFilePath, string outputFilePath)
@@ -209,7 +209,7 @@ namespace Majorsilence.Media.Videos
             cmd.Append('"' + videoToConvertFilePath + '"');
             cmd.Append(" ");
 
-            if (vidType == VideoType.webm)
+            if (vidType == VideoType.vp9)
             {
                 cmd.Append("-ffourcc");
                 cmd.Append(" ");
@@ -228,7 +228,7 @@ namespace Majorsilence.Media.Videos
             { // Using builtin codes from lavc
 
                 // setup the selected video format
-                if (vidType == VideoType.webm)
+                if (vidType == VideoType.vp9)
                 {
                     cmd.Append("vcodec=libvpx");
                 }

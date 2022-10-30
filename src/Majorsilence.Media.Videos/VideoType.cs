@@ -4,7 +4,7 @@ public enum VideoType
 {
     xvid,
     av1,
-    webm,
+    vp9,
     x264,
     x265,
     wmv1,

@@ -35,33 +35,33 @@ namespace Majorsilence.Media.WorkerService
                     $"{Environment.NewLine}{processingStartTime}", stoppingToken);
 
                 string srcVideo = System.IO.Path.Combine(_settings.UploadFolder,
-                    $"{fileDetails.VideoId}{fileDetails.VideoExt}");
+                    $"{fileDetails.VideoId}");
 
                 string destVideo =
                     System.IO.Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}_[placeholder]");
 
-                _videoEncoder.Convert2WebM(srcVideo, 
-                    destVideo.Replace("[placeholder]", "vp9.webm"));
-                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p240, srcVideo, 
-                    destVideo.Replace("[placeholder]", "vp9_240p.webm"));
-                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p360, srcVideo, 
-                    destVideo.Replace("[placeholder]", "vp9_360p.webm"));
-                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p480, srcVideo, 
-                    destVideo.Replace("[placeholder]", "vp9_480p.webm"));
-                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p720, srcVideo, 
-                    destVideo.Replace("[placeholder]", "vp9_720p.webm"));
+                foreach (var audVidType in _settings.VideoAudioConverters)
+                {
+                    foreach (var aspect in _settings.AspectRatios)
+                    {
+                        string ext = _settings.VideoFileExtension
+                            .FirstOrDefault(p => p.Key == audVidType.Key)
+                            .Value
+                            .ToString();
+                        _videoEncoder.Convert(audVidType.Key, audVidType.Value, aspect, srcVideo,
+                            destVideo.Replace("[placeholder]",
+                                $"{audVidType.Key.ToString()}_{aspect.ToString()}.{ext}"));
+                    }
+                }
 
-                _videoEncoder.Convert2X264(srcVideo,
-                    destVideo.Replace("[placeholder]", "x264.mp4"));
-                
-                _videoEncoder.Convert2X265(srcVideo, 
-                    destVideo.Replace("[placeholder]", "x265.mp4"));
-                
+                File.Delete(srcVideo);
+                File.Delete(fileDetails.DetailFilePath);
+
                 await Task.Delay(1000, stoppingToken);
             }
         }
 
-        private async Task<(string VideoId, string VideoExt, string DetailFilePath)> FindFileToProcess(
+        private async Task<(string VideoId, string DetailFilePath)> FindFileToProcess(
             CancellationToken stoppingToken)
         {
             var foundFiles = System.IO.Directory.GetFiles(_settings.UploadFolder, "*.txt");
@@ -76,7 +76,7 @@ namespace Majorsilence.Media.WorkerService
 
                 var lines = await System.IO.File.ReadAllLinesAsync(uploadDetailFile);
                 string videoId = lines[0];
-                string videoExt = lines[1];
+
 
                 if (lines.Count() > 2)
                 {
@@ -86,10 +86,10 @@ namespace Majorsilence.Media.WorkerService
                     continue;
                 }
 
-                return (videoId, videoExt, uploadDetailFile);
+                return (videoId, uploadDetailFile);
             }
 
-            return (null, null, null);
+            return (null, null);
         }
     }
 }

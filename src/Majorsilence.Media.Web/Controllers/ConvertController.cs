@@ -34,7 +34,7 @@ namespace Majorsilence.Media.Web.Controllers
             string fileid = Guid.NewGuid().ToString();
             string ext = Path.GetExtension(file.FileName);
             await using var inputStream = new FileStream(Path.Combine(_settings.UploadFolder,
-                    $"{fileid}{ext}"),
+                    $"{fileid}"),
                 FileMode.Create);
 
             string uploadDetailFilePath = Path.Combine(_settings.UploadFolder, $"{fileid}.txt");

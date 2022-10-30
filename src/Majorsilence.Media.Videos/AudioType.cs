@@ -10,5 +10,6 @@ public enum AudioType
     flac,
     wmav1,
     wmav2,
-    opus
+    opus,
+    aac
 }
