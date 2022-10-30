@@ -71,35 +71,35 @@ public class Ffmpeg : IVideoEncoder
         string scale = "";
         if (aspectRatios == VideoAspectRatios.p240)
         {
-            scale = "scale=426:240";
+            scale = "scale=426:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p360)
         {
-            scale = "scale=640:360";
+            scale = "scale=640:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p480)
         {
-            scale = "scale=854:480";
+            scale = "scale=854:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p720)
         {
-            scale = "scale=1280:720";
+            scale = "scale=1280:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p1080)
         {
-            scale = "scale=1920:1080";
+            scale = "scale=1920:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p1440)
         {
-            scale = "scale=2560:1440";
+            scale = "scale=2560:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p2160)
         {
-            scale = "scale=3840:2160";
+            scale = "scale=3840:-2";
         }
         else if (aspectRatios == VideoAspectRatios.p7680)
         {
-            scale = "scale=7680:4320";
+            scale = "scale=7680:-2";
         }
 
         string audio = "";
