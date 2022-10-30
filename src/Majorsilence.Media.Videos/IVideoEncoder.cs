@@ -26,7 +26,11 @@ namespace Majorsilence.Media.Videos
     public interface IVideoEncoder
     {
         void Convert(string cmd, string workingDirectory = "");
-        void Convert(Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath);
+        void Convert(VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath);
+
+        void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
+            string videoToConvertFilePath,
+            string outputFilePath);
         void Convert2WebM(string videoToConvertFilePath, string outputFilePath);
         void Convert2X264(string videoToConvertFilePath, string outputFilePath);
         void Convert2X265(string videoToConvertFilePath, string outputFilePath);

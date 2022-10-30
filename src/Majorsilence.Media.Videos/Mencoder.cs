@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 
 namespace Majorsilence.Media.Videos
 {
+    [Obsolete("Use Ffmpeg class or custom built class that implements IVideoEncoder.")]
     public class Mencoder : IDisposable, IVideoEncoder
     {
         private BackendPrograms _backendProgram;
@@ -135,9 +136,15 @@ namespace Majorsilence.Media.Videos
             return Task.Run(() => Convert2WebM(videoToConvertFilePath, outputFilePath));
         }
 
+        public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios, string videoToConvertFilePath,
+            string outputFilePath)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
         {
-            Convert(Mencoder.VideoType.webm, Mencoder.AudioType.vorbis, videoToConvertFilePath, outputFilePath);
+            Convert(VideoType.webm, AudioType.vorbis, videoToConvertFilePath, outputFilePath);
         }
 
         public Task Convert2X264Async(string videoToConvertFilePath, string outputFilePath)
@@ -147,15 +154,15 @@ namespace Majorsilence.Media.Videos
 
         public void Convert2X264(string videoToConvertFilePath, string outputFilePath)
         {
-            Convert(Mencoder.VideoType.x264, Mencoder.AudioType.mp3, videoToConvertFilePath, outputFilePath);
+            Convert(VideoType.x264, AudioType.mp3, videoToConvertFilePath, outputFilePath);
         }
 
-        public Task ConvertAsync(Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath)
+        public Task ConvertAsync(VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath)
         {
             return Task.Run(() => Convert(vidType, audType, videoToConvertFilePath, outputFilePath));
         }
 
-        public void Convert(Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath, string outputFilePath)
+        public void Convert(VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath)
         {
             // http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-selecting-codec.html
 
@@ -169,11 +176,11 @@ namespace Majorsilence.Media.Videos
             bool lavcVideoSelected = false;
             bool lavcAudioSelected = false;
 
-            if (vidType == Mencoder.VideoType.x264)
+            if (vidType == VideoType.x264)
             {
                 cmd.Append("x264");
             }
-            else if (vidType == Mencoder.VideoType.xvid)
+            else if (vidType == VideoType.xvid)
             {
                 cmd.Append("xvid");
             }
@@ -187,7 +194,7 @@ namespace Majorsilence.Media.Videos
             cmd.Append("-oac"); // audio codec for encoding 
             cmd.Append(" ");
 
-            if (audType == Mencoder.AudioType.mp3)
+            if (audType == AudioType.mp3)
             {
                 cmd.Append("mp3lame");
             }
@@ -202,7 +209,7 @@ namespace Majorsilence.Media.Videos
             cmd.Append('"' + videoToConvertFilePath + '"');
             cmd.Append(" ");
 
-            if (vidType == Mencoder.VideoType.webm)
+            if (vidType == VideoType.webm)
             {
                 cmd.Append("-ffourcc");
                 cmd.Append(" ");
@@ -221,19 +228,19 @@ namespace Majorsilence.Media.Videos
             { // Using builtin codes from lavc
 
                 // setup the selected video format
-                if (vidType == Mencoder.VideoType.webm)
+                if (vidType == VideoType.webm)
                 {
                     cmd.Append("vcodec=libvpx");
                 }
-                else if (vidType == Mencoder.VideoType.mpeg4)
+                else if (vidType == VideoType.mpeg4)
                 {
                     cmd.Append("vcodec=mpeg4");
                 }
-                else if (vidType == Mencoder.VideoType.wmv1)
+                else if (vidType == VideoType.wmv1)
                 {
                     cmd.Append("vcodec=wmv1");
                 }
-                else if (vidType == Mencoder.VideoType.wmv2)
+                else if (vidType == VideoType.wmv2)
                 {
                     cmd.Append("vcodec=wmv2");
                 }
@@ -243,27 +250,27 @@ namespace Majorsilence.Media.Videos
             if (lavcAudioSelected)
             {
                 // setup the selected audio format
-                if (audType == Mencoder.AudioType.vorbis)
+                if (audType == AudioType.vorbis)
                 {
                     cmd.Append("acodec=libvorbis");
                 }
-                else if (audType == Mencoder.AudioType.ac3)
+                else if (audType == AudioType.ac3)
                 {
                     cmd.Append("acodec=ac3");
                 }
-                else if (audType == Mencoder.AudioType.flac)
+                else if (audType == AudioType.flac)
                 {
                     cmd.Append("acodec=flac");
                 }
-                else if (audType == Mencoder.AudioType.mp2)
+                else if (audType == AudioType.mp2)
                 {
                     cmd.Append("acodec=mp2");
                 }
-                else if (audType == Mencoder.AudioType.wmav1)
+                else if (audType == AudioType.wmav1)
                 {
                     cmd.Append("acodec=wmav1");
                 }
-                else if (audType == Mencoder.AudioType.wmav2)
+                else if (audType == AudioType.wmav2)
                 {
                     cmd.Append("acodec=wmav2");
                 }
@@ -281,12 +288,12 @@ namespace Majorsilence.Media.Videos
 
         }
 
-        public Task Convert2DvdMpegAsync(Mencoder.RegionType regType, string videoToConvertFilePath, string outputFilePath)
+        public Task Convert2DvdMpegAsync(RegionType regType, string videoToConvertFilePath, string outputFilePath)
         {
             return Task.Run(() => Convert2DvdMpeg(regType, videoToConvertFilePath, outputFilePath));
         }
 
-        public void Convert2DvdMpeg(Mencoder.RegionType regType, string videoToConvertFilePath, string outputFilePath)
+        public void Convert2DvdMpeg(RegionType regType, string videoToConvertFilePath, string outputFilePath)
         {
             // http://www.mplayerhq.hu/DOCS/HTML/en/menc-feat-vcd-dvd.html
 
@@ -333,11 +340,11 @@ namespace Majorsilence.Media.Videos
 
             cmd.Append("-ofps");
             cmd.Append(" ");
-            if (regType == Mencoder.RegionType.PAL)
+            if (regType == RegionType.PAL)
             {
                 cmd.Append("25");
             }
-            else if (regType == Mencoder.RegionType.NTSC)
+            else if (regType == RegionType.NTSC)
             {
                 cmd.Append("30000/1001");
             }
@@ -345,11 +352,11 @@ namespace Majorsilence.Media.Videos
 
             cmd.Append("-vf");
             cmd.Append(" ");
-            if (regType == Mencoder.RegionType.PAL)
+            if (regType == RegionType.PAL)
             {
                 cmd.Append("scale=720:576,harddup");
             }
-            else if (regType == Mencoder.RegionType.NTSC)
+            else if (regType == RegionType.NTSC)
             {
                 cmd.Append("scale=720:480,harddup");
             }
@@ -358,11 +365,11 @@ namespace Majorsilence.Media.Videos
             cmd.Append("-lavcopts");
             cmd.Append(" ");
 
-            if (regType == Mencoder.RegionType.PAL)
+            if (regType == RegionType.PAL)
             {
                 cmd.Append("vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=15:vstrict=0:acodec=ac3:abitrate=192:aspect=16/9");
             }
-            else if (regType == Mencoder.RegionType.NTSC)
+            else if (regType == RegionType.NTSC)
             {
                 cmd.Append("vcodec=mpeg2video:vrc_buf_size=1835:vrc_maxrate=9800:vbitrate=5000:keyint=18:vstrict=0:acodec=ac3:abitrate=192:aspect=16/9");
             }
@@ -437,42 +444,6 @@ namespace Majorsilence.Media.Videos
                 Console.Error.WriteLine(e.Data);
             }
         }
-
-
-        public enum VideoType
-        {
-            xvid,
-            av1,
-            webm,
-            x264,
-            x265,
-            wmv1,
-            wmv2,
-            mpeg4
-            
-        }
-
-        public enum AudioType
-        {
-            ac3,
-            mp3,
-            mp2,
-            vorbis,
-            flac,
-            wmav1,
-            wmav2,
-            implementation_detail
-        }
-
-        /// <summary>
-        /// The region type used in the video.
-        /// </summary>
-        public enum RegionType
-        {
-            NTSC,
-            PAL
-        }
-
     }
 
 

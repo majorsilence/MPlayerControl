@@ -53,7 +53,7 @@ namespace MplayerUnitTests
         {
             using (var a = new Majorsilence.Media.Videos.Mencoder())
             {
-                a.Convert2DvdMpeg(Majorsilence.Media.Videos.Mencoder.RegionType.PAL, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegPal);
+                a.Convert2DvdMpeg(Majorsilence.Media.Videos.RegionType.PAL, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegPal);
             }
         }
 
@@ -62,7 +62,7 @@ namespace MplayerUnitTests
         {
             using (var a = new Majorsilence.Media.Videos.Mencoder())
             {
-                await a.Convert2DvdMpegAsync(Majorsilence.Media.Videos.Mencoder.RegionType.PAL, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegPal);
+                await a.Convert2DvdMpegAsync(Majorsilence.Media.Videos.RegionType.PAL, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegPal);
             }
         }
 
@@ -71,7 +71,7 @@ namespace MplayerUnitTests
         {
             using (var a = new Majorsilence.Media.Videos.Mencoder())
             {
-                a.Convert2DvdMpeg(Majorsilence.Media.Videos.Mencoder.RegionType.NTSC, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegNtsc);
+                a.Convert2DvdMpeg(Majorsilence.Media.Videos.RegionType.NTSC, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegNtsc);
 
                 a.ConversionComplete += a_ConversionComplete;
             }
@@ -82,7 +82,7 @@ namespace MplayerUnitTests
         {
             using (var a = new Majorsilence.Media.Videos.Mencoder())
             {
-                await a.Convert2DvdMpegAsync(Majorsilence.Media.Videos.Mencoder.RegionType.NTSC, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegNtsc);
+                await a.Convert2DvdMpegAsync(Majorsilence.Media.Videos.RegionType.NTSC, GlobalVariables.Video1Path, GlobalVariables.OutputVideoDvdMpegNtsc);
             }
         }
 

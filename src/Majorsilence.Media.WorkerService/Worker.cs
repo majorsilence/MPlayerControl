@@ -36,13 +36,27 @@ namespace Majorsilence.Media.WorkerService
 
                 string srcVideo = System.IO.Path.Combine(_settings.UploadFolder,
                     $"{fileDetails.VideoId}{fileDetails.VideoExt}");
-                string destVideoWebm = System.IO.Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}.webm");
-                string destVideoMp4 = System.IO.Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}.mp4");
 
-                _videoEncoder.Convert2WebM(srcVideo, destVideoWebm);
-                _videoEncoder.Convert2X264(srcVideo, destVideoMp4);
+                string destVideo =
+                    System.IO.Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}_[placeholder]");
 
+                _videoEncoder.Convert2WebM(srcVideo, 
+                    destVideo.Replace("[placeholder]", "vp9.webm"));
+                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p240, srcVideo, 
+                    destVideo.Replace("[placeholder]", "vp9_240p.webm"));
+                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p360, srcVideo, 
+                    destVideo.Replace("[placeholder]", "vp9_360p.webm"));
+                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p480, srcVideo, 
+                    destVideo.Replace("[placeholder]", "vp9_480p.webm"));
+                _videoEncoder.Convert(VideoType.webm, AudioType.opus, VideoAspectRatios.p720, srcVideo, 
+                    destVideo.Replace("[placeholder]", "vp9_720p.webm"));
 
+                _videoEncoder.Convert2X264(srcVideo,
+                    destVideo.Replace("[placeholder]", "x264.mp4"));
+                
+                _videoEncoder.Convert2X265(srcVideo, 
+                    destVideo.Replace("[placeholder]", "x265.mp4"));
+                
                 await Task.Delay(1000, stoppingToken);
             }
         }

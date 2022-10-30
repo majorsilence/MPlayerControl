@@ -52,7 +52,13 @@ public class Ffmpeg : IVideoEncoder
         p.WaitForExit();
     }
 
-    public void Convert(Mencoder.VideoType vidType, Mencoder.AudioType audType, string videoToConvertFilePath,
+    public void Convert(VideoType vidType, AudioType audType, string videoToConvertFilePath,
+        string outputFilePath)
+    {
+        Convert(vidType, audType, VideoAspectRatios.original, videoToConvertFilePath, outputFilePath);
+    }
+    
+    public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios, string videoToConvertFilePath,
         string outputFilePath)
     {
         StringBuilder cmd = new StringBuilder();
@@ -60,33 +66,80 @@ public class Ffmpeg : IVideoEncoder
         cmd.Append("-i ");
         cmd.Append(videoToConvertFilePath);
 
-        if (vidType == Mencoder.VideoType.x264)
+        // scale -vf scale=$w:$h
+        string scale = "";
+        if (aspectRatios == VideoAspectRatios.p240)
+        {
+            scale = "426:240";
+        }
+        else if (aspectRatios == VideoAspectRatios.p360)
+        {
+            scale = "640:360";
+        }
+        else if (aspectRatios == VideoAspectRatios.p480)
+        {
+            scale = "854:480";
+        }
+        else if (aspectRatios == VideoAspectRatios.p720)
+        {
+            scale = "1280:720";
+        }
+        else if (aspectRatios == VideoAspectRatios.p1080)
+        {
+            scale = "1920:1080";
+        }
+        else if (aspectRatios == VideoAspectRatios.p1440)
+        {
+            scale = "2560:1440";
+        }
+        else if (aspectRatios == VideoAspectRatios.p2160)
+        {
+            scale = "3840:2160";
+        }
+        else if (aspectRatios == VideoAspectRatios.p7680)
+        {
+            scale = "7680:4320";
+        }
+        
+        if (vidType == VideoType.x264)
         {
             // https://trac.ffmpeg.org/wiki/Encode/H.264
             // https://superuser.com/questions/1551072/ffmpeg-how-do-i-re-encode-a-video-to-h-264-video-and-aac-audio
             // ffmpeg -i input.avi -c:v libx264 -preset slow -crf 20 -c:a aac -b:a 160k -vf format=yuv420p -movflags +faststart output.mp4
             cmd.Append(
-                " -c:v libx264 -preset slow -crf 20 -c:a aac -b:a 160k -vf format=yuv420p -movflags +faststart ");
+                $" -c:v libx264 -preset slow -crf 20 -c:a aac -b:a 128k -vf format=yuv420p {scale}");
         }
-        else if (vidType == Mencoder.VideoType.x265)
+        else if (vidType == VideoType.x265)
         {
             // https://trac.ffmpeg.org/wiki/Encode/H.265
             // ffmpeg -i input -c:v libx265 -crf 26 -preset fast -c:a aac -b:a 128k output.mp4
             cmd.Append(" -c:v libx265 -crf 26 -preset fast -c:a aac -b:a 128k ");
+            if (!string.IsNullOrWhiteSpace(scale))
+            {
+                cmd.Append($"-vf {scale} ");
+            }
         }
-        else if (vidType == Mencoder.VideoType.av1)
+        else if (vidType == VideoType.av1)
         {
             // https://trac.ffmpeg.org/wiki/Encode/AV1
             // ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 av1_test.mkv
             cmd.Append(" -c:v libaom-av1 -crf 30 -b:v 0 -c:a libopus ");
+            if (!string.IsNullOrWhiteSpace(scale))
+            {
+                cmd.Append($"-vf {scale} ");
+            }
         }
-        else if (vidType == Mencoder.VideoType.webm)
+        else if (vidType == VideoType.webm)
         {
             // https://trac.ffmpeg.org/wiki/Encode/VP9
             // https://stackoverflow.com/questions/47510489/ffmpeg-convert-mp4-to-webm-poor-results
             // ffmpeg -i input.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus output.webm
             // TODO: two pass encoding
             cmd.Append(" -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus ");
+            if (!string.IsNullOrWhiteSpace(scale))
+            {
+                cmd.Append($"-vf {scale} ");
+            }
         }
         else
         {
@@ -100,25 +153,25 @@ public class Ffmpeg : IVideoEncoder
 
     public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(Mencoder.VideoType.webm, Mencoder.AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.webm, AudioType.implementation_detail, videoToConvertFilePath,
             outputFilePath);
     }
 
     public void Convert2X264(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(Mencoder.VideoType.x264, Mencoder.AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.x264, AudioType.implementation_detail, videoToConvertFilePath,
             outputFilePath);
     }
 
     public void Convert2X265(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(Mencoder.VideoType.x265, Mencoder.AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.x265, AudioType.implementation_detail, videoToConvertFilePath,
             outputFilePath);
     }
 
     public void Convert2Av1(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(Mencoder.VideoType.av1, Mencoder.AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.av1, AudioType.implementation_detail, videoToConvertFilePath,
             outputFilePath);
     }
 
