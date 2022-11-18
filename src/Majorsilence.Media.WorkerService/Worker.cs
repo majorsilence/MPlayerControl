@@ -64,7 +64,8 @@ namespace Majorsilence.Media.WorkerService
         private async Task<(string VideoId, string DetailFilePath)> FindFileToProcess(
             CancellationToken stoppingToken)
         {
-            var foundFiles = System.IO.Directory.GetFiles(_settings.UploadFolder, "*.txt");
+            var dInfo = new DirectoryInfo(_settings.UploadFolder);
+            var foundFiles = dInfo.GetFiles("*.txt").OrderBy(p => p).Select(p => p.FullName).ToArray();
 
             foreach (var uploadDetailFile in foundFiles)
             {
