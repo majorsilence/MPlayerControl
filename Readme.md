@@ -1,4 +1,4 @@
-This is a net6.0 wrapper library for MPlayer, libmpv, and mencoder.
+This is a net6.0 wrapper library for MPlayer, libmpv, mencoder, and as of 1.8+ ffmpeg, and ffprobe support has been added.
 
 There is a sample net6.0 winforms project included and it can play both audio and video files.
 
@@ -14,13 +14,19 @@ This is a personal project that as of 2022 is just for me to play around with th
 
 # Downloads
 
-## Version 2, net6.0
+## Version 1.8+, net6.0
 
-It has been tested on Windows 11 and Ubuntu Linux 22.04.  Use the LibMPV
+It has been tested on Windows 11 and Ubuntu Linux 22.04.  Use libmpv, ffmpeg, and ffprobe.
+
+Mainly namespace changes, removal of old code, and the addition of ffmpeg and ffprobe. For example
+
+* using LibMPlayerCommon; 
+    * changes to:
+    * using Majorsilence.Media.Videos;
 
 TODO:
 
-## Version 1, net48
+## Version 1.6 or less, net48
 
 It has been tested on Windows XP/7/8 and Ubuntu Linux 10.10/11.04/12.04/13.04/14.04/16.04 and OpenSuse Linux 10.3.
 
