@@ -12,6 +12,8 @@ This is a personal project that as of 2022 is just for me to play around with th
 * https://github.com/videolan/libvlcsharp
 
 
+![MediaPlayer screeenshot](https://raw.githubusercontent.com/majorsilence/MPlayerControl/main/MediaPlayer.webp)
+
 # Downloads
 
 ## Version 1.8+, net6.0
