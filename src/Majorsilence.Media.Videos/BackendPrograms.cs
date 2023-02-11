@@ -20,108 +20,84 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Reflection;
 
-namespace Majorsilence.Media.Videos
+namespace Majorsilence.Media.Videos;
+
+public class BackendPrograms
 {
-    public class BackendPrograms
+    private readonly string _mencoderPath;
+
+    private readonly string _mplayerPath;
+
+    public BackendPrograms()
     {
+        _mplayerPath = "";
+        _mencoderPath = "";
+    }
 
-        private string _mplayerPath;
-        private string _mencoderPath;
+    public BackendPrograms(string mplayerPath)
+    {
+        _mplayerPath = mplayerPath;
+        _mencoderPath = "";
+    }
 
-        public BackendPrograms() 
+    public BackendPrograms(string mplayerPath, string mencoderPath)
+    {
+        _mplayerPath = mplayerPath;
+        _mencoderPath = mencoderPath;
+    }
+
+    public string MPlayer
+    {
+        get
         {
-            _mplayerPath = "";
-            _mencoderPath = "";
-        }
-
-        public BackendPrograms(string mplayerPath)
-        {
-
-            _mplayerPath = mplayerPath;
-            _mencoderPath = "";
-        }
-
-        public BackendPrograms(string mplayerPath, string mencoderPath)
-        {
-
-            _mplayerPath = mplayerPath;
-            _mencoderPath = mencoderPath;
-        }
-
-
-        public static string OSPlatform()
-        {
-            if (System.Environment.OSVersion.Platform == System.PlatformID.Unix || System.Environment.OSVersion.Platform == System.PlatformID.MacOSX)
+            if (OSPlatform() == "windows")
             {
-                return "unix";
+                if (_mplayerPath != "") return _mplayerPath;
+                return Path.Combine(CurrentAssemblyDirectory(), "mplayer.exe");
             }
-            return "windows";
+
+            if (_mplayerPath != "") return _mplayerPath;
+
+            return "mplayer";
         }
+    }
 
-        /// <summary>
-        /// Return the directory of the current executing assembly
-        /// </summary>
-        /// <returns></returns>
-        private static string CurrentAssemblyDirectory()
+    public string MEncoder
+    {
+        get
         {
-            string location = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            location = System.IO.Path.GetDirectoryName(location);
-            return location;
-
-        }
-
-        public string MPlayer
-        {
-            get
+            if (OSPlatform() == "windows")
             {
-                if (OSPlatform() == "windows")
-                {
-                    if (_mplayerPath != "")
-                    {
-                        return _mplayerPath;
-                    }
-                    return  System.IO.Path.Combine(CurrentAssemblyDirectory(), "mplayer.exe");
-                }
-                else
-                {
-                    if (_mplayerPath != "")
-                    {
-                        return _mplayerPath;
-                    }
+                if (_mencoderPath != "") return _mencoderPath;
 
-                    return "mplayer";
-                }
+                return Path.Combine(CurrentAssemblyDirectory(), "mencoder.exe");
             }
+
+            if (_mencoderPath != "") return _mencoderPath;
+
+            return "mencoder";
         }
+    }
 
-        public string MEncoder
-        {
-            get
-            {
-                if (OSPlatform() == "windows")
-                {
 
-                    if (_mencoderPath != "")
-                    {
-                        return _mencoderPath;
-                    }
+    public static string OSPlatform()
+    {
+        if (Environment.OSVersion.Platform == PlatformID.Unix ||
+            Environment.OSVersion.Platform == PlatformID.MacOSX) return "unix";
+        return "windows";
+    }
 
-                    return System.IO.Path.Combine(CurrentAssemblyDirectory(), "mencoder.exe");
-                }
-                else
-                {
-                    if (_mencoderPath != "")
-                    {
-                        return _mencoderPath;
-                    }
-
-                    return "mencoder";
-                }
-            }
-        }
-
+    /// <summary>
+    ///     Return the directory of the current executing assembly
+    /// </summary>
+    /// <returns></returns>
+    private static string CurrentAssemblyDirectory()
+    {
+        var location = Assembly.GetExecutingAssembly().Location;
+        location = Path.GetDirectoryName(location);
+        return location;
     }
 }

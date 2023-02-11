@@ -1,91 +1,91 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyTitle>MplayerUnitTests</AssemblyTitle>
-		<Product>MplayerUnitTests</Product>
-		<Copyright>Copyright ©  2011</Copyright>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>full</DebugType>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<EnvironmentVariables>
-			<EnvironmentVariables>
-				<Variable name="LC_NUMERIC" value="C" />
-			</EnvironmentVariables>
-		</EnvironmentVariables>
-		<ConsolePause>false</ConsolePause>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<EnvironmentVariables>
-			<EnvironmentVariables>
-				<Variable name="LC_NUMERIC" value="C" />
-			</EnvironmentVariables>
-		</EnvironmentVariables>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-		<DebugType>full</DebugType>
-		<EnvironmentVariables>
-			<EnvironmentVariables>
-				<Variable name="LC_NUMERIC" value="C" />
-			</EnvironmentVariables>
-		</EnvironmentVariables>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-		<DebugType>pdbonly</DebugType>
-		<CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-		<CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-		<CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-		<EnvironmentVariables>
-			<EnvironmentVariables>
-				<Variable name="LC_NUMERIC" value="C" />
-			</EnvironmentVariables>
-		</EnvironmentVariables>
-	</PropertyGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj" />
-		<ProjectReference Include="..\Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="TestVideos\" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="TestVideos\video1.mp4">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\video2.mp4">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\6.jpg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\5.jpg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\4.jpg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\3.jpg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\2.jpg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\1.jpg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="TestVideos\doxent_-_Sunset_Boulevard-edit.mp3">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="NUnit" Version="3.13.3" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.3.0" />
-		<PackageReference Include="NunitXml.TestLogger" Version="3.0.127" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-		<PackageReference Include="NUnit.Runners" Version="3.12.0" />
-	</ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AssemblyTitle>MplayerUnitTests</AssemblyTitle>
+        <Product>MplayerUnitTests</Product>
+        <Copyright>Copyright © 2011</Copyright>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugType>full</DebugType>
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+        <EnvironmentVariables>
+            <EnvironmentVariables>
+                <Variable name="LC_NUMERIC" value="C"/>
+            </EnvironmentVariables>
+        </EnvironmentVariables>
+        <ConsolePause>false</ConsolePause>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+        <EnvironmentVariables>
+            <EnvironmentVariables>
+                <Variable name="LC_NUMERIC" value="C"/>
+            </EnvironmentVariables>
+        </EnvironmentVariables>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+        <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+        <DebugType>full</DebugType>
+        <EnvironmentVariables>
+            <EnvironmentVariables>
+                <Variable name="LC_NUMERIC" value="C"/>
+            </EnvironmentVariables>
+        </EnvironmentVariables>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+        <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+        <DebugType>pdbonly</DebugType>
+        <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+        <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+        <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+        <EnvironmentVariables>
+            <EnvironmentVariables>
+                <Variable name="LC_NUMERIC" value="C"/>
+            </EnvironmentVariables>
+        </EnvironmentVariables>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj"/>
+        <ProjectReference Include="..\Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="TestVideos\"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="TestVideos\video1.mp4">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\video2.mp4">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\6.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\5.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\4.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\3.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\2.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\1.jpg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestVideos\doxent_-_Sunset_Boulevard-edit.mp3">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.13.3"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.3.0"/>
+        <PackageReference Include="NunitXml.TestLogger" Version="3.0.127"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2"/>
+        <PackageReference Include="NUnit.Runners" Version="3.12.0"/>
+    </ItemGroup>
 </Project>

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace Majorsilence.Media.Videos;
 
-namespace Majorsilence.Media.Videos
+/// <summary>
+///     The seek type that is used when seeking a new position in the video stream.
+/// </summary>
+public enum Seek
 {
-    /// <summary>
-    /// The seek type that is used when seeking a new position in the video stream.
-    /// </summary>
-    public enum Seek
-    {
-        Relative = 0,
-        Percentage = 1,
-        Absolute = 2
-    }
+    Relative = 0,
+    Percentage = 1,
+    Absolute = 2
 }

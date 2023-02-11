@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace Majorsilence.Media.Videos;
 
-namespace Majorsilence.Media.Videos
+/// <summary>
+///     Status of the mplayer.exe instance.
+/// </summary>
+public enum MediaStatus
 {
-    /// <summary>
-    /// Status of the mplayer.exe instance.
-    /// </summary>
-    public enum MediaStatus
-    {
-        Paused,
-        Playing,
-        Stopped
-    }
+    Paused,
+    Playing,
+    Stopped
 }

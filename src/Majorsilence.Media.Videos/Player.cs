@@ -1,48 +1,44 @@
 ﻿using System;
 
-namespace Majorsilence.Media.Videos
+namespace Majorsilence.Media.Videos;
+
+public interface Player : IDisposable
 {
-    public interface Player : IDisposable
-    {
-        event MplayerEventHandler VideoExited;
-        event MplayerEventHandler CurrentPosition;
+    bool FullScreen { get; set; }
 
-        bool FullScreen { get; set; }
+    MediaStatus CurrentStatus { get; set; }
 
-        MediaStatus CurrentStatus { get; set; }
-        
-        string CurrentFilePath { get; }
+    string CurrentFilePath { get; }
+    event MplayerEventHandler VideoExited;
+    event MplayerEventHandler CurrentPosition;
 
-        void ToggleFullScreen ();
+    void ToggleFullScreen();
 
-        void Stop ();
+    void Stop();
 
-        void Pause ();
+    void Pause();
 
-        void Mute ();
+    void Mute();
 
-        /// <summary>
-        /// The window id that the video will play in
-        /// </summary>
-        /// <param name="wid">Wid.</param>
-        void SetHandle (long wid);
+    /// <summary>
+    ///     The window id that the video will play in
+    /// </summary>
+    /// <param name="wid">Wid.</param>
+    void SetHandle(long wid);
 
-        void MovePosition (int timePosition);
+    void MovePosition(int timePosition);
 
-        void Play (string filePath);
+    void Play(string filePath);
 
-        void Seek (int value, Seek type);
+    void Seek(int value, Seek type);
 
-        void SetSize (int width, int height);
+    void SetSize(int width, int height);
 
-        void SwitchAudioTrack (int track);
+    void SwitchAudioTrack(int track);
 
-        void SwitchSubtitle (int sub);
+    void SwitchSubtitle(int sub);
 
-        int CurrentPlayingFileLength ();
+    int CurrentPlayingFileLength();
 
-        void Volume (int volume);
-
-    }
+    void Volume(int volume);
 }
-

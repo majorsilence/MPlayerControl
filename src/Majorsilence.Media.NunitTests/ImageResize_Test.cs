@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
+using Majorsilence.Media.Images;
 using NUnit.Framework;
-using System.IO;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
-namespace MplayerUnitTests
+namespace MplayerUnitTests;
+
+[TestFixture]
+public class ImageResize_Test
 {
-    [TestFixture()]
-    public class ImageResize_Test
+    [Test]
+    public void Test1()
     {
+        var a = ImageResize.ResizeBlackBar(
+            Path.Combine(GlobalVariables.BasePath,
+                "1.jpg"), 720, 480);
 
-        [Test()]
-        public void Test1()
-        {
-            var a = Majorsilence.Media.Images.ImageResize.ResizeBlackBar(
-                        Path.Combine(GlobalVariables.BasePath,
-                            "1.jpg"), 720, 480);
-
-            var jpgEncoder = new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder();
-            a.SaveAsJpeg(Path.Combine(GlobalVariables.BasePath, 
-                    "test.jpg"),jpgEncoder);
-        }
-
+        var jpgEncoder = new JpegEncoder();
+        a.SaveAsJpeg(Path.Combine(GlobalVariables.BasePath,
+            "test.jpg"), jpgEncoder);
     }
 }

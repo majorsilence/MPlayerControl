@@ -20,73 +20,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
 
-namespace Majorsilence.Media.Videos
+namespace Majorsilence.Media.Videos;
+
+public class Logging
 {
-    public class Logging
+    // TODO: replace with real logging framework
+
+    private static volatile Logging instance;
+    private static readonly object syncRoot = new();
+
+    private readonly string filePath;
+
+
+    private Logging()
     {
-        // TODO: replace with real logging framework
+        filePath = Path.Combine(Globals.MajorSilenceMPlayerLocalAppDataDirectory, "MajorSilence-Debug.txt");
+        Trace.Listeners.Add(new TextWriterTraceListener(filePath));
+        Trace.AutoFlush = true;
+    }
 
-        private static volatile Logging instance;
-        private static object syncRoot = new Object();
-
-        private string filePath;
-
-
-        private Logging() 
-        { 
-            this.filePath = System.IO.Path.Combine(Globals.MajorSilenceMPlayerLocalAppDataDirectory, "MajorSilence-Debug.txt");
-            System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.TextWriterTraceListener(this.filePath));
-            System.Diagnostics.Trace.AutoFlush = true;
-        }
-
-        public static Logging Instance
+    public static Logging Instance
+    {
+        get
         {
-            get
-            {
-                if (instance == null)
+            if (instance == null)
+                lock (syncRoot)
                 {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new Logging();
-                        }
-                    }
+                    if (instance == null) instance = new Logging();
                 }
 
-                if (System.IO.Directory.Exists(Globals.MajorSilenceMPlayerLocalAppDataDirectory) == false)
-                {
-                    System.IO.Directory.CreateDirectory(Globals.MajorSilenceMPlayerLocalAppDataDirectory);
-                }
+            if (Directory.Exists(Globals.MajorSilenceMPlayerLocalAppDataDirectory) == false)
+                Directory.CreateDirectory(Globals.MajorSilenceMPlayerLocalAppDataDirectory);
 
-                return instance;
-            }
+            return instance;
         }
+    }
 
-        public void WriteLine(string msg)
-        {
-            WriteLine(msg, "UNKNOWN");
-        }
-        public void WriteLine(string msg, string category)
-        {
-            string output = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + System.Environment.NewLine;
-            output += msg + System.Environment.NewLine;
-            output += System.Environment.NewLine + System.Environment.NewLine;
+    public void WriteLine(string msg)
+    {
+        WriteLine(msg, "UNKNOWN");
+    }
 
-            System.Diagnostics.Trace.WriteLine(output, category);
-        }
+    public void WriteLine(string msg, string category)
+    {
+        var output = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + Environment.NewLine;
+        output += msg + Environment.NewLine;
+        output += Environment.NewLine + Environment.NewLine;
 
-        public void WriteLine(Exception value)
-        {
-            WriteLine(value, "UNKNOWN");
-        }
-        public void WriteLine(Exception value, string category)
-        {
-            WriteLine(value.Message + System.Environment.NewLine + value.StackTrace, category);
-        }
+        Trace.WriteLine(output, category);
+    }
 
+    public void WriteLine(Exception value)
+    {
+        WriteLine(value, "UNKNOWN");
+    }
+
+    public void WriteLine(Exception value, string category)
+    {
+        WriteLine(value.Message + Environment.NewLine + value.StackTrace, category);
     }
 }

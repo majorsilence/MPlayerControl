@@ -20,51 +20,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
+using System.IO;
 
-namespace Majorsilence.Media.Videos
+namespace Majorsilence.Media.Videos;
+
+public class Globals
 {
-
-    public class Globals
+    private Globals()
     {
-        private Globals() { }
-
-        public static int IntParse(string input)
-        {
-            return int.Parse(input.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        public static float FloatParse(string input)
-        {
-            input = input.Trim();
-            if (input.Equals("nan", StringComparison.OrdinalIgnoreCase) || input.Equals("-nan", StringComparison.OrdinalIgnoreCase)) { return float.NaN; }
-            float outValue = 0f;
-            float.TryParse(input.Replace(",", "."), out outValue);
-            return outValue;
-        }
-
-        public static string MajorSilenceLocalAppDataDirectory
-        {
-            get
-            {
-                string msDir = null;
-                msDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                msDir = System.IO.Path.Combine(msDir, "MajorSilence");
-                return msDir;
-            }
-        }
-
-        public static string MajorSilenceMPlayerLocalAppDataDirectory
-        {
-            get { return System.IO.Path.Combine(MajorSilenceLocalAppDataDirectory, "MPlayer"); }
-        }
-
-        public static string MajorSilenceMEncoderLocalAppDataDirectory
-        {
-            get { return System.IO.Path.Combine(MajorSilenceLocalAppDataDirectory, "MEncoder"); }
-        }
-
     }
 
+    public static string MajorSilenceLocalAppDataDirectory
+    {
+        get
+        {
+            string msDir = null;
+            msDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            msDir = Path.Combine(msDir, "MajorSilence");
+            return msDir;
+        }
+    }
+
+    public static string MajorSilenceMPlayerLocalAppDataDirectory =>
+        Path.Combine(MajorSilenceLocalAppDataDirectory, "MPlayer");
+
+    public static string MajorSilenceMEncoderLocalAppDataDirectory =>
+        Path.Combine(MajorSilenceLocalAppDataDirectory, "MEncoder");
+
+    public static int IntParse(string input)
+    {
+        return int.Parse(input.Replace(",", "."), CultureInfo.InvariantCulture);
+    }
+
+    public static float FloatParse(string input)
+    {
+        input = input.Trim();
+        if (input.Equals("nan", StringComparison.OrdinalIgnoreCase) ||
+            input.Equals("-nan", StringComparison.OrdinalIgnoreCase)) return float.NaN;
+        var outValue = 0f;
+        float.TryParse(input.Replace(",", "."), out outValue);
+        return outValue;
+    }
 }

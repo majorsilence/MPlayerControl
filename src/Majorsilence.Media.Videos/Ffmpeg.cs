@@ -1,6 +1,6 @@
 using System;
+using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Majorsilence.Media.Videos;
 
@@ -15,37 +15,31 @@ public class Ffmpeg : IVideoEncoder
 
     public void Convert(string cmd, string workingDirectory = "")
     {
-        using var p = new System.Diagnostics.Process();
+        using var p = new Process();
         p.StartInfo.CreateNoWindow = true;
-        p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+        p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.ErrorDialog = false;
         p.StartInfo.RedirectStandardOutput = true;
         p.StartInfo.RedirectStandardInput = true;
         p.StartInfo.RedirectStandardError = true;
-        if (!string.IsNullOrWhiteSpace(workingDirectory))
-        {
-            p.StartInfo.WorkingDirectory = workingDirectory;
-        }
+        if (!string.IsNullOrWhiteSpace(workingDirectory)) p.StartInfo.WorkingDirectory = workingDirectory;
 
         p.StartInfo.Arguments = cmd;
         p.StartInfo.FileName = _ffmpegPath;
 
         p.Start();
 
-        p.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(MencoderInstance_ErrorDataReceived);
-        p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(MencoderInstance_ErrorDataReceived);
+        p.OutputDataReceived += MencoderInstance_ErrorDataReceived;
+        p.ErrorDataReceived += MencoderInstance_ErrorDataReceived;
         p.BeginErrorReadLine();
         p.BeginOutputReadLine();
         p.EnableRaisingEvents = true;
-        bool called = false;
+        var called = false;
         p.Exited += (s, e) =>
         {
             // hack around mono bug where when Process is disposed it sometimes retriggers the Exited event.
-            if (called)
-            {
-                return;
-            }
+            if (called) return;
 
             called = true;
         };
@@ -58,64 +52,42 @@ public class Ffmpeg : IVideoEncoder
     {
         Convert(vidType, audType, VideoAspectRatios.original, videoToConvertFilePath, outputFilePath);
     }
-    
-    public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios, string videoToConvertFilePath,
+
+    public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
+        string videoToConvertFilePath,
         string outputFilePath)
     {
-        StringBuilder cmd = new StringBuilder();
+        var cmd = new StringBuilder();
 
         cmd.Append("-nostdin -i ");
         cmd.Append(videoToConvertFilePath);
 
         // scale -vf scale=$w:$h
-        string scale = "";
+        var scale = "";
         if (aspectRatios == VideoAspectRatios.p240)
-        {
             scale = "scale=426:-2";
-        }
         else if (aspectRatios == VideoAspectRatios.p360)
-        {
             scale = "scale=640:-2";
-        }
         else if (aspectRatios == VideoAspectRatios.p480)
-        {
             scale = "scale=854:-2";
-        }
         else if (aspectRatios == VideoAspectRatios.p720)
-        {
             scale = "scale=1280:-2";
-        }
         else if (aspectRatios == VideoAspectRatios.p1080)
-        {
             scale = "scale=1920:-2";
-        }
         else if (aspectRatios == VideoAspectRatios.p1440)
-        {
             scale = "scale=2560:-2";
-        }
         else if (aspectRatios == VideoAspectRatios.p2160)
-        {
             scale = "scale=3840:-2";
-        }
-        else if (aspectRatios == VideoAspectRatios.p7680)
-        {
-            scale = "scale=7680:-2";
-        }
+        else if (aspectRatios == VideoAspectRatios.p7680) scale = "scale=7680:-2";
 
-        string audio = "";
+        var audio = "";
         if (audType == AudioType.aac)
-        {
             audio = "aac";
-        }
         else if (audType == AudioType.opus)
-        {
             audio = "libopus";
-        }
         else
-        {
             throw new NotImplementedException("use aac or opus.");
-        }
-        
+
         if (vidType == VideoType.x264)
         {
             // https://trac.ffmpeg.org/wiki/Encode/H.264
@@ -129,20 +101,14 @@ public class Ffmpeg : IVideoEncoder
             // https://trac.ffmpeg.org/wiki/Encode/H.265
             // ffmpeg -i input -c:v libx265 -crf 26 -preset fast -c:a aac -b:a 128k output.mp4
             cmd.Append($" -c:v libx265 -crf 26 -preset fast -c:a {audio} -b:a 128k ");
-            if (!string.IsNullOrWhiteSpace(scale))
-            {
-                cmd.Append($"-vf {scale} ");
-            }
+            if (!string.IsNullOrWhiteSpace(scale)) cmd.Append($"-vf {scale} ");
         }
         else if (vidType == VideoType.av1)
         {
             // https://trac.ffmpeg.org/wiki/Encode/AV1
             // ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 av1_test.mkv
             cmd.Append($" -c:v libaom-av1 -crf 30 -b:v 0 -c:a {audio} ");
-            if (!string.IsNullOrWhiteSpace(scale))
-            {
-                cmd.Append($"-vf {scale} ");
-            }
+            if (!string.IsNullOrWhiteSpace(scale)) cmd.Append($"-vf {scale} ");
         }
         else if (vidType == VideoType.vp9)
         {
@@ -151,10 +117,7 @@ public class Ffmpeg : IVideoEncoder
             // ffmpeg -i input.mp4 -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a libopus output.webm
             // TODO: two pass encoding
             cmd.Append($" -c:v libvpx-vp9 -crf 30 -b:v 0 -b:a 128k -c:a {audio} ");
-            if (!string.IsNullOrWhiteSpace(scale))
-            {
-                cmd.Append($"-vf {scale} ");
-            }
+            if (!string.IsNullOrWhiteSpace(scale)) cmd.Append($"-vf {scale} ");
         }
         else
         {
@@ -192,15 +155,12 @@ public class Ffmpeg : IVideoEncoder
 
 
     /// <summary>
-    /// All mencoder error output is read through this function.
+    ///     All mencoder error output is read through this function.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void MencoderInstance_ErrorDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+    private void MencoderInstance_ErrorDataReceived(object sender, DataReceivedEventArgs e)
     {
-        if (e.Data != null)
-        {
-            Console.Error.WriteLine(e.Data);
-        }
+        if (e.Data != null) Console.Error.WriteLine(e.Data);
     }
 }

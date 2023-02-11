@@ -1,7 +1,6 @@
-﻿namespace Majorsilence.Media.Web
+﻿namespace Majorsilence.Media.Web;
+
+public class Settings
 {
-    public class Settings
-    {
-        public string UploadFolder { get; init; }
-    }
+    public string UploadFolder { get; init; }
 }

@@ -1,39 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
 
-namespace Majorsilence.Media.Videos
+namespace Majorsilence.Media.Videos;
+
+public interface Discover : IDisposable
 {
-    public interface Discover : IDisposable
-    {
-        int VideoBitrate { get; }
+    int VideoBitrate { get; }
 
-        int AudioBitrate { get; }
+    int AudioBitrate { get; }
 
-        int AudioSampleRate { get; }
+    int AudioSampleRate { get; }
 
-        int Width { get; }
+    int Width { get; }
 
-        int Height { get; }
+    int Height { get; }
 
-        int FPS { get; }
+    int FPS { get; }
 
-        int Length { get; }
+    int Length { get; }
 
-        float AspectRatio { get; }
+    float AspectRatio { get; }
 
-        List<int> AudioList { get; }
+    List<int> AudioList { get; }
 
-        List<AudioTrackInfo> AudioTracks { get; }
+    List<AudioTrackInfo> AudioTracks { get; }
 
-        bool Video { get; }
+    bool Video { get; }
 
-        bool Audio { get; }
+    bool Audio { get; }
 
-        List<SubtitlesInfo> SubtitleList { get; }
+    List<SubtitlesInfo> SubtitleList { get; }
 
-        void Execute ();
+    void Execute();
 
-        Task ExecuteAsync ();
-    }
+    Task ExecuteAsync();
 }

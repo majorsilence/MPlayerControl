@@ -1,72 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using NUnit.Framework;
 using System.IO;
-using System.Net;
-using System.Diagnostics;
-using System.Net.Http;
+using System.Reflection;
+using NUnit.Framework;
 
-namespace MplayerUnitTests
+namespace MplayerUnitTests;
+
+[SetUpFixture]
+public class SetupInitialize
 {
-    [SetUpFixture]
-    public class SetupInitialize
+    private static string finalPath;
+
+    [OneTimeSetUp]
+    public void RunBeforeAnyTests()
     {
-        private static string finalPath;
+        var path = Path.Combine(Path.GetTempPath(), "MPlayerControl", "Tests");
+        finalPath = Path.Combine(path, "TestVideos");
 
-        [OneTimeSetUp]
-        public void RunBeforeAnyTests()
-        {
-            
-            var path = Path.Combine(Path.GetTempPath(), "MPlayerControl", "Tests");
-            finalPath = Path.Combine(path, "TestVideos");
-
-            FinalTearDown();
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            if (!Directory.Exists(finalPath))
-            {
-                Directory.CreateDirectory(finalPath);
-            }
+        FinalTearDown();
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        if (!Directory.Exists(finalPath)) Directory.CreateDirectory(finalPath);
 
 
-            var files = Directory.GetFiles(Path.Combine(ExecutingDirectory(), "TestVideos"));
-            foreach (var file in files)
-            {
-                File.Copy(file, Path.Combine(finalPath, Path.GetFileName(file)));
-            }
+        var files = Directory.GetFiles(Path.Combine(ExecutingDirectory(), "TestVideos"));
+        foreach (var file in files) File.Copy(file, Path.Combine(finalPath, Path.GetFileName(file)));
 
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                GlobalVariables.InitPath(finalPath,
-                    @"C:\Users\peter\Downloads\MPlayer-x86_64-r38154+g9fe07908c3\mplayer.exe",
-                    @"C:\Users\peter\Downloads\mpv-dev-x86_64-20200202-git-77a74d9\mpv-1.dll");
-            }
-            else
-            {
-                GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
-            }
-        }
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            GlobalVariables.InitPath(finalPath,
+                @"C:\Users\peter\Downloads\MPlayer-x86_64-r38154+g9fe07908c3\mplayer.exe",
+                @"C:\Users\peter\Downloads\mpv-dev-x86_64-20200202-git-77a74d9\mpv-1.dll");
+        else
+            GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
+    }
 
-        [OneTimeTearDown]
-        public void FinalTearDown()
-        {
-            if (Directory.Exists(finalPath))
-            {
-                Directory.Delete(finalPath, true);
-            }
-        }
+    [OneTimeTearDown]
+    public void FinalTearDown()
+    {
+        if (Directory.Exists(finalPath)) Directory.Delete(finalPath, true);
+    }
 
-        private static string ExecutingDirectory()
-        {
-            string location = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            location = Path.GetDirectoryName(location);
-            return location;
-        }
-
+    private static string ExecutingDirectory()
+    {
+        var location = Assembly.GetExecutingAssembly().Location;
+        location = Path.GetDirectoryName(location);
+        return location;
     }
 }

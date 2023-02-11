@@ -21,50 +21,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Majorsilence.Media.Videos
+namespace Majorsilence.Media.Videos;
+
+/// <summary>
+///     Delegatefor use with mplayer control events.  Uses MplayerEvent.
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
+public delegate void MplayerEventHandler(object sender, MplayerEvent e);
+
+/// <summary>
+///     Event class that is used with the mplayer control.  Can send String or Integer messages.
+/// </summary>
+public class MplayerEvent : EventArgs
 {
-    /// <summary>
-    /// Delegatefor use with mplayer control events.  Uses MplayerEvent.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public delegate void MplayerEventHandler(object sender, MplayerEvent e);
-
-    /// <summary>
-    /// Event class that is used with the mplayer control.  Can send String or Integer messages.
-    /// </summary>
-    public class MplayerEvent : System.EventArgs
+    public MplayerEvent(string m)
     {
-         private string _msg;
-         private float _value;
-
-        public MplayerEvent(string m)
-        {
-            _msg = m;
-            _value = 0;
-        }
-
-        public MplayerEvent(float v)
-        {
-            _msg = "";
-            _value = v;
-        }
-
-        /// <summary>
-        /// Event Message.
-        /// </summary>
-        public string Message
-        {
-            get { return _msg; }
-        }
-
-        public float Value
-        {
-            get { return _value; }
-        }
+        Message = m;
+        Value = 0;
     }
 
+    public MplayerEvent(float v)
+    {
+        Message = "";
+        Value = v;
+    }
+
+    /// <summary>
+    ///     Event Message.
+    /// </summary>
+    public string Message { get; }
+
+    public float Value { get; }
 }

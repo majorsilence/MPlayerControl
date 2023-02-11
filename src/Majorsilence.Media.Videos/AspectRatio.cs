@@ -19,35 +19,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace Majorsilence.Media.Videos;
 
-namespace Majorsilence.Media.Videos
+/// <summary>
+///     This class is used to hold different video aspect ratio values.
+/// </summary>
+public class ScreenAspectRatio
 {
+    /// <summary>
+    ///     The float value of 4/3 aspect ratio.
+    /// </summary>
+    public static float FourThree => 4.0f / 3.0f;
 
     /// <summary>
-    /// This class is used to hold different video aspect ratio values.
+    ///     The float value of 16/9 aspect ratio.
     /// </summary>
-    public class ScreenAspectRatio
-    {
-        /// <summary>
-        /// The float value of 4/3 aspect ratio.
-        /// </summary>
-        public static float FourThree
-        {
-            get { return 4.0f / 3.0f; }
-        }
-
-        /// <summary>
-        /// The float value of 16/9 aspect ratio.
-        /// </summary>
-        public static float SixteenNine
-        {
-            get { return 16.0f / 9.0f; }
-        }
-    }
-
-
+    public static float SixteenNine => 16.0f / 9.0f;
 }
-

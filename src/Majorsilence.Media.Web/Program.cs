@@ -20,10 +20,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Majorsilence.Media.Web", Version = "v1" });
 });
 
-builder.Services.AddScoped<Settings>((s) =>
-{
-    return builder.Configuration.GetSection("ApiSettings").Get<Settings>();
-});
+builder.Services.AddScoped<Settings>(s => { return builder.Configuration.GetSection("ApiSettings").Get<Settings>(); });
 
 
 var app = builder.Build();
