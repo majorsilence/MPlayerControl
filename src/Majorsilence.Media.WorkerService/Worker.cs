@@ -72,7 +72,7 @@ public class Worker : BackgroundService
                 continue;
             }
 
-            var lines = await File.ReadAllLinesAsync(uploadDetailFile);
+            var lines = await File.ReadAllLinesAsync(uploadDetailFile, stoppingToken);
             var videoId = lines[0];
 
 
