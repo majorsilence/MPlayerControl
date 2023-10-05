@@ -19,16 +19,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace Majorsilence.Media.Videos;
 
 public interface IVideoEncoder
 {
     void Convert(string cmd, string workingDirectory = "");
+    Task ConvertAsync(string cmd, string workingDirectory, CancellationToken stoppingToken);
     void Convert(VideoType vidType, AudioType audType, string videoToConvertFilePath, string outputFilePath);
 
     void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
         string videoToConvertFilePath,
         string outputFilePath);
+    
+    Task ConvertAsync(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
+        string videoToConvertFilePath,
+        string outputFilePath, CancellationToken stoppingToken);
 
     void Convert2WebM(string videoToConvertFilePath, string outputFilePath);
     void Convert2X264(string videoToConvertFilePath, string outputFilePath);

@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Majorsilence.Media.Videos;
@@ -54,6 +55,11 @@ public class Mencoder : IDisposable, IVideoEncoder
     }
 
 
+    public Task ConvertAsync(string cmd, string workingDirectory, CancellationToken stoppingToken)
+    {
+        return Task.Run(() => Convert(cmd, workingDirectory), stoppingToken);
+    }
+    
     public void Convert(string cmd, string workingDirectory = "")
     {
         using (var MencoderInstance = new Process())
@@ -91,11 +97,17 @@ public class Mencoder : IDisposable, IVideoEncoder
         }
     }
 
+    public Task ConvertAsync(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
+        string videoToConvertFilePath,
+        string outputFilePath, CancellationToken stoppingToken)
+    {
+        throw new NotImplementedException("Use the Ffmpeg class");
+    }
     public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
         string videoToConvertFilePath,
         string outputFilePath)
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException("Use the Ffmpeg class");
     }
 
     public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)

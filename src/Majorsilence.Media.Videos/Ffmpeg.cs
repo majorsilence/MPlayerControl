@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Majorsilence.Media.Videos;
 
@@ -15,7 +17,19 @@ public class Ffmpeg : IVideoEncoder
 
     public void Convert(string cmd, string workingDirectory = "")
     {
-        using var p = new Process();
+        using var p = Convert_Internal(cmd, workingDirectory);
+        p.WaitForExit();
+    }
+    
+    public async Task ConvertAsync(string cmd, string workingDirectory, CancellationToken stoppingToken)
+    {
+        using var p = Convert_Internal(cmd, workingDirectory);
+        await p.WaitForExitAsync(stoppingToken);
+    }
+    
+    private Process Convert_Internal(string cmd, string workingDirectory = "")
+    {
+        var p = new Process();
         p.StartInfo.CreateNoWindow = true;
         p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
         p.StartInfo.UseShellExecute = false;
@@ -44,7 +58,7 @@ public class Ffmpeg : IVideoEncoder
             called = true;
         };
 
-        p.WaitForExit();
+        return p;
     }
 
     public void Convert(VideoType vidType, AudioType audType, string videoToConvertFilePath,
@@ -54,6 +68,22 @@ public class Ffmpeg : IVideoEncoder
     }
 
     public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
+        string videoToConvertFilePath,
+        string outputFilePath)
+    {
+        var cmd = Convert_internal(vidType, audType, aspectRatios, videoToConvertFilePath, outputFilePath);
+        Convert(cmd);
+    }
+    
+    public async Task ConvertAsync(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
+        string videoToConvertFilePath,
+        string outputFilePath, CancellationToken stoppingToken)
+    {
+        var cmd = Convert_internal(vidType, audType, aspectRatios, videoToConvertFilePath, outputFilePath);
+        await ConvertAsync(cmd, "", stoppingToken);
+    }
+    
+    private string Convert_internal(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
         string videoToConvertFilePath,
         string outputFilePath)
     {
@@ -126,7 +156,7 @@ public class Ffmpeg : IVideoEncoder
 
         cmd.Append(outputFilePath);
 
-        Convert(cmd.ToString());
+        return cmd.ToString();
     }
 
     public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
