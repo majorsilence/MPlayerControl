@@ -46,9 +46,10 @@ public class Worker : BackgroundService
                     .FirstOrDefault(p => p.Key == audVidType.Key)
                     .Value
                     .ToString();
-                _videoEncoder.Convert(audVidType.Key, audVidType.Value, aspect, srcVideo,
+                await _videoEncoder.ConvertAsync(audVidType.Key, audVidType.Value, aspect, srcVideo,
                     destVideo.Replace("[placeholder]",
-                        $"{audVidType.Key.ToString()}_{aspect.ToString()}.{ext}"));
+                        $"{audVidType.Key.ToString()}_{aspect.ToString()}.{ext}"),
+                    stoppingToken);
             }
 
             File.Delete(srcVideo);
