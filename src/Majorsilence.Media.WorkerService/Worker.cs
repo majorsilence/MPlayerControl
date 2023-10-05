@@ -62,7 +62,7 @@ public class Worker : BackgroundService
         CancellationToken stoppingToken)
     {
         var dInfo = new DirectoryInfo(_settings.UploadFolder);
-        var foundFiles = dInfo.GetFiles("*.txt").OrderBy(p => p).Select(p => p.FullName).ToArray();
+        var foundFiles = dInfo.GetFiles("*.txt").OrderBy(p => p.CreationTimeUtc).Select(p => p.FullName).ToArray();
 
         foreach (var uploadDetailFile in foundFiles)
         {
