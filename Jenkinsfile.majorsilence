@@ -1,0 +1,59 @@
+pipeline {
+    agent none
+    environment {
+        DOTNET_CLI_HOME = '/tmp/DOTNET_CLI_HOME'
+        DEPLOY_TARGET = credentials('majorsilence_media_host') // it will be something like example1.example.local
+    }
+    stages {
+        stage('build and test') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/dotnet/sdk:8.0'
+                // args '-u root:sudo'
+                }
+            }
+            steps {
+                echo 'building'
+                sh '''
+                ./build.sh
+                '''
+
+                stash includes: 'build/linux-x64/**/*.tar.gz', name: 'linux-x64'
+                nunit testResultsPattern: '**/TestResults/*.xml'
+                recordCoverage(tools: [[parser: 'COBERTURA', pattern: '**/TestResults/**/*cobertura.xml']])
+            }
+        }
+        // Uncomment to build docker image
+        //stage('build linux image') {
+        //    agent { label 'linux-x64' }
+        //    steps {
+        //        echo 'building'
+        //        sh '''
+        //        ./build_dockerimage.sh
+        //        '''
+        //        stash includes: "build/docker-images/**/*.tar.gz", name: 'docker-images'
+        //    }
+        //}
+
+        stage('Publish') {
+            when {
+                expression { return env.BRANCH_NAME.startsWith('PR-') == false }
+            }
+            steps {
+                timeout(time:180, unit:'MINUTES') {
+                    input message:'Deploy?'
+                    node('linux-x64') {
+                        echo "Deploying linux-x64 media-web and media-worker systemd service ${env.BRANCH_NAME}...."
+                        unstash 'linux-x64'
+
+                        withCredentials([usernamePassword(credentialsId: 'media-web-ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                            sh '''
+                            ./deploy.sh remote_systemd_deploy "$USERNAME" "$PASSWORD" "${env.DEPLOY_TARGET}"
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
