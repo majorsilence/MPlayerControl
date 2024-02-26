@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<Settings>(s => { return builder.Configuration.GetSection("ApiSettings").Get<Settings>(); });
 
 var symmetricSecurityKey =
-    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:Jwt:Key"]));
+    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:Jwt:Secret"]));
 builder.Services.AddAuthentication(options => { options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; })
     .AddJwtBearer(options =>
     {
@@ -50,6 +50,7 @@ builder.Services.AddAuthorization(options =>
     options.DefaultPolicy = options.GetPolicy("FileUpload");
     options.FallbackPolicy = options.DefaultPolicy;
 });
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -66,5 +67,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHealthChecks("/healthz").AllowAnonymous();
 app.Run();
