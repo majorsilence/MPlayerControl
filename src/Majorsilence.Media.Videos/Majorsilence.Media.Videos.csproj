@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyName>Majorsilence.Media.Videos</AssemblyName>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
         <AssemblyTitle>Majorsilence.Media.Videos</AssemblyTitle>
         <Product>Majorsilence.Media.Videos</Product>
         <Copyright>Copyright 2010</Copyright>

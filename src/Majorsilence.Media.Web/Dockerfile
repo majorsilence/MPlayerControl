@@ -1,11 +1,11 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8080
+EXPOSE 8443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["Majorsilence.Media.Web/Majorsilence.Media.Web.csproj", "Majorsilence.Media.Web/"]
 COPY ["Majorsilence.Media.Videos/Majorsilence.Media.Videos.csproj", "Majorsilence.Media.Videos/"]
@@ -21,4 +21,8 @@ RUN dotnet publish "Majorsilence.Media.Web.csproj" -c Release -o /app/publish /p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+# USER app is the default starting with aspnet:8.0 images
+# See https://devblogs.microsoft.com/dotnet/running-nonroot-kubernetes-with-dotnet/ and 
+# https://devblogs.microsoft.com/dotnet/securing-containers-with-rootless/
+USER $APP_UID
 ENTRYPOINT ["dotnet", "Majorsilence.Media.Web.dll"]
