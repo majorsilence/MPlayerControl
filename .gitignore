@@ -201,3 +201,4 @@ Release-Builds/nunit-result.xml
 TestRun
 /.vs
 /src/.vs
+.DS_Store

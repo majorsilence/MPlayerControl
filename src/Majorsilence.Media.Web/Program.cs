@@ -7,9 +7,15 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<Settings>(s => { return builder.Configuration.GetSection("ApiSettings").Get<Settings>(); });
 
-// Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        b => b.WithOrigins(builder.Configuration.GetSection("ApiSettings:PermittedCORSOrigins").Get<string[]>())
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(config =>
 {
@@ -23,8 +29,6 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Majorsilence.Media.Web", Version = "v1" });
 });
-
-builder.Services.AddScoped<Settings>(s => { return builder.Configuration.GetSection("ApiSettings").Get<Settings>(); });
 
 var symmetricSecurityKey =
     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["ApiSettings:Jwt:Secret"]));
@@ -60,7 +64,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
