@@ -10,26 +10,28 @@ jobs:
   windows-build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
     - name: Build
       run: cd src && dotnet build Majorsilence.Winforms.MPlayerControl.sln -c Release
 
   linux-build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
-    - name: Build
+        dotnet-version: 8.0.x
+    - name: Build Avalonia
       run: cd src && dotnet build Majorsilence.Avalonia.UI.sln -c Release
+    - name: Build Web
+      run: cd src && Majorsilence.Media.Web.sln -c Release
     - name: Install mplayer and mencoder and mpv
       run: sudo apt-get install -y mplayer mencoder mpv libmpv1
     - name: Test
-      run: dotnet vstest "src/Majorsilence.Media.NunitTests/bin/Release/net6.0/Majorsilence.Media.NunitTests.dll" --logger:"nunit;LogFileName=src/Majorsilence.Media.NunitTests/bin/Release/net6.0/nunit-result.xml"
+      run: dotnet test Majorsilence.Avalonia.UI.sln --collect:"XPlat Code Coverage" --logger:"nunit" --
 
