@@ -1,4 +1,5 @@
 using System.Text;
+using Asp.Versioning;
 using Majorsilence.Media.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
