@@ -15,6 +15,7 @@ pipeline {
             steps {
                 echo 'building'
                 sh '''
+                apt update && apt install -y mplayer mencoder mpv libmpv1
                 ./build.sh
                 '''
 
