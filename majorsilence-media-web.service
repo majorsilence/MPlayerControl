@@ -14,10 +14,10 @@ After=network-online.target
 # In production use a dedicated user/group.
 # sudo useradd -m media-web
 # To update permissions, use 'chown media-web:media-web -R /opt/majorsilence/media-web' to take ownership of the folder and files,
-# Use 'chmod +x /opt/majorsilence/media-web/app/MajorSilence.Media.Web' to allow execution of the executable file.
+# Use 'chmod +x /opt/majorsilence/media-web/app' to allow execution of the executable file.
 User=media-web
 
-ExecStart=/opt/majorsilence/media-web/app/MajorSilence.Media.Web
+ExecStart=/opt/majorsilence/media-web/app
 Restart=always
 RestartSec=10                       # Restart service after 10 seconds if node service crashes
 StandardOutput=syslog               # Output to syslog" >> /etc/systemd/system/majorsilence-media-web.service
