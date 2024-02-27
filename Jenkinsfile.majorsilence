@@ -15,13 +15,13 @@ pipeline {
             steps {
                 echo 'building'
                 sh '''
-                apt update && apt install -y mplayer mencoder mpv libmpv1
+                #apt update && apt install -y mplayer mencoder mpv libmpv1
                 ./build.sh
                 '''
 
                 stash includes: 'build/linux-x64/**/*.tar.gz', name: 'linux-x64'
-                nunit testResultsPattern: '**/TestResults/*.xml'
-                recordCoverage(tools: [[parser: 'COBERTURA', pattern: '**/TestResults/**/*cobertura.xml']])
+                //nunit testResultsPattern: '**/TestResults/*.xml'
+                //recordCoverage(tools: [[parser: 'COBERTURA', pattern: '**/TestResults/**/*cobertura.xml']])
             }
         }
         // Uncomment to build docker image

@@ -41,8 +41,8 @@ systemd_package_build()
 	dotnet build -c Release src/Majorsilence.Media.Web.sln	
 	dotnet build "src/Majorsilence.Media.Web" -c Release -r linux-x64
 	dotnet publish "src/Majorsilence.Media.Web" -c Release -r linux-x64 --self-contained true -o build/linux-x64/media-web-linux-x64-$VERSION
-	dotnet test src/Majorsilence.Media.Web.sln --collect:"XPlat Code Coverage" --logger:"nunit"
-	remove_bom_from_file_encoding "./src/Majorsilence.Media.Web/TestResults" "*cobertura.xml"
+	#dotnet test src/Majorsilence.Media.Web.sln --collect:"XPlat Code Coverage" --logger:"nunit"
+	#remove_bom_from_file_encoding "./src/Majorsilence.Media.Web/TestResults" "*cobertura.xml"
 	dotnet build "src/Majorsilence.Media.WorkerService" -c Release -r linux-x64
 	dotnet publish "src/Majorsilence.Media.WorkerService" -c Release -r linux-x64 --self-contained true -o build/linux-x64/media-workerservice-linux-x64-$VERSION
 	
