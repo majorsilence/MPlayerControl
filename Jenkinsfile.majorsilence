@@ -49,7 +49,7 @@ pipeline {
 
                         withCredentials([usernamePassword(credentialsId: 'media-web-ssh', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             sh '''
-                            ./deploy.sh remote_systemd_deploy "$USERNAME" "$PASSWORD" "${env.DEPLOY_TARGET}"
+                            ./deploy.sh remote_systemd_deploy $USERNAME $PASSWORD ${env.DEPLOY_TARGET}
                             '''
                         }
                     }
