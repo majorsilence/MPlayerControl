@@ -1,0 +1,40 @@
+[Unit]
+Description=Majorsilence Media WorkerService API
+Wants=network-online.target
+After=network-online.target
+
+# How to install:
+# Copy YourProgramName binary to /opt/your-program-service-name/YourProgramName.exe
+# Copy /etc/systemd/system/majorsilence-media-workerservice.service
+# systemctl daemon-reload
+# systemctl enable majorsilence-media-workerservice.service
+# systemctl start majorsilence-media-workerservice.service
+
+[Service]
+# In production use a dedicated user/group.
+# sudo useradd -m media-workerservice
+# To update permissions, use 'chown media-workerservice:media-workerservice -R /opt/majorsilence/media-workerservice' to take ownership of the folder and files,
+# Use 'chmod +x /opt/majorsilence/media-workerservice/app/MajorSilence.Media.WorkerService' to allow execution of the executable file.
+User=media-workerservice
+
+ExecStart=/opt/majorsilence/media-workerservice/app/MajorSilence.Media.WorkerService
+Restart=always
+RestartSec=10                       # Restart service after 10 seconds if node service crashes
+StandardOutput=syslog               # Output to syslog" >> /etc/systemd/system/majorsilence-media-workerservice.service
+StandardError=syslog                # Output to syslog" >> /etc/systemd/system/majorsilence-media-workerservice.service
+SyslogIdentifier=majorsilence-media-workerservice
+WorkingDirectory=/opt/majorsilence/media-workerservice/app
+
+# https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-8.0&tabs=linux-ubuntu
+KillSignal=SIGINT
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+# https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target

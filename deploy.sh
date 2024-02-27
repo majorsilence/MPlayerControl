@@ -43,7 +43,7 @@ remote_systemd_deploy()
 	&& echo $PASSWORD | sudo -S cp --recursive /home/$USER/media-web-linux-x64-$VERSION/* /opt/majorsilence/media-web/app \
 	&& rm -rf /home/$USER/media-web-* \
 	&& echo $PASSWORD | sudo -S chown media-web:media-web -R /opt/majorsilence/media-web \
-	&& echo $PASSWORD | sudo -S chmod +x /opt/majorsilence/media-web/app/MajorSilence.media-web.Site \
+	&& echo $PASSWORD | sudo -S chmod +x /opt/majorsilence/media-web/app/MajorSilence.Media.Web \
 	&& echo $PASSWORD | sudo -S systemctl restart majorsilence-media-web"
 
 
@@ -60,7 +60,7 @@ remote_systemd_deploy()
 	&& echo $PASSWORD | sudo -S cp --recursive /home/$USER/media-workerservice-linux-x64-$VERSION/* /opt/majorsilence/media-workerservice/app \
 	&& rm -rf /home/$USER/media-workerservice-* \
 	&& echo $PASSWORD | sudo -S chown media-workerservice:media-workerservice -R /opt/majorsilence/media-workerservice \
-	&& echo $PASSWORD | sudo -S chmod +x /opt/majorsilence/media-workerservice/app/MajorSilence.media-workerservice.Site \
+	&& echo $PASSWORD | sudo -S chmod +x /opt/majorsilence/media-workerservice/app/MajorSilence.Media.WorkerService \
 	&& echo $PASSWORD | sudo -S systemctl restart majorsilence-media-workerservice"
 }
 
