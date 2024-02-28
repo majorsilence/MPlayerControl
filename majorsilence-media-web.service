@@ -17,7 +17,7 @@ After=network-online.target
 # Use 'chmod +x /opt/majorsilence/media-web/app' to allow execution of the executable file.
 User=media-web
 
-ExecStart=/opt/majorsilence/media-web/app
+ExecStart=/opt/majorsilence/media-web/app/Majorsilence.Media.Web
 Restart=always
 RestartSec=10                       # Restart service after 10 seconds if node service crashes
 StandardOutput=syslog               # Output to syslog" >> /etc/systemd/system/majorsilence-media-web.service
@@ -33,6 +33,11 @@ Environment=ASPNETCORE_URLS="http://+:8082"
 #Environment=ASPNETCORE_URLS="https://+:8443;http://+:8082"
 #Environment=ASPNETCORE_Kestrel__Certificates__Default__Password="testing_cert_password"
 #Environment=ASPNETCORE_Kestrel__Certificates__Default__Path="/opt/majorsilence/media-web/certs/majorsilence-media-web-certs.pfx"
+Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data
+Environment=ApiSettings__PermittedCORS__0="https://*.majorsilence.com"
+Environment=ApiSettings__Jwt__Secret="PLACEHOLDER"
+Environment=ApiSettings_Jwt__Issuer="https://PLACEHOLDER"
+Environment=ApiSettings_Jwt__Audience="https://PLACEHOLDER"
 
 # https://www.freedesktop.org/software/systemd/man/systemd.exec.html
 NoNewPrivileges=yes
