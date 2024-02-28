@@ -12,7 +12,7 @@ builder.Services.AddScoped<Settings>(s => { return builder.Configuration.GetSect
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        b => b.WithOrigins(builder.Configuration.GetSection("ApiSettings:PermittedCORSOrigins").Get<string[]>())
+        b => b.WithOrigins(builder.Configuration.GetSection("ApiSettings:PermittedCORS").Get<string[]>())
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
