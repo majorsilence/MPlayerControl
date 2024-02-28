@@ -54,12 +54,13 @@ public class Worker : BackgroundService
 
             File.Delete(srcVideo);
             File.Delete(fileDetails.DetailFilePath);
+            File.Delete(fileDetails.StartRequestFilePath);
 
             await Task.Delay(1000, stoppingToken);
         }
     }
 
-    private async Task<(string VideoId, string DetailFilePath)> FindFileToProcess(
+    private async Task<(string VideoId, string DetailFilePath, string StartRequestFilePath)> FindFileToProcess(
         CancellationToken stoppingToken)
     {
         var dInfo = new DirectoryInfo(_settings.UploadFolder);
@@ -85,9 +86,12 @@ public class Worker : BackgroundService
                 continue;
             }
 
-            return (videoId, uploadDetailFile);
+            string startRequestFilePath =
+                System.IO.Path.Combine(_settings.UploadFolder,
+                    System.IO.Path.GetFileNameWithoutExtension(uploadDetailFile) + ".startrequest");
+            return (videoId, uploadDetailFile, startRequestFilePath);
         }
 
-        return (null, null);
+        return (null, null, null);
     }
 }
