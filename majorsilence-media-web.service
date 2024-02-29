@@ -33,7 +33,7 @@ Environment=ASPNETCORE_URLS="http://+:8082"
 #Environment=ASPNETCORE_URLS="https://+:8443;http://+:8082"
 #Environment=ASPNETCORE_Kestrel__Certificates__Default__Password="testing_cert_password"
 #Environment=ASPNETCORE_Kestrel__Certificates__Default__Path="/opt/majorsilence/media-web/certs/majorsilence-media-web-certs.pfx"
-Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data
+Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data/uploads
 Environment=ApiSettings__PermittedCORS__0="https://*.majorsilence.com"
 Environment=ApiSettings__Jwt__Secret="PLACEHOLDER"
 Environment=ApiSettings_Jwt__Issuer="https://PLACEHOLDER"

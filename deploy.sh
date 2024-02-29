@@ -37,7 +37,7 @@ remote_systemd_deploy() {
 	&& tar xvf media-web-linux-x64-$VERSION.tar.gz \
 	&& echo $PASSWORD | sudo -S rm -rf /opt/majorsilence/media-web/app \
 	&& echo $PASSWORD | sudo -S mkdir -p /opt/majorsilence/media-web/app \
-	&& echo $PASSWORD | sudo -S mkdir -p /opt/majorsilence/media-web/data \
+	&& echo $PASSWORD | sudo -S mkdir -p /opt/majorsilence/media-web/data/uploads \
 	&& echo $PASSWORD | sudo -S cp --recursive /home/$USER/media-web-linux-x64-$VERSION/* /opt/majorsilence/media-web/app \
 	&& rm -rf /home/$USER/media-web-* \
 	&& echo $PASSWORD | sudo -S chown media-web:media-web -R /opt/majorsilence/media-web \
@@ -53,7 +53,7 @@ remote_systemd_deploy() {
 	&& tar xvf media-workerservice-linux-x64-$VERSION.tar.gz \
 	&& echo $PASSWORD | sudo -S rm -rf /opt/majorsilence/media-workerservice/app \
 	&& echo $PASSWORD | sudo -S mkdir -p /opt/majorsilence/media-workerservice/app \
-	&& echo $PASSWORD | sudo -S mkdir -p /opt/majorsilence/media-workerservice/data \
+	&& echo $PASSWORD | sudo -S mkdir -p /opt/majorsilence/media-workerservice/data/converted \
 	&& echo $PASSWORD | sudo -S cp --recursive /home/$USER/media-workerservice-linux-x64-$VERSION/* /opt/majorsilence/media-workerservice/app \
 	&& rm -rf /home/$USER/media-workerservice-* \
 	&& echo $PASSWORD | sudo -S chown media-workerservice:media-workerservice -R /opt/majorsilence/media-workerservice \

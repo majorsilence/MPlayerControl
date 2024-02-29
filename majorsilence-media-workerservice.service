@@ -17,7 +17,7 @@ After=network-online.target
 # Use 'chmod +x /opt/majorsilence/media-workerservice/app' to allow execution of the executable file.
 User=media-workerservice
 
-ExecStart=/opt/majorsilence/media-workerservice/app
+ExecStart=/opt/majorsilence/media-workerservice/app/Majorsilence.Media.WorkerService
 Restart=always
 RestartSec=10                       # Restart service after 10 seconds if node service crashes
 StandardOutput=syslog               # Output to syslog" >> /etc/systemd/system/majorsilence-media-workerservice.service
@@ -29,6 +29,10 @@ WorkingDirectory=/opt/majorsilence/media-workerservice/app
 KillSignal=SIGINT
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+# UploadFolder should match the upload folder of Majorsilence.Media.Web
+Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data/uploads
+Environment=ApiSettings__ConvertedFolder=/opt/majorsilence/media-workerservice/data/converted
+Environment=ApiSettings__FfmpegPath=/usr/bin/ffmpeg
 
 # https://www.freedesktop.org/software/systemd/man/systemd.exec.html
 NoNewPrivileges=yes
