@@ -4,11 +4,11 @@ Wants=network-online.target
 After=network-online.target
 
 # How to install:
-# Copy YourProgramName binary to /opt/your-program-service-name/YourProgramName.exe
 # Copy /etc/systemd/system/majorsilence-media-workerservice.service
 # systemctl daemon-reload
 # systemctl enable majorsilence-media-workerservice.service
 # systemctl start majorsilence-media-workerservice.service
+
 
 [Service]
 # In production use a dedicated user/group.

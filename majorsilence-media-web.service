@@ -4,11 +4,15 @@ Wants=network-online.target
 After=network-online.target
 
 # How to install:
-# Copy YourProgramName binary to /opt/your-program-service-name/YourProgramName.exe
 # Copy /etc/systemd/system/majorsilence-media-web.service
 # systemctl daemon-reload
 # systemctl enable majorsilence-media-web.service
 # systemctl start majorsilence-media-web.service
+# Certificates
+# Production: use letsencrypt
+# Dev: self signed certs, change localhost to the host address
+# openssl req -x509 -newkey rsa:4096 -keyout /opt/majorsilence/media-web/certs/selfsigned.key -out /opt/majorsilence/media-web/certs/selfsigned.crt -days 365 -nodes -subj '/CN=localhost'
+# sudo -S chown media-web:media-web -R /opt/majorsilence/media-web 
 
 [Service]
 # In production use a dedicated user/group.
@@ -30,9 +34,14 @@ KillSignal=SIGINT
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 Environment=ASPNETCORE_URLS="http://+:8082"
-#Environment=ASPNETCORE_URLS="https://+:8443;http://+:8082"
+# if using certs comment out above line and uncomment the line below
+#Environment=ASPNETCORE_URLS="https://+:8083;http://+:8082"
+# if using a pfx uncomment the following two lines
 #Environment=ASPNETCORE_Kestrel__Certificates__Default__Password="testing_cert_password"
 #Environment=ASPNETCORE_Kestrel__Certificates__Default__Path="/opt/majorsilence/media-web/certs/majorsilence-media-web-certs.pfx"
+# if using crt and key uncomment following two lines
+#Environment=ASPNETCORE_Kestrel__Certificates__Default__Path="/opt/majorsilence/media-web/certs/selfsigned.crt"
+#Environment=ASPNETCORE_Kestrel__Certificates__Default__KeyPath="/opt/majorsilence/media-web/certs/selfsigned.key"
 Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data/uploads
 Environment=ApiSettings__PermittedCORS__0="https://*.majorsilence.com"
 Environment=ApiSettings__Jwt__Secret="PLACEHOLDER"
