@@ -52,7 +52,7 @@ public class ConvertController : ControllerBase
     {
         if (file.Length <= 0) return BadRequest("File is empty");
 
-        var fileid = file.Headers["FileId"].ToString();
+        var fileid = Request.Headers["FileId"].ToString();
         if (string.IsNullOrWhiteSpace(fileid))
         {
             return BadRequest("The file id must be sent in the header with the name 'FileId'");
