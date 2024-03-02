@@ -113,6 +113,31 @@ f95a2020-c31c-4d8d-bb86-82b6edf2b529
 10/29/2022 20:46:23
 ```
 
+```mermaid
+sequenceDiagram
+    participant Client
+    participant WebAPI
+    participant FileSystem
+    participant WorkerService
+
+    Client->>WebAPI: GET request for token and ID
+    WebAPI->>FileSystem: Write {id}.startrequest with token
+    FileSystem-->>WebAPI: Confirm write
+    WebAPI-->>Client: Return bearer token and ID
+
+    Client->>WebAPI: POST video with token and ID
+    WebAPI->>FileSystem: Write video to {id}.txt
+    FileSystem-->>WebAPI: Confirm video saved
+    WebAPI-->>Client: Confirm upload success
+
+    WorkerService->>FileSystem: Detect {id}.txt
+    WorkerService->>FileSystem: Process video
+    FileSystem->>WorkerService: Delete original video file
+    FileSystem->>WorkerService: Delete {id}.startrequest
+    FileSystem->>WorkerService: Delete {id}.txt
+    WorkerService->>FileSystem: Create {id}.done with video info
+```
+
 ### Web and Worker Service Docker Compose Example
 
 
