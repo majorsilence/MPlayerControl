@@ -238,6 +238,23 @@ public class Mencoder : IDisposable, IVideoEncoder
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="videoToConvertFilePath"></param>
+    /// <param name="outputFilePath">mencoder will output a png</param>
+    /// <param name="stoppingToken"></param>
+    public async Task ThumbnailAsync(string videoToConvertFilePath, string outputFilePath, CancellationToken stoppingToken)
+    {
+        // mencoder input_video.avi -ss 00:00:10 -nosound -ovc png -vf scale=320:240 -frames 1 -o output_thumbnail.png
+        var cmd = new StringBuilder();
+        cmd.Append("-i ");
+        cmd.Append(videoToConvertFilePath);
+        cmd.Append(" -ss 00:00:01 -nosound -ovc png -vf scale=320:240 -frames 1 -o ");
+        cmd.Append(outputFilePath);
+        await ConvertAsync(cmd.ToString(), "", stoppingToken);
+    }
+
+    /// <summary>
     ///     This event is raised each time mencoder percentage complete changes
     /// </summary>
     public event MplayerEventHandler PercentCompleted;

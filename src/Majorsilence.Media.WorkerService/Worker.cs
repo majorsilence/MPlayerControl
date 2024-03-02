@@ -22,8 +22,11 @@ public class Worker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            string extraConvertedSubFolder = System.IO.Path.Combine(_settings.ConvertedFolder,
+                DateTime.UtcNow.Year.ToString(),
+                DateTime.UtcNow.Month.ToString(), DateTime.UtcNow.Day.ToString());
             var x = new TranscodingManager(_videoEncoder, _settings);
-            int transcodingCount = await x.Transcode(stoppingToken);
+            int transcodingCount = await x.Transcode(extraConvertedSubFolder, stoppingToken);
             if (transcodingCount == 0)
             {
                 countNothingToDo++;

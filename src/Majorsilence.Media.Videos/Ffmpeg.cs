@@ -124,7 +124,7 @@ public class Ffmpeg : IVideoEncoder
             // https://superuser.com/questions/1551072/ffmpeg-how-do-i-re-encode-a-video-to-h-264-video-and-aac-audio
             // ffmpeg -i input.avi -c:v libx264 -preset slow -crf 20 -c:a aac -b:a 160k -vf format=yuv420p -movflags +faststart output.mp4
             cmd.Append(
-                $" -c:v libx264 -preset slow -crf 20 -c:a {audio} -b:a 128k -vf format=yuv420p {scale}");
+                $" -c:v libx264 -preset slow -crf 20 -c:a {audio} -b:a 128k -vf \"format=yuv420p,{scale}\" ");
         }
         else if (vidType == VideoType.x265)
         {
@@ -192,5 +192,15 @@ public class Ffmpeg : IVideoEncoder
     private void MencoderInstance_ErrorDataReceived(object sender, DataReceivedEventArgs e)
     {
         if (e.Data != null) Console.Error.WriteLine(e.Data);
+    }
+    
+    public async Task ThumbnailAsync(string videoToConvertFilePath, string outputFilePath, CancellationToken stoppingToken)
+    {
+        var cmd = new StringBuilder();
+        cmd.Append("-i ");
+        cmd.Append(videoToConvertFilePath);
+        cmd.Append(" -ss 00:00:01.000 -vframes 1 ");
+        cmd.Append(outputFilePath);
+        await ConvertAsync(cmd.ToString(), "", stoppingToken);
     }
 }

@@ -42,4 +42,5 @@ public interface IVideoEncoder
     void Convert2X264(string videoToConvertFilePath, string outputFilePath);
     void Convert2X265(string videoToConvertFilePath, string outputFilePath);
     void Convert2Av1(string videoToConvertFilePath, string outputFilePath);
+    Task ThumbnailAsync(string videoToConvertFilePath, string outputFilePath, CancellationToken stoppingToken);
 }

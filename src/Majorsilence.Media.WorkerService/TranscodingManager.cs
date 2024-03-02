@@ -17,9 +17,10 @@ public class TranscodingManager
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="extraConvertedSubFolder">will be a further subfolder under Settings.ConvertedFolder</param>
     /// <param name="stoppingToken"></param>
     /// <returns>Number of transcoding loops</returns>
-    public async Task<int> Transcode(CancellationToken stoppingToken)
+    public async Task<int> Transcode(string extraConvertedSubFolder, CancellationToken stoppingToken)
     {
         var fileDetails = await FindFileToProcess(stoppingToken);
         if (string.IsNullOrEmpty(fileDetails.DetailFilePath))
@@ -34,8 +35,16 @@ public class TranscodingManager
         var srcVideo = Path.Combine(_settings.UploadFolder,
             $"{fileDetails.VideoId}");
 
-        string destFolder = System.IO.Path.Combine(_settings.ConvertedFolder, DateTime.UtcNow.Year.ToString(),
-            DateTime.UtcNow.Month.ToString(), DateTime.UtcNow.Day.ToString());
+        string destFolder;
+        if (string.IsNullOrWhiteSpace(extraConvertedSubFolder))
+        {
+            destFolder = _settings.ConvertedFolder;
+        }
+        else
+        {
+            destFolder = System.IO.Path.Combine(_settings.ConvertedFolder, extraConvertedSubFolder);
+        }
+
         if (!Directory.Exists(destFolder))
         {
             Directory.CreateDirectory(destFolder);
@@ -43,6 +52,9 @@ public class TranscodingManager
 
         var destVideo =
             Path.Combine(destFolder, $"{fileDetails.VideoId}_[placeholder]");
+
+        await _videoEncoder.ThumbnailAsync(srcVideo, destVideo.Replace("[placeholder]", "thumbnail.jpg"),
+            stoppingToken);
 
         int transcodingCount = 0;
         foreach (var audVidType in _settings.VideoAudioConverters)
@@ -61,7 +73,6 @@ public class TranscodingManager
 
         File.Delete(srcVideo);
         File.Delete(fileDetails.DetailFilePath);
-        File.Delete($"{srcVideo}.txt");
         File.Delete(fileDetails.StartRequestFilePath);
         File.Create(Path.Combine(destFolder, $"{fileDetails.VideoId}.done"));
         return transcodingCount;
