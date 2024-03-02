@@ -87,6 +87,7 @@ Majorsilence.Media.Web is a webapi project that can be used to upload videos to 
 
 The two project communicate through a simple txt file.   Each upload video is assigned a guid.   The text format for communication is as follows:
 
+* filename: {guid}.startrequest
 * filename: {guid}.txt
 * Line 1: {guid}
     * Added by the __web upload project__.
@@ -111,6 +112,40 @@ f95a2020-c31c-4d8d-bb86-82b6edf2b529.txt
 f95a2020-c31c-4d8d-bb86-82b6edf2b529
 .mkv
 10/29/2022 20:46:23
+```
+
+Converted folder
+
+* converted
+  * YYYY
+    * MM
+      * dd
+        * {guid}.done
+        * {guid}.{filetypes....}   
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant WebAPI
+    participant FileSystem
+    participant WorkerService
+
+    Client->>WebAPI: GET request for token and ID
+    WebAPI->>FileSystem: Write {id}.startrequest with token
+    FileSystem-->>WebAPI: Confirm write
+    WebAPI-->>Client: Return bearer token and ID
+
+    Client->>WebAPI: POST video with token and ID
+    WebAPI->>FileSystem: Write video to {id}.txt
+    FileSystem-->>WebAPI: Confirm video saved
+    WebAPI-->>Client: Confirm upload success
+
+    WorkerService->>FileSystem: Detect {id}.txt
+    WorkerService->>FileSystem: Process video
+    FileSystem->>WorkerService: Delete original video file
+    FileSystem->>WorkerService: Delete {id}.startrequest
+    FileSystem->>WorkerService: Delete {id}.txt
+    WorkerService->>FileSystem: Create {id}.done with video info
 ```
 
 ### Web and Worker Service Docker Compose Example
