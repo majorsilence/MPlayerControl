@@ -53,31 +53,16 @@
         <Folder Include="TestVideos\"/>
     </ItemGroup>
     <ItemGroup>
-        <None Update="TestVideos\video1.mp4">
+        <None Update="TestVideos\*.mp4">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="TestVideos\video2.mp4">
+        <None Update="TestVideos\*.jpg">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="TestVideos\6.jpg">
+        <None Update="TestVideos\*.mp3">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="TestVideos\5.jpg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="TestVideos\4.jpg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="TestVideos\3.jpg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="TestVideos\2.jpg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="TestVideos\1.jpg">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="TestVideos\doxent_-_Sunset_Boulevard-edit.mp3">
+        <None Update="TestVideos\*.txt">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
