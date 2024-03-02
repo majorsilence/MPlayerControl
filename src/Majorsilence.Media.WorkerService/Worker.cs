@@ -18,6 +18,7 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        int countNothingToDo = 0;
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
@@ -25,9 +26,18 @@ public class Worker : BackgroundService
             var fileDetails = await FindFileToProcess(stoppingToken);
             if (string.IsNullOrEmpty(fileDetails.DetailFilePath))
             {
-                await Task.Delay(1000, stoppingToken);
+                countNothingToDo++;
+                if (countNothingToDo > 60)
+                {
+                    await Task.Delay(60000, stoppingToken);
+                    continue;
+                }
+
+                await Task.Delay(1000 * countNothingToDo, stoppingToken);
                 continue;
             }
+
+            countNothingToDo = 0;
 
             var processingStartTime = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
             await File.AppendAllTextAsync(fileDetails.DetailFilePath,
@@ -36,8 +46,15 @@ public class Worker : BackgroundService
             var srcVideo = Path.Combine(_settings.UploadFolder,
                 $"{fileDetails.VideoId}");
 
+            string destFolder = System.IO.Path.Combine(_settings.ConvertedFolder, DateTime.UtcNow.Year.ToString(),
+                DateTime.UtcNow.Month.ToString(), DateTime.UtcNow.Day.ToString());
+            if (!Directory.Exists(destFolder))
+            {
+                Directory.CreateDirectory(destFolder);
+            }
+
             var destVideo =
-                Path.Combine(_settings.ConvertedFolder, $"{fileDetails.VideoId}_[placeholder]");
+                Path.Combine(destFolder, $"{fileDetails.VideoId}_[placeholder]");
 
             foreach (var audVidType in _settings.VideoAudioConverters)
             foreach (var aspect in _settings.AspectRatios)
@@ -54,9 +71,9 @@ public class Worker : BackgroundService
 
             File.Delete(srcVideo);
             File.Delete(fileDetails.DetailFilePath);
+            File.Delete($"{srcVideo}.txt");
             File.Delete(fileDetails.StartRequestFilePath);
-
-            await Task.Delay(1000, stoppingToken);
+            File.Create(Path.Combine(destFolder, $"{fileDetails.VideoId}.done"));
         }
     }
 
@@ -70,7 +87,6 @@ public class Worker : BackgroundService
         {
             if (string.IsNullOrWhiteSpace(uploadDetailFile))
             {
-                await Task.Delay(1000, stoppingToken);
                 continue;
             }
 
@@ -78,7 +94,7 @@ public class Worker : BackgroundService
             var videoId = lines[0];
 
 
-            if (lines.Count() > 2)
+            if (lines.Length > 2)
             {
                 // already processing
                 var processingTime = lines[2];
