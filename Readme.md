@@ -87,6 +87,7 @@ Majorsilence.Media.Web is a webapi project that can be used to upload videos to 
 
 The two project communicate through a simple txt file.   Each upload video is assigned a guid.   The text format for communication is as follows:
 
+* filename: {guid}.startrequest
 * filename: {guid}.txt
 * Line 1: {guid}
     * Added by the __web upload project__.
@@ -112,6 +113,15 @@ f95a2020-c31c-4d8d-bb86-82b6edf2b529
 .mkv
 10/29/2022 20:46:23
 ```
+
+Converted folder
+
+* converted
+  * YYYY
+    * MM
+      * dd
+        * {guid}.done
+        * {guid}.{filetypes....}   
 
 ```mermaid
 sequenceDiagram
