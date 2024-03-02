@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using Majorsilence.Media.Videos;
 
@@ -49,41 +50,61 @@ public class Tests
     }
 
     [Test]
-    public async Task Test1()
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p240)]
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p360)]
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p480)]
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p720)]
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p1080)]
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p1440)]
+    [TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p2160)]
+    //[TestCase(VideoType.vp9, AudioType.aac, VideoAspectRatios.p7680)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p240)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p360)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p480)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p720)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p1080)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p1440)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p2160)]
+    //[TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.p7680)]
+    [TestCase(VideoType.x264, AudioType.aac, VideoAspectRatios.original)]
+    public async Task Test1(VideoType videoType, AudioType audioType, VideoAspectRatios aspectRatio)
     {
         string guid = Guid.NewGuid().ToString();
         File.Copy("TestVideos/video1.mp4", Path.Combine(_uploadFolder, guid));
-        File.WriteAllText(Path.Combine(_uploadFolder, $"{guid}.startrequest"), "testtoken");
-        File.WriteAllText(Path.Combine(_uploadFolder, $"{guid}.txt"), $"{guid}{Environment.NewLine}.mp4");
+        await File.WriteAllTextAsync(Path.Combine(_uploadFolder, $"{guid}.startrequest"), "testtoken");
+        await File.WriteAllTextAsync(Path.Combine(_uploadFolder, $"{guid}.txt"), $"{guid}{Environment.NewLine}.mp4");
 
+        var formatExtensions = new Dictionary<VideoType, string>()
+        {
+            { VideoType.x264, "mp4" },
+            { VideoType.vp9, "webm" },
+            { VideoType.x265, "mp4" },
+            { VideoType.av1, "webm" },
+            { VideoType.mpeg4, "mp4" }
+        };
         var transcodingManager = new TranscodingManager(new Ffmpeg(_ffmpegPath), new Settings()
         {
             UploadFolder = _uploadFolder,
             ConvertedFolder = _convertedFolder,
             VideoAudioConverters = new Dictionary<VideoType, AudioType>()
             {
-                { VideoType.x264, AudioType.aac }
+                { videoType, audioType }
             },
             AspectRatios = new VideoAspectRatios[]
             {
-                VideoAspectRatios.p720,
-                VideoAspectRatios.p360
+                aspectRatio
             },
-            VideoFileExtension = new Dictionary<VideoType, string>()
-            {
-                { VideoType.x264, "mp4" }
-            }
+            VideoFileExtension = formatExtensions
         });
         string extraConvertedSubFolder = System.IO.Path.Combine(DateTime.UtcNow.Year.ToString(),
             DateTime.UtcNow.Month.ToString(), DateTime.UtcNow.Day.ToString());
         int transcodeCount = await transcodingManager.Transcode(extraConvertedSubFolder, CancellationToken.None);
-        Assert.That(transcodeCount, Is.EqualTo(2));
+        Assert.That(transcodeCount, Is.EqualTo(1));
 
+        string fileExtension = formatExtensions[videoType];
         Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder,
             $"{guid}_thumbnail.jpg")));
         Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder,
-            $"{guid}_x264_p720.mp4")));
-        Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder,
-            $"{guid}_x264_p360.mp4")));
+            $"{guid}_{videoType.ToString()}_{aspectRatio}.{fileExtension}")));
     }
 }
