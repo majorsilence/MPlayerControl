@@ -102,9 +102,9 @@ public class Tests
         Assert.That(transcodeCount, Is.EqualTo(1));
 
         string fileExtension = formatExtensions[videoType];
-        Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder,
+        Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder, guid,
             $"{guid}_thumbnail.jpg")));
-        Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder,
+        Assert.That(File.Exists(System.IO.Path.Combine(_convertedFolder, extraConvertedSubFolder, guid,
             $"{guid}_{videoType.ToString()}_{aspectRatio}.{fileExtension}")));
     }
 }

@@ -120,8 +120,9 @@ Converted folder
   * YYYY
     * MM
       * dd
-        * {guid}.done
-        * {guid}.{filetypes....}   
+        * {id}
+          * {id}.done
+          * {id}.{filetypes....}
 
 ```mermaid
 sequenceDiagram

@@ -38,11 +38,12 @@ public class TranscodingManager
         string destFolder;
         if (string.IsNullOrWhiteSpace(extraConvertedSubFolder))
         {
-            destFolder = _settings.ConvertedFolder;
+            destFolder = System.IO.Path.Combine(_settings.ConvertedFolder, fileDetails.VideoId);
         }
         else
         {
-            destFolder = System.IO.Path.Combine(_settings.ConvertedFolder, extraConvertedSubFolder);
+            destFolder =
+                System.IO.Path.Combine(_settings.ConvertedFolder, extraConvertedSubFolder, fileDetails.VideoId);
         }
 
         if (!Directory.Exists(destFolder))
