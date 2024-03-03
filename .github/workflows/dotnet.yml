@@ -29,9 +29,8 @@ jobs:
     - name: Build Avalonia
       run: cd src && dotnet build Majorsilence.Avalonia.UI.sln -c Release
     - name: Build Web
-      run: cd src && Majorsilence.Media.Web.sln -c Release
+      run: cd src && dotnet build Majorsilence.Media.Web.sln -c Release
     - name: Install mplayer and mencoder and mpv
-      run: sudo apt-get install -y mplayer mencoder mpv libmpv1
+      run: sudo apt-get install -y mplayer mencoder mpv libmpv1 ffmpeg
     - name: Test
-      run: dotnet test Majorsilence.Avalonia.UI.sln --collect:"XPlat Code Coverage" --logger:"nunit" --
-
+      run: cd src && dotnet test Majorsilence.Media.Web.sln --collect:"XPlat Code Coverage" --logger:"nunit"
