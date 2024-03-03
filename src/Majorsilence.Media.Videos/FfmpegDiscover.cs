@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Majorsilence.Media.Videos;
 
-internal class FfmepgDiscover : Discover
+internal class FfmpegDiscover : Discover
 {
     public int VideoBitrate => throw new NotImplementedException();
 
