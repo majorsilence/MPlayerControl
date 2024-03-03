@@ -30,6 +30,9 @@ KillSignal=SIGINT
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 # UploadFolder should match the upload folder of Majorsilence.Media.Web
+# UploadFolder, give media-workerservice access in addition to media-web
+# sudo setfacl -R -m u:media-workerservice:rwx /opt/majorsilence/media-web/data/uploads
+# sudo setfacl -R -m d:u:media-workerservice:rwx /opt/majorsilence/media-web/data/uploads
 Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data/uploads
 Environment=ApiSettings__ConvertedFolder=/opt/majorsilence/media-workerservice/data/converted
 Environment=ApiSettings__FfmpegPath=/usr/bin/ffmpeg
