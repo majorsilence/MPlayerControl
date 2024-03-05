@@ -161,25 +161,25 @@ public class Ffmpeg : IVideoEncoder
 
     public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(VideoType.vp9, AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.vp9, AudioType.opus, videoToConvertFilePath,
             outputFilePath);
     }
 
     public void Convert2X264(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(VideoType.x264, AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.x264, AudioType.aac, videoToConvertFilePath,
             outputFilePath);
     }
 
     public void Convert2X265(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(VideoType.x265, AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.x265, AudioType.aac, videoToConvertFilePath,
             outputFilePath);
     }
 
     public void Convert2Av1(string videoToConvertFilePath, string outputFilePath)
     {
-        Convert(VideoType.av1, AudioType.implementation_detail, videoToConvertFilePath,
+        Convert(VideoType.av1, AudioType.opus, videoToConvertFilePath,
             outputFilePath);
     }
 

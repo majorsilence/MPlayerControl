@@ -67,7 +67,11 @@ public class GlobalVariables
     public static string OutputVideoWebM => Path.Combine(BasePath, "OutputVideoWebM.webm");
 
     public static string OutputVideoX264 => Path.Combine(BasePath, "OutputVideoX264.mp4");
-
+    
+    public static string OutputVideoX265 => Path.Combine(BasePath, "OutputVideoX265.mp4");
+    
+    public static string OutputVideoAv1 => Path.Combine(BasePath, "OutputVideoAv1.mp4");
+    public static string OutputThumbnail => Path.Combine(BasePath, "OutputThumbnail.jpg");
     public static string OutputVideoDvdMpegPal => Path.Combine(BasePath, "OutputVideoDvdMpegPal.mpg");
 
     public static string OutputVideoDvdMpegNtsc => Path.Combine(BasePath, "OutputVideoDvdMpegNtsc.mpg");

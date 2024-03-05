@@ -101,13 +101,13 @@ public class Mencoder : IDisposable, IVideoEncoder
         string videoToConvertFilePath,
         string outputFilePath, CancellationToken stoppingToken)
     {
-        throw new NotImplementedException("Use the Ffmpeg class");
+        return Task.Run(()=> Convert(vidType, audType, aspectRatios, videoToConvertFilePath, outputFilePath), stoppingToken);
     }
     public void Convert(VideoType vidType, AudioType audType, VideoAspectRatios aspectRatios,
         string videoToConvertFilePath,
         string outputFilePath)
     {
-        throw new NotImplementedException("Use the Ffmpeg class");
+        Convert(vidType, audType, videoToConvertFilePath, outputFilePath);
     }
 
     public void Convert2WebM(string videoToConvertFilePath, string outputFilePath)
@@ -229,12 +229,12 @@ public class Mencoder : IDisposable, IVideoEncoder
 
     public void Convert2X265(string videoToConvertFilePath, string outputFilePath)
     {
-        throw new NotImplementedException();
+        Convert(VideoType.x265, AudioType.aac, videoToConvertFilePath, outputFilePath);
     }
 
     public void Convert2Av1(string videoToConvertFilePath, string outputFilePath)
     {
-        throw new NotImplementedException();
+        Convert(VideoType.av1, AudioType.opus, videoToConvertFilePath, outputFilePath);
     }
 
     /// <summary>
