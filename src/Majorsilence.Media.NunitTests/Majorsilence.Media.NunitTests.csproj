@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+        <TargetFramework>net8.0</TargetFramework>
         <AssemblyTitle>MplayerUnitTests</AssemblyTitle>
         <Product>MplayerUnitTests</Product>
         <Copyright>Copyright © 2011</Copyright>
@@ -44,6 +44,10 @@
                 <Variable name="LC_NUMERIC" value="C"/>
             </EnvironmentVariables>
         </EnvironmentVariables>
+    </PropertyGroup>
+    <PropertyGroup>
+        <!-- Define the MACOS symbol when building for macOS -->
+        <DefineConstants Condition="'$(OS)' == 'Unix'">$(DefineConstants);MACOS</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj"/>

@@ -92,6 +92,8 @@ public class MpvDiscover : Discover
     /// </summary>
     public int Length { get; private set; }
 
+    public string AspectRatioString { get; }
+
     /// <summary>
     ///     The aspect ratio of the video. Could be 4/3 or 16/9.
     /// </summary>

@@ -94,6 +94,8 @@ public class MPlayerDiscover : Discover
     /// </summary>
     public int Length { get; private set; }
 
+    public string AspectRatioString { get; private set; }
+
     /// <summary>
     ///     The aspect ratio of the video. Could be 4/3 or 16/9.
     /// </summary>
@@ -128,11 +130,11 @@ public class MPlayerDiscover : Discover
         /*
          Reads the values of the video (width, heigth, fps...) and stores them
          into file_values.
-    
+
          Returns (False,AUDIO) if the file is not a video (with AUDIO the number
          of audio tracks)
-         
-         Returns (True,0) if the file is a right video file 
+
+         Returns (True,0) if the file is a right video file
          */
 
         var mplayerLocation = new BackendPrograms(mplayerPath);
@@ -272,12 +274,27 @@ public class MPlayerDiscover : Discover
             handle.WaitForExit();
             handle.Close();
         }
+        
+        int gcd = GCD(Width, Height);
 
-        if (AspectRatio == 0.0)
+        int aspectWidth = Width / gcd;
+        int aspectHeight = Height / gcd;
+        if(AspectRatio== 0)
+            AspectRatio = (float)aspectWidth / aspectHeight;
+
+        AspectRatioString = $"{aspectWidth}:{aspectHeight}";
+    }
+
+    private static int GCD(int a, int b)
+    {
+        while (b != 0)
         {
-            AspectRatio = Width / (float)Height;
-            if (AspectRatio <= 1.5) AspectRatio = ScreenAspectRatio.FourThree;
+            int temp = b;
+            b = a % b;
+            a = temp;
         }
+
+        return a;
     }
 
     public void Dispose()

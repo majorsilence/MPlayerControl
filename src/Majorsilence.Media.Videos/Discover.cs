@@ -20,6 +20,7 @@ public interface Discover : IDisposable
 
     int Length { get; }
 
+    string AspectRatioString { get; }
     float AspectRatio { get; }
 
     List<int> AudioList { get; }

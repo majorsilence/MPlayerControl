@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 
 namespace MplayerUnitTests;
@@ -13,23 +14,12 @@ public class SetupInitialize
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        var path = Path.Combine(Path.GetTempPath(), "MPlayerControl", "Tests");
-        finalPath = Path.Combine(path, "TestVideos");
-
+        finalPath = GlobalVariables.BasePath;
         FinalTearDown();
-        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
         if (!Directory.Exists(finalPath)) Directory.CreateDirectory(finalPath);
-
-
+        
         var files = Directory.GetFiles(Path.Combine(ExecutingDirectory(), "TestVideos"));
         foreach (var file in files) File.Copy(file, Path.Combine(finalPath, Path.GetFileName(file)));
-
-        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            GlobalVariables.InitPath(finalPath,
-                @"C:\Users\peter\Downloads\MPlayer-x86_64-r38154+g9fe07908c3\mplayer.exe",
-                @"C:\Users\peter\Downloads\mpv-dev-x86_64-20200202-git-77a74d9\mpv-1.dll");
-        else
-            GlobalVariables.InitPath(finalPath, "mplayer", "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
     }
 
     [OneTimeTearDown]
