@@ -58,18 +58,45 @@ public class TranscodingManager
             stoppingToken);
 
         int transcodingCount = 0;
-        foreach (var audVidType in _settings.VideoAudioConverters)
-        foreach (var aspect in _settings.AspectRatios)
+
+        if (string.Equals(_settings.ConversionType, "download", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(_settings.ConversionType, "all", StringComparison.OrdinalIgnoreCase))
         {
-            var ext = _settings.VideoFileExtension
-                .FirstOrDefault(p => p.Key == audVidType.Key)
-                .Value
-                .ToString();
-            await _videoEncoder.ConvertAsync(audVidType.Key, audVidType.Value, aspect, srcVideo,
-                destVideo.Replace("[placeholder]",
-                    $"{audVidType.Key.ToString()}_{aspect.ToString()}.{ext}"),
-                stoppingToken);
-            transcodingCount++;
+            foreach (var audVidType in _settings.VideoAudioConverters)
+            foreach (var aspect in _settings.AspectRatios)
+            {
+                var ext = _settings.VideoFileExtension
+                    .FirstOrDefault(p => p.Key == audVidType.Key)
+                    .Value
+                    .ToString();
+                await _videoEncoder.ConvertAsync(audVidType.Key, audVidType.Value, aspect, srcVideo,
+                    destVideo.Replace("[placeholder]",
+                        $"{audVidType.Key.ToString()}_{aspect.ToString()}.{ext}"),
+                    stoppingToken);
+                transcodingCount++;
+            }
+        }
+
+        if (string.Equals(_settings.ConversionType, "streaming", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(_settings.ConversionType, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!string.IsNullOrWhiteSpace(_settings.StreamTypes.MpegDash))
+            {
+                string cmd = _settings.StreamTypes.MpegDash
+                    .Replace("[PLACEHOLDER_INPUT]", srcVideo)
+                    .Replace("[PLACEHOLDER_OUTPUT]", fileDetails.VideoId);
+                await _videoEncoder.ConvertAsync(cmd, destFolder, stoppingToken);
+                transcodingCount++;
+            }
+
+            if (!string.IsNullOrWhiteSpace(_settings.StreamTypes.Hls))
+            {
+                string cmd = _settings.StreamTypes.Hls
+                    .Replace("[PLACEHOLDER_INPUT]", srcVideo)
+                    .Replace("[PLACEHOLDER_OUTPUT]", fileDetails.VideoId);
+                await _videoEncoder.ConvertAsync(cmd, destFolder, stoppingToken);
+                transcodingCount++;
+            }
         }
 
         File.Delete(srcVideo);
