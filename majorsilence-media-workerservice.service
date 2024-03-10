@@ -36,6 +36,8 @@ Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data/uploads
 Environment=ApiSettings__ConvertedFolder=/opt/majorsilence/media-workerservice/data/converted
 Environment=ApiSettings__FfmpegPath=/usr/bin/ffmpeg
+# Valid ConversionTypes are "streaming", "download", or "all"
+Environment=ApiSettings__ConversionType=all
 
 # https://www.freedesktop.org/software/systemd/man/systemd.exec.html
 NoNewPrivileges=yes
