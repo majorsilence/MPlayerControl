@@ -37,7 +37,9 @@ Environment=ApiSettings__UploadFolder=/opt/majorsilence/media-web/data/uploads
 Environment=ApiSettings__ConvertedFolder=/opt/majorsilence/media-workerservice/data/converted
 Environment=ApiSettings__FfmpegPath=/usr/bin/ffmpeg
 # Valid ConversionTypes are "streaming", "download", or "all"
-Environment=ApiSettings__ConversionType=all
+Environment=ApiSettings__ConversionType=streaming
+Environment=ApiSettings__StreamingTypes__MpegDash=
+Environment=ApiSettings__StreamingTypes__Hls=-i [PLACEHOLDER_INPUT] -map 0:v -map 0:a -s:v:0 426x240 -c:v:0 libx264 -b:v:0 250k -s:v:1 640x360 -c:v:1 libx264 -b:v:1 800k -s:v:2 854x480 -c:v:2 libx264 -b:v:2 1400k -s:v:3 1280x720 -c:v:3 libx264 -b:v:3 2800k -s:v:4 1920x1080 -c:v:4 libx264 -b:v:4 5000k -c:a aac -b:a 128k -hls_time 4 -hls_playlist_type vod -hls_segment_filename [PLACEHOLDER_OUTPUT]_%03d.ts [PLACEHOLDER_OUTPUT].m3u8
 
 # https://www.freedesktop.org/software/systemd/man/systemd.exec.html
 NoNewPrivileges=yes
