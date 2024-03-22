@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using UUIDNext;
 
 namespace Majorsilence.Media.Web.Controllers;
 
@@ -35,7 +36,7 @@ public class ConvertController : ControllerBase
         // The WorkerService will then process the file and delete the file
         // after processing.  If the file is not processed then the file will
         // remain in the upload folder and the client can try again.
-        var id = Guid.NewGuid().ToString();
+        var id = Uuid.NewDatabaseFriendly(Database.Other).ToString();
         var startRequestPath = Path.Combine(_settings.UploadFolder, $"{id}.startrequest");
         System.IO.File.WriteAllText(startRequestPath, GetBearerToken());
         return id;
