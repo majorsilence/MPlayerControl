@@ -7,10 +7,14 @@
         x:Class="Majorsilence.Media.Desktop.UI.MainWindow"
         Title="Majorsilence.Media.Desktop.UI">
     
-    <Panel>
-    <mpc:VideoControl Name="videoWidget" />
-    
-    <!-- Add button to window -->
-    <Button Name="button" Click="button_Click">Click Me!</Button>
-    </Panel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <mpc:VideoControl Name="videoWidget" Grid.Row="0"  />
+        
+        <Button Name="buttonPlay" Grid.Row="1" Click="buttonPlay_Click" HorizontalAlignment="Stretch">Play</Button>
+    </Grid>
 </Window>

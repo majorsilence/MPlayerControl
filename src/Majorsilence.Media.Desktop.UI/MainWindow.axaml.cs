@@ -2,43 +2,64 @@ using System;
 using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Majorsilence.Media.Videos;
 
 namespace Majorsilence.Media.Desktop.UI
 {
     public partial class MainWindow : Window
     {
-        Majorsilence.Media.Videos.Player _play;
-        //public string MPlayerPath { get; set; } = @"mplayer";
-        public string MPlayerPath { get; set; } = "mplayer";
-        public string VideoPath { get; set; } = @"/home/peter/Downloads/disc1-2.m4v";
+        Player _play;
 
         public MainWindow()
         {
             InitializeComponent();
+            this.Opened += MainWindow_Opened;
         }
 
-        public void button_Click(object sender, RoutedEventArgs e)
+        private async void MainWindow_Opened(object sender, EventArgs e)
         {
-            // Change button text when button is clicked.
-            // var button = (Button)sender;
-            //button.Content = "Hello, Avalonia!";
-
-            if (_play != null)
+            var b = new BackendPrograms();
+            if (System.IO.File.Exists(Properties.Settings.Default.MPlayerPath) == false
+                && System.IO.File.Exists(b.MPlayer) == false)
             {
-                _play.Stop();
+                var dlg = new PlayerProperties();
+                await dlg.ShowDialog(this);
             }
 
-            if (System.IO.File.Exists(VideoPath) == false && VideoPath.StartsWith("http") == false)
+            this._play = PlayerFactory.Get(videoWidget.Handle.ToInt64(), Properties.Settings.Default.MPlayerPath);
+            this._play.VideoExited += new MplayerEventHandler(play_VideoExited);
+        }
+
+        public async void buttonPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if (this._play.CurrentStatus != MediaStatus.Stopped)
             {
-                throw new System.IO.FileNotFoundException("File not found", VideoPath);
+                this._play.Stop();
             }
 
-            // var xxx = videoControl.CreateNativeControlCore(parent);
-            var handle = videoWidget.Handle.ToInt64();
-            
-            _play = Majorsilence.Media.Videos.PlayerFactory.Get(handle, MPlayerPath);
-            
-            _play.Play(VideoPath);
+            var openFileDialog = new OpenFileDialog
+            {
+                AllowMultiple = false
+            };
+
+            var result = await openFileDialog.ShowAsync(this);
+            if (result == null || result.Length == 0)
+            {
+                return;
+            }
+
+            string filePath = result[0].ToString();
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                return;
+            }
+
+            this._play.Play(filePath);
+        }
+
+        private void play_VideoExited(object sender, MplayerEvent e)
+        {
+            this._play.Stop();
         }
     }
 }

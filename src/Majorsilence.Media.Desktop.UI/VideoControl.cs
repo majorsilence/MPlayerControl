@@ -4,8 +4,6 @@ using Avalonia.Platform;
 
 namespace Majorsilence.Media.Desktop.UI;
 
-
-
 public class VideoControl : NativeControlHost
 {
     public IntPtr Handle { get; private set; }
