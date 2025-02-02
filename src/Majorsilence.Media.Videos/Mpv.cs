@@ -13,31 +13,21 @@ public class Mpv : IDisposable
     private readonly string _libMpvPath;
 
     private MpvCommand _mpvCommand;
-
     private MpvCreate _mpvCreate;
-
     private MpvFree _mpvFree;
-
-    private MpvGetPropertystring _mpvGetPropertyString;
+    private MpvGetPropertyString _mpvGetPropertyString;
     private readonly IntPtr _mpvHandle;
-
     private MpvInitialize _mpvInitialize;
-
     private MpvObserveProperty _mpvObserveProperty;
-
     private MpvSetOption _mpvSetOption;
-
     private MpvSetOptionString _mpvSetOptionString;
-
     private MpvSetProperty _mpvSetProperty;
-
     private MpvTerminateDestroy _mpvTerminateDestroy;
-
     private bool disposed;
 
-    public Mpv(string _libMpvPath)
+    public Mpv(string libMpvPath)
     {
-        this._libMpvPath = _libMpvPath;
+        _libMpvPath = libMpvPath;
 
         if (_mpvHandle != IntPtr.Zero)
             _mpvTerminateDestroy(_mpvHandle);
@@ -65,18 +55,12 @@ public class Mpv : IDisposable
 
     public void Initialize()
     {
-        // long frames = 100;
-        //_mpvSetOption (_mpvHandle, GetUtf8Bytes ("frames"), (int)MpvFormat.MPV_FORMAT_INT64, ref frames);
-
         _mpvInitialize.Invoke(_mpvHandle);
-
         _mpvSetOptionString(_mpvHandle, GetUtf8Bytes("keep-open"), GetUtf8Bytes("always"));
     }
 
     ~Mpv()
     {
-        // Cleanup
-
         if (_mpvHandle != IntPtr.Zero) _mpvTerminateDestroy(_mpvHandle);
     }
 
@@ -98,7 +82,6 @@ public class Mpv : IDisposable
     [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, BestFitMapping = false)]
     internal static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 
-
     public int SetProperty(string name, MpvFormat format, string data)
     {
         if (_mpvHandle == IntPtr.Zero) return -1;
@@ -114,7 +97,6 @@ public class Mpv : IDisposable
 
         if (returnValue < 0)
         {
-            // https://github.com/mpv-player/mpv/blob/master/libmpv/client.h
             var error = (MpvError)returnValue;
             throw new MPlayerControlException($"GetProperty ({name}) error {error.ToString()}", returnValue);
         }
@@ -125,9 +107,8 @@ public class Mpv : IDisposable
     private int InternalGetProperty(string name, out string value)
     {
         var lpBuffer = IntPtr.Zero;
-        var returnValue = _mpvGetPropertyString(_mpvHandle, GetUtf8Bytes(name), (int)MpvFormat.MPV_FORMAT_STRING,
-            ref lpBuffer);
-        var data = Marshal.PtrToStringAuto(lpBuffer);
+        var returnValue = _mpvGetPropertyString(_mpvHandle, GetUtf8Bytes(name), (int)MpvFormat.MPV_FORMAT_STRING, ref lpBuffer);
+        var data = Marshal.PtrToStringUTF8(lpBuffer);
         _mpvFree(lpBuffer);
 
         value = data;
@@ -180,7 +161,6 @@ public class Mpv : IDisposable
         return true;
     }
 
-
     public int GetPropertyInt(string name)
     {
         var data = GetProperty(name);
@@ -217,18 +197,6 @@ public class Mpv : IDisposable
         return _mpvSetOptionString(_mpvHandle, GetUtf8Bytes(name), GetUtf8Bytes(data));
     }
 
-    /*
-    public int ObserveProperty (string name, Action<object> action)
-    {
-        // 
-        int returnValue = _mpvObserveProperty (_mpvHandle, (ulong)action.GetHashCode (), name, (int)MpvFormat.MPV_FORMAT_FLAG);
-        if (returnValue < 0) {
-            MpvError error = (MpvError)returnValue;
-            throw new MPlayerControlException ($"ObserveProperty ({name}) error {error.ToString()}", returnValue);
-        }
-    }
-*/
-
     private object GetDllType(Type type, string name)
     {
         IntPtr address;
@@ -249,14 +217,11 @@ public class Mpv : IDisposable
     {
         var platform = PlatformCheck.RunningPlatform();
         if (platform == Platform.Windows)
-            _libMpvDll =
-                LoadLibrary(
-                    _libMpvPath); // "mpv-1.dll"); // The dll is included in the DEV builds by lachs0r: https://mpv.srsfckn.biz/
+            _libMpvDll = LoadLibrary(_libMpvPath);
         else if (platform == Platform.Linux)
-            _libMpvDll = dlopen(_libMpvPath, RTLD_NOW); //("/usr/lib/x86_64-linux-gnu/libmpv.so.1", RTLD_NOW);
+            _libMpvDll = dlopen(_libMpvPath, RTLD_NOW);
         else
             throw new NotImplementedException();
-
 
         _mpvCreate = (MpvCreate)GetDllType(typeof(MpvCreate), "mpv_create");
         _mpvInitialize = (MpvInitialize)GetDllType(typeof(MpvInitialize), "mpv_initialize");
@@ -264,7 +229,7 @@ public class Mpv : IDisposable
         _mpvCommand = (MpvCommand)GetDllType(typeof(MpvCommand), "mpv_command");
         _mpvSetOption = (MpvSetOption)GetDllType(typeof(MpvSetOption), "mpv_set_option");
         _mpvSetOptionString = (MpvSetOptionString)GetDllType(typeof(MpvSetOptionString), "mpv_set_option_string");
-        _mpvGetPropertyString = (MpvGetPropertystring)GetDllType(typeof(MpvGetPropertystring), "mpv_get_property");
+        _mpvGetPropertyString = (MpvGetPropertyString)GetDllType(typeof(MpvGetPropertyString), "mpv_get_property");
         _mpvSetProperty = (MpvSetProperty)GetDllType(typeof(MpvSetProperty), "mpv_set_property");
         _mpvFree = (MpvFree)GetDllType(typeof(MpvFree), "mpv_free");
         _mpvObserveProperty = (MpvObserveProperty)GetDllType(typeof(MpvObserveProperty), "mpv_observe_property");
@@ -272,8 +237,6 @@ public class Mpv : IDisposable
 
     public void DoMpvCommand(params string[] args)
     {
-        // https://github.com/mpv-player/mpv/blob/master/DOCS/man/input.rst
-
         if (_mpvHandle == IntPtr.Zero) return;
 
         IntPtr[] byteArrayPointers;
@@ -285,8 +248,8 @@ public class Mpv : IDisposable
 
     private static IntPtr AllocateUtf8IntPtrArrayWithSentinel(string[] arr, out IntPtr[] byteArrayPointers)
     {
-        var numberOfStrings = arr.Length + 1; // add extra element for extra null pointer last (sentinel)
-        byteArrayPointers = new IntPtr [numberOfStrings];
+        var numberOfStrings = arr.Length + 1;
+        byteArrayPointers = new IntPtr[numberOfStrings];
         var rootPointer = Marshal.AllocCoTaskMem(IntPtr.Size * numberOfStrings);
         for (var index = 0; index < arr.Length; index++)
         {
@@ -299,7 +262,6 @@ public class Mpv : IDisposable
         Marshal.Copy(byteArrayPointers, 0, rootPointer, numberOfStrings);
         return rootPointer;
     }
-
 
     private static byte[] GetUtf8Bytes(string s)
     {
@@ -325,7 +287,7 @@ public class Mpv : IDisposable
     private delegate int MpvSetOptionString(IntPtr mpvHandle, byte[] name, byte[] value);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int MpvGetPropertystring(IntPtr mpvHandle, byte[] name, int format, ref IntPtr data);
+    private delegate int MpvGetPropertyString(IntPtr mpvHandle, byte[] name, int format, ref IntPtr data);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate int MpvSetProperty(IntPtr mpvHandle, byte[] name, int format, ref byte[] data);
@@ -333,11 +295,8 @@ public class Mpv : IDisposable
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate void MpvFree(IntPtr data);
 
-
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate int MpvObserveProperty(IntPtr mpvHandle, ulong reply_userdata,
-        [MarshalAs(UnmanagedType.LPStr)] string name,
-        int format);
+    private delegate int MpvObserveProperty(IntPtr mpvHandle, ulong reply_userdata, [MarshalAs(UnmanagedType.LPStr)] string name, int format);
 
     #region Linux
 
@@ -348,7 +307,6 @@ public class Mpv : IDisposable
     protected static extern IntPtr dlsym(IntPtr handle, string symbol);
 
     private const int RTLD_NOW = 2;
-    // for dlopen's flags
 
     #endregion
 }

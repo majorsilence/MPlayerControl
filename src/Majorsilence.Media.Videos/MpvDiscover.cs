@@ -156,11 +156,12 @@ public class MpvDiscover : Discover
         Thread.Sleep(1000);
         //_mpv.SetProperty ("pause", MpvFormat.MPV_FORMAT_STRING, "yes");
 
-        Width = _mpv.GetPropertyInt("width");
-        Height = _mpv.GetPropertyInt("height");
-        AspectRatio = _mpv.GetPropertyFloat("video-aspect");
+        Width = _mpv.GetPropertyInt("video-params/w");
+        Height = _mpv.GetPropertyInt("video-params/h");
+        AspectRatio = _mpv.GetPropertyFloat("video-params/aspect");
 
-        var bits = _mpv.GetPropertyInt("audio-bitrate");
+        var bits = _mpv.GetPropertyInt("track-list/1/demux-bitrate"); //_mpv.GetPropertyInt("audio-bitrate");
+
         //int bytes = Bits2Bytes (bits);
         //int kb = Bytes2Kilobytes (bytes);
         //_AudioBitrate = (int)Math.Round (bits / 1024m, 0);
@@ -169,7 +170,7 @@ public class MpvDiscover : Discover
         Length = _mpv.GetPropertyInt("duration");
 
         //_fps = _mpv.GetPropertyInt ("container-fps");
-        FPS = _mpv.GetPropertyInt("fps");
+        FPS = _mpv.GetPropertyInt("container-fps");
         _mpv.TryGetPropertyInt("video-bitrate", out _VideoBitrate);
 
         var videoFormat = _mpv.GetProperty("video-format");
