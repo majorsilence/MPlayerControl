@@ -1,16 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <AssemblyName>Majorsilence.Media.Videos</AssemblyName>
-        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
         <AssemblyTitle>Majorsilence.Media.Videos</AssemblyTitle>
         <Product>Majorsilence.Media.Videos</Product>
-        <Copyright>Copyright 2010</Copyright>
-        <Deterministic>true</Deterministic>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <AssemblyVersion>1.8.0</AssemblyVersion>
-        <Version>1.8.0</Version>
-        <PackageVersion>1.8.0</PackageVersion>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj"/>

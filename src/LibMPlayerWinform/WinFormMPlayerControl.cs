@@ -77,8 +77,10 @@ namespace LibMPlayerWinform
             _play.Play(VideoPath);
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string MPlayerPath { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string VideoPath { get; set; }
 
         private void WinFormMPlayerControl_SizeChanged(object sender, EventArgs e)

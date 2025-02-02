@@ -1,22 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
         <AssemblyTitle>Majorsilence.Media.Images</AssemblyTitle>
         <Product>Majorsilence.Media.Images</Product>
-        <Copyright>Copyright © Peter Gill 2011</Copyright>
-        <Deterministic>true</Deterministic>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <AssemblyVersion>1.8.0</AssemblyVersion>
-        <Version>1.8.0</Version>
-        <PackageVersion>1.8.0</PackageVersion>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
-        <OutputPath>bin\Debug\</OutputPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
-        <OutputPath>bin\Release\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.3" />

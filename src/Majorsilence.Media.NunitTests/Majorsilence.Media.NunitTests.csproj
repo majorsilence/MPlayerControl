@@ -1,9 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <AssemblyTitle>MplayerUnitTests</AssemblyTitle>
-        <Product>MplayerUnitTests</Product>
-        <Copyright>Copyright © 2011</Copyright>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugType>full</DebugType>
@@ -18,27 +16,6 @@
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugType>pdbonly</DebugType>
         <OutputPath>bin\$(Configuration)\</OutputPath>
-        <EnvironmentVariables>
-            <EnvironmentVariables>
-                <Variable name="LC_NUMERIC" value="C"/>
-            </EnvironmentVariables>
-        </EnvironmentVariables>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-        <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-        <DebugType>full</DebugType>
-        <EnvironmentVariables>
-            <EnvironmentVariables>
-                <Variable name="LC_NUMERIC" value="C"/>
-            </EnvironmentVariables>
-        </EnvironmentVariables>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-        <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-        <DebugType>pdbonly</DebugType>
-        <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-        <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-        <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
         <EnvironmentVariables>
             <EnvironmentVariables>
                 <Variable name="LC_NUMERIC" value="C"/>

@@ -2,17 +2,12 @@
 	<PropertyGroup>
 		<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<StartupObject>SlideShow.Program</StartupObject>
 		<AssemblyTitle>SlideShow</AssemblyTitle>
-		<Product>SlideShow</Product>
-		<Copyright>Copyright © Peter Gill 2011</Copyright>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<Deterministic>false</Deterministic>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
 		<DebugType>full</DebugType>

@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <RepositoryUrl>https://github.com/majorsilence/MPlayerControl</RepositoryUrl>
+    <AssemblyVersion>1.9.0</AssemblyVersion>
+    <FileVersion>1.9.0</FileVersion>
+    <Version>1.9.0</Version>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Product>Majorsilence Media</Product>
+    <Copyright>Copyright © 2025 majorsilence (Peter Gill) and other contributors</Copyright>
+    <LangVersion>latest</LangVersion>
+    <Description>Media player control and server for dotnet.  Winforms, avalonia desktop controls for playback via mplayer or mpv.  
+    Server side process video files using ffmpeg.</Description>
+  </PropertyGroup>
+</Project>
