@@ -94,10 +94,10 @@ public class Mencoder2_Test
     {
         using (var a = new MPlayerDiscover(GlobalVariables.OutputVideoDvdMpegNtsc, GlobalVariables.MplayerPath))
         {
-            Assert.AreEqual(192, a.AudioBitrate);
-            Assert.AreEqual(720, a.Width);
-            Assert.AreEqual(480, a.Height);
-            Assert.AreEqual(48000, a.AudioSampleRate);
+            Assert.That(a.AudioBitrate, Is.EqualTo(192));
+            Assert.That(a.Width, Is.EqualTo(720));
+            Assert.That(a.Height, Is.EqualTo(480));
+            Assert.That(a.AudioSampleRate, Is.EqualTo(48000));
         }
     }
 }

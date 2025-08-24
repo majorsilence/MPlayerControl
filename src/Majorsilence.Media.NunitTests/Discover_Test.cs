@@ -12,18 +12,18 @@ public class Discover_Test
         using (discover)
         {
             discover.Execute();
-            Assert.AreEqual(128, discover.AudioBitrate, "AudioBitrate");
-            Assert.AreEqual(true, discover.Audio, "Audio");
-            Assert.AreEqual(true, discover.Video, "Video");
-            Assert.AreEqual("9:16", discover.AspectRatioString, "AspectRatioString");
-            Assert.AreEqual(0.5625f, discover.AspectRatio, "AspectRatio");
-            Assert.AreEqual(1, discover.AudioList.Count, "AudioList.Count");
-            Assert.AreEqual(44100, discover.AudioSampleRate, "AudioSampleRate");
-            Assert.AreEqual(29, discover.FPS, "FPS");
-            Assert.AreEqual(1920, discover.Height, "Height");
-            Assert.AreEqual(1080, discover.Width, "Width");
-            Assert.AreEqual(2, discover.Length, "Length");
-            Assert.AreEqual(3964, discover.VideoBitrate, "VideoBitrate");
+            Assert.That(discover.AudioBitrate, Is.EqualTo(128), "AudioBitrate");
+            Assert.That(discover.Audio, Is.EqualTo(true), "Audio");
+            Assert.That(discover.Video, Is.EqualTo(true), "Video");
+            Assert.That(discover.AspectRatioString, Is.EqualTo("9:16"), "AspectRatioString");
+            Assert.That(discover.AspectRatio, Is.EqualTo(0.5625f), "AspectRatio");
+            Assert.That(discover.AudioList.Count, Is.EqualTo(1), "AudioList.Count");
+            Assert.That(discover.AudioSampleRate, Is.EqualTo(44100), "AudioSampleRate");
+            Assert.That(discover.FPS, Is.EqualTo(29), "FPS");
+            Assert.That(discover.Height, Is.EqualTo(1920), "Height");
+            Assert.That(discover.Width, Is.EqualTo(1080), "Width");
+            Assert.That(discover.Length, Is.EqualTo(2), "Length");
+            Assert.That(discover.VideoBitrate, Is.EqualTo(3964), "VideoBitrate");
         }
     }
 
@@ -33,17 +33,17 @@ public class Discover_Test
         using (discover)
         {
             discover.Execute();
-            Assert.AreEqual(128, discover.AudioBitrate, "AudioBitrate");
-            Assert.AreEqual(true, discover.Audio, "Audio");
-            Assert.AreEqual(true, discover.Video, "Video");
-            Assert.AreEqual(1.77777779f, discover.AspectRatio, "AspectRatio");
-            Assert.AreEqual(1, discover.AudioList.Count, "AudioList.Count");
-            Assert.AreEqual(44100, discover.AudioSampleRate, "AudioSampleRate");
-            Assert.AreEqual(30, discover.FPS, "FPS");
-            Assert.AreEqual(1080, discover.Height, "Height");
-            Assert.AreEqual(1920, discover.Width, "Width");
-            Assert.AreEqual(4, discover.Length, "Length");
-            Assert.AreEqual(4650, discover.VideoBitrate, "VideoBitrate");
+            Assert.That(discover.AudioBitrate, Is.EqualTo(128), "AudioBitrate");
+            Assert.That(discover.Audio, Is.EqualTo(true), "Audio");
+            Assert.That(discover.Video, Is.EqualTo(true), "Video");
+            Assert.That(discover.AspectRatio, Is.EqualTo(1.77777779f), "AspectRatio");
+            Assert.That(discover.AudioList.Count, Is.EqualTo(1), "AudioList.Count");
+            Assert.That(discover.AudioSampleRate, Is.EqualTo(44100), "AudioSampleRate");
+            Assert.That(discover.FPS, Is.EqualTo(30), "FPS");
+            Assert.That(discover.Height, Is.EqualTo(1080), "Height");
+            Assert.That(discover.Width, Is.EqualTo(1920), "Width");
+            Assert.That(discover.Length, Is.EqualTo(4), "Length");
+            Assert.That(discover.VideoBitrate, Is.EqualTo(4650), "VideoBitrate");
         }
     }
 }
