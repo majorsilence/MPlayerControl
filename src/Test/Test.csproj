@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net6.0-windows;net8.0-windows;net9.0-windows</TargetFrameworks>
+		<TargetFrameworks>net8.0-windows;net10.0-windows</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
