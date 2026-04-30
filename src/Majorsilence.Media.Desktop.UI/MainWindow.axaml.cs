@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Majorsilence.Media.Videos;
 
 namespace Majorsilence.Media.Desktop.UI
@@ -37,18 +38,14 @@ namespace Majorsilence.Media.Desktop.UI
                 this._play.Stop();
             }
 
-            var openFileDialog = new OpenFileDialog
-            {
-                AllowMultiple = false
-            };
+            var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions());
 
-            var result = await openFileDialog.ShowAsync(this);
-            if (result == null || result.Length == 0)
+            if (files.Count == 0)
             {
                 return;
             }
 
-            string filePath = result[0].ToString();
+            string? filePath = files[0].TryGetLocalPath();
             if (string.IsNullOrWhiteSpace(filePath))
             {
                 return;

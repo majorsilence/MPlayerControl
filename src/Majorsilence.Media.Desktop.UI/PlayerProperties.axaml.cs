@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 
 namespace Majorsilence.Media.Desktop.UI;
 
@@ -14,15 +15,15 @@ public partial class PlayerProperties : Window
 
     private async void OnBrowseButtonClick(object? sender, RoutedEventArgs e)
     {
-        var openFileDialog = new OpenFileDialog
-        {
-            AllowMultiple = false
-        };
+        var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions());
 
-        var result = await openFileDialog.ShowAsync(this);
-        if (result != null && result.Length > 0)
+        if (files.Count > 0)
         {
-            PlayerPathTextBox.Text = result[0];
+            var localPath = files[0].TryGetLocalPath();
+            if (!string.IsNullOrWhiteSpace(localPath))
+            {
+                PlayerPathTextBox.Text = localPath;
+            }
         }
     }
 
