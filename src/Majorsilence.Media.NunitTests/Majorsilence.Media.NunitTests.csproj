@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <AssemblyTitle>MplayerUnitTests</AssemblyTitle>
@@ -8,7 +8,7 @@
         <OutputPath>bin\$(Configuration)\</OutputPath>
         <EnvironmentVariables>
             <EnvironmentVariables>
-                <Variable name="LC_NUMERIC" value="C"/>
+                <Variable name="LC_NUMERIC" value="C" />
             </EnvironmentVariables>
         </EnvironmentVariables>
         <ConsolePause>false</ConsolePause>
@@ -18,7 +18,7 @@
         <OutputPath>bin\$(Configuration)\</OutputPath>
         <EnvironmentVariables>
             <EnvironmentVariables>
-                <Variable name="LC_NUMERIC" value="C"/>
+                <Variable name="LC_NUMERIC" value="C" />
             </EnvironmentVariables>
         </EnvironmentVariables>
     </PropertyGroup>
@@ -27,11 +27,11 @@
         <DefineConstants Condition="'$(OS)' == 'Unix'">$(DefineConstants);MACOS</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj"/>
-        <ProjectReference Include="..\Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj"/>
+        <ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj" />
+        <ProjectReference Include="..\Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="TestVideos\"/>
+        <Folder Include="TestVideos\" />
     </ItemGroup>
     <ItemGroup>
         <None Update="TestVideos\*.mp4">
@@ -48,14 +48,14 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="coverlet.collector" Version="6.0.4">
+        <PackageReference Include="coverlet.collector">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="NUnit" Version="4.4.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="5.1.0" />
-        <PackageReference Include="NunitXml.TestLogger" Version="6.1.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
-        <PackageReference Include="NUnit.Runners" Version="3.12.0"/>
+        <PackageReference Include="NUnit" />
+        <PackageReference Include="NUnit3TestAdapter" />
+        <PackageReference Include="NunitXml.TestLogger" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="NUnit.Runners" />
     </ItemGroup>
 </Project>
