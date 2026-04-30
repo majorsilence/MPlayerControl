@@ -34,6 +34,6 @@ jobs:
     - name: Build Web
       run: cd src && dotnet build Majorsilence.Media.Web.sln -c Release
     - name: Install mplayer and mencoder and mpv
-      run: sudo apt-get install -y mplayer mencoder mpv libmpv1 ffmpeg
+      run: sudo apt-get install -y mplayer mencoder mpv libmpv2 ffmpeg
     - name: Test
       run: cd src && dotnet test Majorsilence.Media.Web.sln --collect:"XPlat Code Coverage" --logger:"nunit"
