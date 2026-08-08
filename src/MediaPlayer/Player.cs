@@ -253,8 +253,9 @@ namespace MediaPlayer
         {
             this.Invoke((MethodInvoker)delegate
                 {
-                    this._currentTime = newTime;
+                    this._currentTime = Math.Max(0, newTime);
                     lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+                    SyncTrackBarToCurrentTime();
                 });
 
 
@@ -264,11 +265,37 @@ namespace MediaPlayer
         {
             this.Invoke((MethodInvoker)delegate
                 {
-                    this._currentTime += timeInSecondsAdded;
+                    this._currentTime = Math.Max(0, this._currentTime + timeInSecondsAdded);
                     lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
+                    SyncTrackBarToCurrentTime();
                 });
 
-            
+
+        }
+
+        /// <summary>
+        /// Moves the track bar thumb to wherever <see cref="_currentTime"/> now is.
+        /// </summary>
+        /// <remarks>
+        /// Every seek runs through SetTime/SetExactTime, but only the once-a-second position event
+        /// used to move the thumb -- so a seek left it sitting at the old spot until the next tick,
+        /// and not at all while paused. That was invisible while the arrow keys were nudging the
+        /// thumb by themselves (and seeking nothing); now that they really seek, the thumb has to
+        /// follow the position rather than the keystroke. The Fast-forward and Rewind buttons take
+        /// the same path and get the same fix.
+        ///
+        /// Must be called on the UI thread -- the callers are already inside their Invoke.
+        /// </remarks>
+        private void SyncTrackBarToCurrentTime()
+        {
+            // Leave the thumb alone while it is being dragged; the drag is the source of truth then.
+            if (this._trackBarMousePushedDown) return;
+
+            int videoLength = this._play == null ? 0 : this._play.CurrentPlayingFileLength();
+            if (videoLength <= 0) return;
+
+            int percent = (int)(((float)this._currentTime / videoLength) * 100);
+            trackBar1.Value = Math.Max(trackBar1.Minimum, Math.Min(trackBar1.Maximum, percent));
         }
 
         private void ResetTime()
