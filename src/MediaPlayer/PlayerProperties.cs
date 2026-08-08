@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright 2012 (C) Peter Gill <peter@majorsilence.com>
 
 This file is part of MediaPlayer.
@@ -21,10 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using Majorsilence.Forms;
 
 namespace MediaPlayer
 {
@@ -42,7 +41,7 @@ namespace MediaPlayer
 
         private void btnMPlayerPath_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == Majorsilence.Forms.DialogResult.OK)
             {
                 textBox1.Text = openFileDialog1.FileName;
             }

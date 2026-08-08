@@ -1,4 +1,4 @@
-﻿namespace Test
+namespace Test
 {
     partial class Form1
     {
@@ -33,7 +33,7 @@
             // 
             // winFormMPlayerControl1
             // 
-            this.winFormMPlayerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.winFormMPlayerControl1.Dock = Majorsilence.Forms.DockStyle.Fill;
             this.winFormMPlayerControl1.Location = new System.Drawing.Point(0, 0);
             this.winFormMPlayerControl1.MPlayerPath = null;
             this.winFormMPlayerControl1.Name = "winFormMPlayerControl1";
@@ -45,7 +45,7 @@
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = Majorsilence.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 572);
             this.Controls.Add(this.winFormMPlayerControl1);
             this.Name = "Form1";

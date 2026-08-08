@@ -1,6 +1,6 @@
-﻿
+
 using System;
-using System.Windows.Forms;
+using Majorsilence.Forms;
 using Majorsilence.Media.Videos;
 
 
@@ -15,7 +15,7 @@ namespace Test
             var player = Majorsilence.Media.Videos.PlayerFactory.Get(-1, "/usr/lib/x86_64-linux-gnu/libmpv.so.1");
 
 
-            System.Windows.Forms.Form frm = new System.Windows.Forms.Form();
+            Majorsilence.Forms.Form frm = new Majorsilence.Forms.Form();
             frm.Height = 600;
             frm.Width = 800;
 

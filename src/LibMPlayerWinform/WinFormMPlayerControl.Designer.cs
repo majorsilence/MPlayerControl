@@ -1,4 +1,4 @@
-﻿namespace LibMPlayerWinform
+namespace LibMPlayerWinform
 {
     partial class WinFormMPlayerControl
     {
@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panelVideo = new System.Windows.Forms.Panel();
-            this.buttonPlay = new System.Windows.Forms.Button();
-            this.buttonStop = new System.Windows.Forms.Button();
+            this.panelVideo = new Majorsilence.Forms.Panel();
+            this.buttonPlay = new Majorsilence.Forms.Button();
+            this.buttonStop = new Majorsilence.Forms.Button();
             this.SuspendLayout();
             // 
             // panelVideo
             // 
-            this.panelVideo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelVideo.Anchor = ((Majorsilence.Forms.AnchorStyles)((((Majorsilence.Forms.AnchorStyles.Top | Majorsilence.Forms.AnchorStyles.Bottom) 
+            | Majorsilence.Forms.AnchorStyles.Left) 
+            | Majorsilence.Forms.AnchorStyles.Right)));
             this.panelVideo.Location = new System.Drawing.Point(0, 0);
             this.panelVideo.Name = "panelVideo";
             this.panelVideo.Size = new System.Drawing.Size(537, 222);
@@ -45,7 +45,7 @@
             // 
             // buttonPlay
             // 
-            this.buttonPlay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPlay.Anchor = ((Majorsilence.Forms.AnchorStyles)((Majorsilence.Forms.AnchorStyles.Bottom | Majorsilence.Forms.AnchorStyles.Right)));
             this.buttonPlay.Location = new System.Drawing.Point(462, 228);
             this.buttonPlay.Name = "buttonPlay";
             this.buttonPlay.Size = new System.Drawing.Size(75, 23);
@@ -56,7 +56,7 @@
             // 
             // buttonStop
             // 
-            this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonStop.Anchor = ((Majorsilence.Forms.AnchorStyles)((Majorsilence.Forms.AnchorStyles.Bottom | Majorsilence.Forms.AnchorStyles.Right)));
             this.buttonStop.Location = new System.Drawing.Point(367, 228);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(75, 23);
@@ -68,7 +68,7 @@
             // WinFormMPlayerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = Majorsilence.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.panelVideo);
@@ -81,8 +81,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panelVideo;
-        private System.Windows.Forms.Button buttonPlay;
-        private System.Windows.Forms.Button buttonStop;
+        private Majorsilence.Forms.Panel panelVideo;
+        private Majorsilence.Forms.Button buttonPlay;
+        private Majorsilence.Forms.Button buttonStop;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace MediaPlayer
+namespace MediaPlayer
 {
     partial class PlayerProperties
     {
@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.btnMPlayerPath = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.label1 = new Majorsilence.Forms.Label();
+            this.textBox1 = new Majorsilence.Forms.TextBox();
+            this.openFileDialog1 = new Majorsilence.Forms.OpenFileDialog();
+            this.btnMPlayerPath = new Majorsilence.Forms.Button();
+            this.statusStrip1 = new Majorsilence.Forms.StatusStrip();
+            this.lblStatus = new Majorsilence.Forms.ToolStripStatusLabel();
+            this.btnSave = new Majorsilence.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,7 +70,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            this.statusStrip1.Items.AddRange(new Majorsilence.Forms.ToolStripItem[]
                 {
                     this.lblStatus
                 });
@@ -98,7 +98,7 @@
             // PlayerProperties
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = Majorsilence.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(630, 128);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.statusStrip1);
@@ -117,12 +117,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button btnMPlayerPath;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
-        private System.Windows.Forms.Button btnSave;
+        private Majorsilence.Forms.Label label1;
+        private Majorsilence.Forms.TextBox textBox1;
+        private Majorsilence.Forms.OpenFileDialog openFileDialog1;
+        private Majorsilence.Forms.Button btnMPlayerPath;
+        private Majorsilence.Forms.StatusStrip statusStrip1;
+        private Majorsilence.Forms.ToolStripStatusLabel lblStatus;
+        private Majorsilence.Forms.Button btnSave;
     }
 }

@@ -25,4 +25,8 @@
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
     <PackageVersion Include="UUIDNext" Version="4.2.4" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="Majorsilence.Forms" Version="26.0.29" />
+    <PackageVersion Include="Majorsilence.Forms.Avalonia" Version="26.0.29" />
+  </ItemGroup>
 </Project>

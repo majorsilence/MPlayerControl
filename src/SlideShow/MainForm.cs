@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Copyright 2011 (C) Peter Gill <peter@majorsilence.com>
 
@@ -26,7 +26,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using Majorsilence.Forms;
 
 namespace SlideShow
 {
@@ -118,7 +118,7 @@ namespace SlideShow
 
         private void AudioFile_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == Majorsilence.Forms.DialogResult.OK)
             {
                 AudioFile.Text = openFileDialog1.FileName;
             }
@@ -126,7 +126,7 @@ namespace SlideShow
 
         private async void CreateVideo_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            if (saveFileDialog1.ShowDialog() != Majorsilence.Forms.DialogResult.OK)
             {
                 return;
             }
@@ -136,7 +136,7 @@ namespace SlideShow
             if (System.IO.File.Exists(saveFile))
             {
                 if (MessageBox.Show("File with same name already exists.  Do you want to overwrite?", "Overwrite",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != Majorsilence.Forms.DialogResult.Yes)
                 {
                     return;
                 }

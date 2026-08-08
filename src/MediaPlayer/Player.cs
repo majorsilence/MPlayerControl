@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Copyright 2010 (C) Peter Gill <peter@majorsilence.com>
 
@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
+using Majorsilence.Forms;
 
 using Majorsilence.Media.Videos;
 
@@ -36,6 +36,7 @@ namespace MediaPlayer
 
         private Majorsilence.Media.Videos.Discover _videoSettings;
         private Majorsilence.Media.Videos.Player _play;
+        private LibMPlayerWinform.VideoView _videoView;
         private string _filePath;
         private bool _trackBarMousePushedDown = false;
         private int _currentTime = 0;
@@ -71,18 +72,49 @@ namespace MediaPlayer
         
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // KeyPreview lets the form act on a key before the focused control does, which is what
+            // makes MainForm_KeyDown's seeking work while the track bar has focus.
             this.KeyPreview = true;
+            this.KeyDown += MainForm_KeyDown;
 
             Majorsilence.Media.Videos.BackendPrograms b = new Majorsilence.Media.Videos.BackendPrograms();
             if (System.IO.File.Exists(MediaPlayer.Properties.Settings.Default.MPlayerPath) == false
                 && System.IO.File.Exists(b.MPlayer) == false)
             {
-                MessageBox.Show("Cannot find mplayer.  Loading properties form to select.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnPlayerProperties_Click(sender, e);
+                // Nothing configured yet: look in the usual install locations before bothering the user.
+                var discovered = Majorsilence.Media.Videos.PlayerDiscovery.FindPlayerPath();
+                if (discovered != null)
+                {
+                    MediaPlayer.Properties.Settings.Default.MPlayerPath = discovered;
+                    MediaPlayer.Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    MessageBox.Show("Cannot find mplayer or libmpv.  Loading properties form to select.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnPlayerProperties_Click(sender, e);
+                }
             }
+
+            // Majorsilence.Forms composites every control into a single drawn surface, so panelVideo
+            // has no native window of its own to embed into -- Handle is always zero. Passing that on
+            // would leave mpv drawing into a separate top-level window. Instead the video is painted
+            // into the form by _videoView, from frames mpv renders into memory (see VideoView).
+            this._videoView = new LibMPlayerWinform.VideoView { Dock = DockStyle.Fill };
+            panelVideo.Controls.Add(this._videoView);
 
             this._play = Majorsilence.Media.Videos.PlayerFactory.Get(panelVideo.Handle.ToInt64(), MediaPlayer.Properties.Settings.Default.MPlayerPath);
             //this._play = new MPlayer(panelVideo.Handle.ToInt64(), backend, MediaPlayer.Properties.Settings.Default.MPlayerPath);
+            if (this._play == null)
+            {
+                // PlayerFactory returns null for a path that names neither mplayer nor libmpv — i.e. the
+                // properties dialog was cancelled without picking one. Leave the UI up rather than crash.
+                MessageBox.Show("No mplayer or libmpv path is configured, so playback is disabled.  Set one in the properties form.",
+                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            this._videoView.SetPlayer(this._play);
+
             this._play.VideoExited += new MplayerEventHandler(play_VideoExited);
             this._play.CurrentPosition += new MplayerEventHandler(_play_CurrentPosition);
 
@@ -308,7 +340,7 @@ namespace MediaPlayer
         }
 
 
-        private System.Windows.Forms.FormBorderStyle _border = FormBorderStyle.Sizable;
+        private Majorsilence.Forms.FormBorderStyle _border = FormBorderStyle.Sizable;
         private FormWindowState _windowstate = FormWindowState.Normal;
 
         private void ToggleFormFullScreen()
@@ -323,7 +355,7 @@ namespace MediaPlayer
                 this._border = this.FormBorderStyle;
                 this._windowstate = this.WindowState;
 
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                this.FormBorderStyle = Majorsilence.Forms.FormBorderStyle.None;
                 this.WindowState = FormWindowState.Maximized;
             }
 
@@ -337,31 +369,32 @@ namespace MediaPlayer
 
 
 
-        protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
+        // Arrow-key seeking. This used to be a ProcessKeyPreview(ref Message) override, which is a
+        // Win32 message-pump hook: Majorsilence.Forms has no message pump, so it declares the method
+        // only so ported code compiles and never calls it. The override was silently dead, which is
+        // why the arrow keys nudged the track bar (TrackBar handles them itself) without ever moving
+        // the video. KeyPreview + KeyDown is the portable equivalent, and it is set in MainForm_Load.
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (m.WParam.ToInt32())
-            {
-            // TODO: Fix so move commands are sent to correct carousel
-                case (int)Keys.Right:
+            if (this._play == null) return;
 
-                    this._play.Seek(10, Seek.Relative);
-                    this.SetTime(10);
-                    break;
-                case (int)Keys.Left:
-                    this._play.Seek(-10, Seek.Relative);
-                    this.SetTime(-10);
-                    break;
-                case (int)Keys.Up:
-                    this._play.Seek(60, Seek.Relative);
-                    this.SetTime(60);
-                    break;
-                case (int)Keys.Down:
-                    this._play.Seek(-60, Seek.Relative);
-                    this.SetTime(-60);
-                    break;
+            int seconds;
+            switch (e.KeyCode)
+            {
+                case Keys.Right: seconds = 10; break;
+                case Keys.Left: seconds = -10; break;
+                case Keys.Up: seconds = 60; break;
+                case Keys.Down: seconds = -60; break;
+                default: return;
             }
 
-            return false;
+            this._play.Seek(seconds, Seek.Relative);
+            this.SetTime(seconds);
+
+            // Handled here, so the focused control (typically the track bar, which moves its own
+            // thumb on the arrow keys) does not also act on the same keystroke and fight the
+            // position that _play_CurrentPosition is about to report back.
+            e.Handled = true;
         }
 
         private void btnPlayerProperties_Click(object sender, EventArgs e)

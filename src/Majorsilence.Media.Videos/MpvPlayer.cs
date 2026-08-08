@@ -75,7 +75,22 @@ public class MpvPlayer : IDisposable, Player
         MplayerRunning = false;
 
         _mpv = new Mpv(libMpvPath);
+
+        // With no window to embed into, switch mpv's video output to the render API before it is
+        // initialized -- "libmpv" is the vo that hands frames back to us instead of drawing them
+        // into a window of its own. See MpvSoftwareRenderer for why wid embedding cannot work on a
+        // toolkit that composites its own surface.
+        if (!HasEmbeddingWindow)
+        {
+            _mpv.SetOption("vo", MpvFormat.MPV_FORMAT_STRING, "libmpv");
+        }
+
         _mpv.Initialize();
+
+        if (!HasEmbeddingWindow)
+        {
+            Renderer = MpvSoftwareRenderer.TryCreate(_mpv);
+        }
 
         CurrentStatus = MediaStatus.Stopped;
 
@@ -141,6 +156,20 @@ public class MpvPlayer : IDisposable, Player
         //int mpvFormatInt64 = 4;
         //_mpvSetOption (_mpvHandle, GetUtf8Bytes ("wid"), mpvFormatInt64, ref _wid);
     }
+
+    /// <summary>
+    ///     Whether a usable platform window id was supplied for mpv to draw into. A toolkit that
+    ///     composites its own surface has no such id (it hands out 0), and mpv would otherwise open
+    ///     a separate window of its own.
+    /// </summary>
+    private bool HasEmbeddingWindow => _wid > 0;
+
+    /// <summary>
+    ///     The software renderer to pull frames from when there is no window to embed into, or null
+    ///     when this player is embedding the normal way. A UI hands its pixel buffer to
+    ///     <see cref="MpvSoftwareRenderer.RenderTo" /> and draws the result itself.
+    /// </summary>
+    public MpvSoftwareRenderer Renderer { get; private set; }
 
 
     /// <summary>
@@ -308,6 +337,8 @@ public class MpvPlayer : IDisposable, Player
         if (disposing)
         {
             _currentPostionTimer.Dispose();
+            // Before the mpv handle: the render context is built on top of it.
+            Renderer?.Dispose();
             _mpv.Dispose();
         }
 
@@ -330,7 +361,13 @@ public class MpvPlayer : IDisposable, Player
     {
         CurrentFilePath = filePath;
 
-        _mpv.SetOption("wid", MpvFormat.MPV_FORMAT_INT64, _wid);
+        // Only when there is a real window to embed into; with the render API mpv must not be
+        // pointed at a window at all, or it goes back to drawing its own.
+        if (HasEmbeddingWindow)
+        {
+            _mpv.SetOption("wid", MpvFormat.MPV_FORMAT_INT64, _wid);
+        }
+
         _mpv.DoMpvCommand("loadfile", filePath);
 
         // HACK: wait for video to load

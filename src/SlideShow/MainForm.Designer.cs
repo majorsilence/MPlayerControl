@@ -1,4 +1,4 @@
-﻿namespace SlideShow
+namespace SlideShow
 {
     partial class MainForm
     {
@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnFilePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CreateVideo = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.AudioFile = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.listView1 = new Majorsilence.Forms.ListView();
+            this.columnFileName = ((Majorsilence.Forms.ColumnHeader)(new Majorsilence.Forms.ColumnHeader()));
+            this.columnFilePath = ((Majorsilence.Forms.ColumnHeader)(new Majorsilence.Forms.ColumnHeader()));
+            this.CreateVideo = new Majorsilence.Forms.Button();
+            this.groupBox2 = new Majorsilence.Forms.GroupBox();
+            this.AudioFile = new Majorsilence.Forms.Button();
+            this.openFileDialog1 = new Majorsilence.Forms.OpenFileDialog();
+            this.label1 = new Majorsilence.Forms.Label();
+            this.numericUpDown1 = new Majorsilence.Forms.NumericUpDown();
+            this.panel1 = new Majorsilence.Forms.Panel();
+            this.statusStrip1 = new Majorsilence.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new Majorsilence.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel2 = new Majorsilence.Forms.ToolStripStatusLabel();
+            this.saveFileDialog1 = new Majorsilence.Forms.SaveFileDialog();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -51,22 +51,22 @@
             // listView1
             // 
             this.listView1.AllowDrop = true;
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnFileName,
-            this.columnFilePath});
+            this.listView1.Anchor = ((Majorsilence.Forms.AnchorStyles)((((Majorsilence.Forms.AnchorStyles.Top | Majorsilence.Forms.AnchorStyles.Bottom) 
+            | Majorsilence.Forms.AnchorStyles.Left) 
+            | Majorsilence.Forms.AnchorStyles.Right)));
+            // Majorsilence.Forms.ListView.ColumnHeaderCollection has no AddRange overload.
+            this.listView1.Columns.Add(this.columnFileName);
+            this.listView1.Columns.Add(this.columnFilePath);
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(14, 166);
-            this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.listView1.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(806, 458);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
-            this.listView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView1_DragEnter);
+            this.listView1.View = Majorsilence.Forms.View.Details;
+            this.listView1.DragDrop += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.listView1_DragDrop);
+            this.listView1.DragEnter += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.listView1_DragEnter);
             // 
             // columnFileName
             // 
@@ -81,7 +81,7 @@
             // CreateVideo
             // 
             this.CreateVideo.Location = new System.Drawing.Point(598, 122);
-            this.CreateVideo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CreateVideo.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.CreateVideo.Name = "CreateVideo";
             this.CreateVideo.Size = new System.Drawing.Size(201, 35);
             this.CreateVideo.TabIndex = 6;
@@ -93,9 +93,9 @@
             // 
             this.groupBox2.Controls.Add(this.AudioFile);
             this.groupBox2.Location = new System.Drawing.Point(4, 17);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Padding = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Size = new System.Drawing.Size(802, 65);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
@@ -104,7 +104,7 @@
             // AudioFile
             // 
             this.AudioFile.Location = new System.Drawing.Point(9, 25);
-            this.AudioFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.AudioFile.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.AudioFile.Name = "AudioFile";
             this.AudioFile.Size = new System.Drawing.Size(784, 35);
             this.AudioFile.TabIndex = 1;
@@ -120,7 +120,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(18, 122);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Margin = new Majorsilence.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(301, 20);
             this.label1.TabIndex = 8;
@@ -129,7 +129,7 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(334, 118);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numericUpDown1.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(180, 26);
             this.numericUpDown1.TabIndex = 9;
@@ -147,9 +147,9 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CreateVideo);
             this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Dock = Majorsilence.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panel1.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(831, 665);
             this.panel1.TabIndex = 10;
@@ -157,12 +157,12 @@
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip1.Items.AddRange(new Majorsilence.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 620);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
+            this.statusStrip1.Padding = new Majorsilence.Forms.Padding(2, 0, 21, 0);
             this.statusStrip1.Size = new System.Drawing.Size(831, 45);
             this.statusStrip1.TabIndex = 10;
             this.statusStrip1.Text = "statusStrip1";
@@ -181,10 +181,10 @@
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = Majorsilence.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 665);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new Majorsilence.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "Slide show";
             this.groupBox2.ResumeLayout(false);
@@ -199,20 +199,20 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnFileName;
-        private System.Windows.Forms.ColumnHeader columnFilePath;
-        private System.Windows.Forms.Button CreateVideo;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button AudioFile;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private Majorsilence.Forms.ListView listView1;
+        private Majorsilence.Forms.ColumnHeader columnFileName;
+        private Majorsilence.Forms.ColumnHeader columnFilePath;
+        private Majorsilence.Forms.Button CreateVideo;
+        private Majorsilence.Forms.GroupBox groupBox2;
+        private Majorsilence.Forms.Button AudioFile;
+        private Majorsilence.Forms.OpenFileDialog openFileDialog1;
+        private Majorsilence.Forms.Label label1;
+        private Majorsilence.Forms.NumericUpDown numericUpDown1;
+        private Majorsilence.Forms.Panel panel1;
+        private Majorsilence.Forms.StatusStrip statusStrip1;
+        private Majorsilence.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private Majorsilence.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private Majorsilence.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

@@ -23,8 +23,18 @@ namespace Majorsilence.Media.Desktop.UI
             if (System.IO.File.Exists(Properties.Settings.Default.MPlayerPath) == false
                 && System.IO.File.Exists(b.MPlayer) == false)
             {
-                var dlg = new PlayerProperties();
-                await dlg.ShowDialog(this);
+                // Nothing configured yet: look in the usual install locations before bothering the user.
+                var discovered = PlayerDiscovery.FindPlayerPath();
+                if (discovered != null)
+                {
+                    Properties.Settings.Default.MPlayerPath = discovered;
+                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    var dlg = new PlayerProperties();
+                    await dlg.ShowDialog(this);
+                }
             }
 
             this._play = PlayerFactory.Get(videoWidget.Handle.ToInt64(), Properties.Settings.Default.MPlayerPath);

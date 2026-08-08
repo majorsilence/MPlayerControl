@@ -76,12 +76,6 @@ public class Mpv : IDisposable
         disposed = true;
     }
 
-    [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, BestFitMapping = false)]
-    internal static extern IntPtr LoadLibrary(string dllToLoad);
-
-    [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, BestFitMapping = false)]
-    internal static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
-
     public int SetProperty(string name, MpvFormat format, string data)
     {
         if (_mpvHandle == IntPtr.Zero) return -1;
@@ -197,31 +191,33 @@ public class Mpv : IDisposable
         return _mpvSetOptionString(_mpvHandle, GetUtf8Bytes(name), GetUtf8Bytes(data));
     }
 
+    /// <summary>
+    ///     The underlying mpv_handle. Needed to build a render context around this player
+    ///     (see <see cref="MpvSoftwareRenderer" />).
+    /// </summary>
+    internal IntPtr Handle => _mpvHandle;
+
+    /// <summary>
+    ///     Resolves an exported libmpv function into a delegate, or null when this build of the
+    ///     library does not have it.
+    /// </summary>
+    internal object ResolveExport(Type delegateType, string name) => GetDllType(delegateType, name);
+
     private object GetDllType(Type type, string name)
     {
-        IntPtr address;
-        var platform = PlatformCheck.RunningPlatform();
-        if (platform == Platform.Windows)
-            address = GetProcAddress(_libMpvDll, name);
-        else if (platform == Platform.Linux)
-            address = dlsym(_libMpvDll, name);
-        else
-            throw new NotImplementedException();
+        if (!NativeLibrary.TryGetExport(_libMpvDll, name, out var address) || address == IntPtr.Zero)
+            return null;
 
-        if (address != IntPtr.Zero)
-            return Marshal.GetDelegateForFunctionPointer(address, type);
-        return null;
+        return Marshal.GetDelegateForFunctionPointer(address, type);
     }
 
     private void LoadMpvDynamic()
     {
-        var platform = PlatformCheck.RunningPlatform();
-        if (platform == Platform.Windows)
-            _libMpvDll = LoadLibrary(_libMpvPath);
-        else if (platform == Platform.Linux)
-            _libMpvDll = dlopen(_libMpvPath, RTLD_NOW);
-        else
-            throw new NotImplementedException();
+        // NativeLibrary handles every platform, so there is no need to P/Invoke kernel32's
+        // LoadLibrary or libdl's dlopen -- and on glibc 2.34+ libdl.so is a link-time stub that
+        // isn't installed at runtime, so dlopen through it failed outright.
+        if (!NativeLibrary.TryLoad(_libMpvPath, out _libMpvDll))
+            _libMpvDll = IntPtr.Zero;
 
         _mpvCreate = (MpvCreate)GetDllType(typeof(MpvCreate), "mpv_create");
         _mpvInitialize = (MpvInitialize)GetDllType(typeof(MpvInitialize), "mpv_initialize");
@@ -298,17 +294,6 @@ public class Mpv : IDisposable
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate int MpvObserveProperty(IntPtr mpvHandle, ulong reply_userdata, [MarshalAs(UnmanagedType.LPStr)] string name, int format);
 
-    #region Linux
-
-    [DllImport("libdl.so")]
-    protected static extern IntPtr dlopen(string filename, int flags);
-
-    [DllImport("libdl.so")]
-    protected static extern IntPtr dlsym(IntPtr handle, string symbol);
-
-    private const int RTLD_NOW = 2;
-
-    #endregion
 }
 
 /// <summary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using Majorsilence.Forms;
 using Majorsilence.Media.Videos;
 
 namespace LibMPlayerWinform
@@ -15,23 +15,42 @@ namespace LibMPlayerWinform
     {
         Player _play;
 
+        private readonly VideoView _videoView;
+
         public WinFormMPlayerControl()
         {
             InitializeComponent();
+            _videoView = AttachVideoView();
         }
 
         public WinFormMPlayerControl(Player play)
+            : this()
         {
-            InitializeComponent();
-
-            _play = play;
+            SetPlayer(play);
         }
 
         public void SetPlayer(Player play)
         {
             _play = play;
+            _videoView.SetPlayer(play);
         }
-        
+
+        // Majorsilence.Forms composites all its controls into one drawn surface, so panelVideo has no
+        // native window for mpv to draw into. The video is painted into the panel instead, from the
+        // frames mpv renders into memory -- see VideoView.
+        private VideoView AttachVideoView()
+        {
+            var view = new VideoView { Dock = DockStyle.Fill };
+            panelVideo.Controls.Add(view);
+            return view;
+        }
+
+        /// <summary>
+        /// The platform window id to embed a player into. Always zero on Majorsilence.Forms, which has
+        /// no per-control native windows; players handed a zero id render their frames back to us
+        /// instead (see <see cref="VideoView"/>), so passing this on is harmless and kept for callers
+        /// ported from the WinForms build.
+        /// </summary>
         public long Handle
         {
             get
