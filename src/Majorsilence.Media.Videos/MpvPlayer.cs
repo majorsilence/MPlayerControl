@@ -143,6 +143,8 @@ public class MpvPlayer : IDisposable, Player
     /// <param name="filePath"></param>
     public void Play(string filePath)
     {
+        if (MplayerRunning == false) InitializeMplayer();
+
         LoadFile(filePath);
 
         _mpv.SetProperty("pause", MpvFormat.MPV_FORMAT_STRING, "no");
