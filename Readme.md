@@ -2,6 +2,12 @@ This is a net6.0 wrapper library for MPlayer, libmpv, mencoder, and as of 1.8+ f
 
 There is a sample net6.0 winforms project included and it can play both audio and video files.
 
+`LibMPlayerWinform` (the `WinFormMPlayerControl`/`VideoView` controls) can be used from a WinForms,
+Avalonia, or Uno Platform app — either as the whole app, or embedded inside one you already have.
+See [`src/LibMPlayerWinform/README.md`](src/LibMPlayerWinform/README.md) for instructions and
+[`src/LibMPlayerWinform/examples`](src/LibMPlayerWinform/examples) for per-platform examples; both
+ship inside the `LibMPlayerWinform` NuGet package.
+
 The sample player currently supports play, pause, stop. seek and some other basic functionality. I only add new features as I require them or people send in patches.
 
 See examples on the wiki pages https://github.com/majorsilence/MPlayerControl/wiki.

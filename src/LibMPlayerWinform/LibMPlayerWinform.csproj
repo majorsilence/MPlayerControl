@@ -6,6 +6,7 @@
     <AssemblyTitle>LibMPlayerWinform</AssemblyTitle>
     <Product>LibMPlayerWinform</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -23,6 +24,13 @@
     <Compile Update="WinFormMPlayerControl.Designer.cs">
       <DependentUpon>WinFormMPlayerControl.cs</DependentUpon>
     </Compile>
+    <!-- examples/ are documentation, referencing WinForms/Avalonia/Uno types this project doesn't
+         depend on, so they are excluded from compilation and packed into the nupkg instead (see below). -->
+    <Compile Remove="examples/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="examples/**/*.cs" Pack="true" PackagePath="examples\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="WinFormMPlayerControl.resx">
