@@ -22,6 +22,12 @@ jobs:
       run: cd src && dotnet build Majorsilence.Avalonia.UI.sln -c Release
     - name: Build Web
       run: cd src && dotnet build Majorsilence.Media.Web.sln -c Release
+    - name: Archive NuGet packages
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: nuget-packages-linux
+        path: src/**/bin/Release/*.nupkg
+        if-no-files-found: error
     - name: Install mplayer and mencoder and mpv
       run: sudo apt-get install -y mplayer mencoder mpv libmpv2 ffmpeg
     - name: Test
