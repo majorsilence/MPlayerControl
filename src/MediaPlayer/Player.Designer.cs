@@ -325,8 +325,8 @@ namespace MediaPlayer
             // return immediately, leaving MPlayerPath unset.
             this.Shown += new System.EventHandler(this.MainForm_Load);
             this.SizeChanged += new System.EventHandler(this.Player_SizeChanged);
-            this.DragDrop += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.MainForm_DragDrop);
-            this.DragEnter += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.MainForm_DragEnter);
+            this.DragDrop += new Majorsilence.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new Majorsilence.Forms.DragEventHandler(this.MainForm_DragEnter);
             // Majorsilence.Forms.Form does not expose DragOver (Control does; Form re-declares only a
             // subset of the drag events). DragEnter already sets the same DragDropEffects.Move.
             // this.DragOver += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.MainForm_DragOver);

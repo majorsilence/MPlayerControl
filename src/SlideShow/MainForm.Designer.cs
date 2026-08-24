@@ -65,8 +65,8 @@ namespace SlideShow
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = Majorsilence.Forms.View.Details;
-            this.listView1.DragDrop += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.listView1_DragDrop);
-            this.listView1.DragEnter += new System.EventHandler<Majorsilence.Forms.DragEventArgs>(this.listView1_DragEnter);
+            this.listView1.DragDrop += new Majorsilence.Forms.DragEventHandler(this.listView1_DragDrop);
+            this.listView1.DragEnter += new Majorsilence.Forms.DragEventHandler(this.listView1_DragEnter);
             // 
             // columnFileName
             // 
