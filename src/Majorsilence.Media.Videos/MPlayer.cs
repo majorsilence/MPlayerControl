@@ -78,7 +78,7 @@ public class MPlayer : IDisposable, Player
     }
 
     public MPlayer(long wid, MplayerBackends backend, string mplayerPath)
-        : this(wid, backend, mplayerPath, false, TimeSpan.FromMilliseconds(1000))
+        : this(wid, backend, mplayerPath, false, TimeSpan.FromMilliseconds(250))
     {
     }
 

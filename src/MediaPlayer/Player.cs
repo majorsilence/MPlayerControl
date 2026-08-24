@@ -34,12 +34,18 @@ namespace MediaPlayer
     public partial class Player : Form
     {
 
+        // The track bar's Value only ranges 0..TrackBarResolution, not 0..100 -- a plain percentage
+        // only has 100 distinct thumb positions, so on anything but a short video most position events
+        // land on the same whole percent as the last one and the thumb visibly jumps instead of gliding.
+        private const int TrackBarResolution = 10000;
+
         private Majorsilence.Media.Videos.Discover _videoSettings;
         private Majorsilence.Media.Videos.Player _play;
         private LibMPlayerWinform.VideoView _videoView;
         private string _filePath;
         private bool _trackBarMousePushedDown = false;
         private int _currentTime = 0;
+        private float _currentPositionSeconds = 0f;
         private bool _fullscreen = false;
         private bool _playNow = false;
 
@@ -76,6 +82,9 @@ namespace MediaPlayer
             // makes MainForm_KeyDown's seeking work while the track bar has focus.
             this.KeyPreview = true;
             this.KeyDown += MainForm_KeyDown;
+
+            // Overrides the designer's 0-100 range -- see TrackBarResolution.
+            trackBar1.Maximum = TrackBarResolution;
 
             Majorsilence.Media.Videos.BackendPrograms b = new Majorsilence.Media.Videos.BackendPrograms();
             if (System.IO.File.Exists(MediaPlayer.Properties.Settings.Default.MPlayerPath) == false
@@ -156,30 +165,7 @@ namespace MediaPlayer
         private void _play_CurrentPosition(object sender, MplayerEvent e)
         {
             // handle current postion event.  Display the current postion and update trackbar.
-
-            SetExactTime((int)e.Value);
-
-            float videoLength = (float)this._play.CurrentPlayingFileLength();
-            if (videoLength == 0f)
-            {
-                return;
-            }
-
-            int percent = (int)(((float)this._currentTime / videoLength) * 100);
-
-            if (percent >= 100)
-            {
-                percent = 100;
-            }
-
-            if (this._trackBarMousePushedDown == false)
-            {
-                this.Invoke((MethodInvoker)delegate
-                    {
-                        trackBar1.Value = percent;
-                    });
-            }
-
+            SetExactTime(e.Value);
         }
 
 
@@ -249,11 +235,12 @@ namespace MediaPlayer
         }
 
 
-        private void SetExactTime(int newTime)
+        private void SetExactTime(float newTime)
         {
             this.Invoke((MethodInvoker)delegate
                 {
-                    this._currentTime = Math.Max(0, newTime);
+                    this._currentPositionSeconds = Math.Max(0f, newTime);
+                    this._currentTime = (int)this._currentPositionSeconds;
                     lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
                     SyncTrackBarToCurrentTime();
                 });
@@ -266,6 +253,7 @@ namespace MediaPlayer
             this.Invoke((MethodInvoker)delegate
                 {
                     this._currentTime = Math.Max(0, this._currentTime + timeInSecondsAdded);
+                    this._currentPositionSeconds = this._currentTime;
                     lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
                     SyncTrackBarToCurrentTime();
                 });
@@ -294,8 +282,8 @@ namespace MediaPlayer
             int videoLength = this._play == null ? 0 : this._play.CurrentPlayingFileLength();
             if (videoLength <= 0) return;
 
-            int percent = (int)(((float)this._currentTime / videoLength) * 100);
-            trackBar1.Value = Math.Max(trackBar1.Minimum, Math.Min(trackBar1.Maximum, percent));
+            int value = (int)((this._currentPositionSeconds / videoLength) * TrackBarResolution);
+            trackBar1.Value = Math.Max(trackBar1.Minimum, Math.Min(trackBar1.Maximum, value));
         }
 
         private void ResetTime()
@@ -305,6 +293,7 @@ namespace MediaPlayer
                 this.Invoke((MethodInvoker)delegate
                     {
                         this._currentTime = 0;
+                        this._currentPositionSeconds = 0f;
                         lblVideoPosition.Text = TimeConversion.ConvertTimeHHMMSS(this._currentTime);
                         trackBar1.Value = 0;
                     });
@@ -347,8 +336,7 @@ namespace MediaPlayer
                 return;
             }
 
-            int percentNew = trackBar1.Value;
-            int newPositionInSeconds = (int)(((float)percentNew / 100.0f) * (float)length);
+            int newPositionInSeconds = (int)(((float)trackBar1.Value / TrackBarResolution) * (float)length);
             int changeInSeconds = newPositionInSeconds - this._currentTime;
 
             this._play.Seek(changeInSeconds, Seek.Relative);

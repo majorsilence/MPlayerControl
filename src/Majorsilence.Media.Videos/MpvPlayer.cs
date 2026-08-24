@@ -54,7 +54,7 @@ public class MpvPlayer : IDisposable, Player
     }
 
     public MpvPlayer(long wid, string libMpvPath)
-        : this(wid, libMpvPath, false, TimeSpan.FromMilliseconds(1000))
+        : this(wid, libMpvPath, false, TimeSpan.FromMilliseconds(250))
     {
     }
 
