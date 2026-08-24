@@ -38,6 +38,5 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Majorsilence.Forms" />
-    <PackageReference Include="Majorsilence.Forms.Avalonia" />
   </ItemGroup>
 </Project>
