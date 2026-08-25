@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyTitle>Majorsilence.Media.PlayerControls</AssemblyTitle>
+    <Product>Majorsilence.Media.PlayerControls</Product>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\$(Configuration)\Majorsilence.Media.PlayerControls.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\$(Configuration)\Majorsilence.Media.PlayerControls.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="WinFormMPlayerControl.cs" />
+    <Compile Update="WinFormMPlayerControl.Designer.cs">
+      <DependentUpon>WinFormMPlayerControl.cs</DependentUpon>
+    </Compile>
+    <!-- examples/ are documentation, referencing WinForms/Avalonia/Uno types this project doesn't
+         depend on, so they are excluded from compilation and packed into the nupkg instead (see below). -->
+    <Compile Remove="examples/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="examples/**/*.cs" Pack="true" PackagePath="examples\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="WinFormMPlayerControl.resx">
+      <DependentUpon>WinFormMPlayerControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Majorsilence.Media.Images\Majorsilence.Media.Images.csproj" />
+    <ProjectReference Include="..\Majorsilence.Media.Videos\Majorsilence.Media.Videos.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Majorsilence.Forms" />
+  </ItemGroup>
+</Project>

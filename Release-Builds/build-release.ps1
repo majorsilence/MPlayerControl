@@ -34,9 +34,9 @@ mkdir -p "./build-output/$PACKAGEDIR"
 
 Copy-Item ../src/Majorsilence.Media.Images/bin/Release/netstandard2.0/Majorsilence.Media.Images.dll -Destination "./build-output/$PACKAGEDIR/Majorsilence.Media.Images.dll"
 Copy-Item ../src/Majorsilence.Media.Videos/bin/Release/netstandard2.0/Majorsilence.Media.Videos.dll -Destination "./build-output/$PACKAGEDIR/Majorsilence.Media.Videos.dll"
-Copy-Item ../src/MediaPlayer/bin/Release/net6.0-windows/MediaPlayer.exe -Destination "./build-output/$PACKAGEDIR/MediaPlayer.exe"
-Copy-Item ../src/LibMPlayerWinform/bin/Release/net6.0-windows/LibMPlayerWinform.dll -Destination "./build-output/$PACKAGEDIR/LibMPlayerWinform.dll"
-Copy-Item ../src/SlideShow/bin/Release/net6.0-windows/SlideShow.exe -Destination "./build-output/$PACKAGEDIR/SlideShow.exe"
+Copy-Item ../src/Majorsilence.Media.Player/bin/Release/net6.0-windows/Majorsilence.Media.Player.exe -Destination "./build-output/$PACKAGEDIR/Majorsilence.Media.Player.exe"
+Copy-Item ../src/Majorsilence.Media.PlayerControls/bin/Release/net6.0-windows/Majorsilence.Media.PlayerControls.dll -Destination "./build-output/$PACKAGEDIR/Majorsilence.Media.PlayerControls.dll"
+Copy-Item ../src/Majorsilence.Media.SlideShow/bin/Release/net6.0-windows/Majorsilence.Media.SlideShow.exe -Destination "./build-output/$PACKAGEDIR/Majorsilence.Media.SlideShow.exe"
 
 
 cd build-output

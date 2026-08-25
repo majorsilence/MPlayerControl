@@ -28,7 +28,7 @@
   <ItemGroup>
     <PackageVersion Include="Majorsilence.Forms" Version="26.0.32" />
     <PackageVersion Include="Majorsilence.Forms.Avalonia" Version="26.0.32" />
-    <!-- Uno backend for LibMPlayerWinform consumers, see src/LibMPlayerWinform/README.md.
+    <!-- Uno backend for Majorsilence.Media.PlayerControls consumers, see src/Majorsilence.Media.PlayerControls/README.md.
          Majorsilence.Forms.WinForms is documented there too but isn't on nuget.org yet, so it
          has no pinned version here until it ships. -->
     <PackageVersion Include="Majorsilence.Forms.Uno" Version="26.0.32" />
