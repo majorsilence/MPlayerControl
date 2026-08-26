@@ -22,6 +22,18 @@ This is a personal project that as of 2022 is just for me to play around with th
 
 # Downloads
 
+## Version 27.0.0
+
+All projects were renamed so every project in the solution starts with `Majorsilence`:
+
+* `LibMPlayerWinform` -> `Majorsilence.Media.PlayerControls`
+* `MediaPlayer` -> `Majorsilence.Media.Player`
+* `SlideShow` -> `Majorsilence.Media.SlideShow`
+* `Test` -> `Majorsilence.Media.TestApp`
+
+The `LibMPlayerWinform` NuGet package is now published as `Majorsilence.Media.PlayerControls`; update
+`dotnet add package` / `PackageReference` entries and `using LibMPlayerWinform;` accordingly.
+
 ## Version 1.8+, net6.0
 
 It has been tested on Windows 11 and Ubuntu Linux 22.04.  Use libmpv, ffmpeg, and ffprobe.
